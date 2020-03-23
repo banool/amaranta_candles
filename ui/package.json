@@ -1,0 +1,29 @@
+{
+  "name": "presto_web_ui",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "webpack-dev-server",
+    "style-check": "prettier --check 'src/**/*.{js,jsx}' "
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-transform-react-jsx": "^7.8.3",
+    "@hot-loader/react-dom": "^16.11.0",
+    "@reduxjs/toolkit": "^1.2.3",
+    "babel-loader": "^8.0.6",
+    "immer": "^5.3.2",
+    "prettier": "1.19.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-hot-loader": "^4.12.19",
+    "react-redux": "^7.1.3",
+    "react-router-dom": "^5.1.2",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
+  }
+}
