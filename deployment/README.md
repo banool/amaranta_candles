@@ -15,3 +15,8 @@ So the flow should be:
 python generate_service.py
 scp amaranta_candles.service hostname:/etc/systemd/system/
 ```
+
+To automatically pull new images and restart the containers if required, whack this in the root crontab:
+```
+docker run -d --name watchtower -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower
+```
