@@ -1,6 +1,9 @@
 # Image
 FROM python:3.8
 
+# Build and copy in frontend compiled files
+# todo
+
 # Docker specific environment vars
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
