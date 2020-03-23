@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build": "webpack && cp index.html dist/",
     "start": "webpack-dev-server",
     "style-check": "prettier --check 'src/**/*.{js,jsx}' "
   },
