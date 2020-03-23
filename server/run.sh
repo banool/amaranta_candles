@@ -3,6 +3,7 @@
 PORT=$1
 
 mkdir -p distmount/
+rm distmount/dist
 ln -s dist distmount/
 python manage.py migrate --noinput
 python manage.py initadmin
