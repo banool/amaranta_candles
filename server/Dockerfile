@@ -19,7 +19,6 @@ RUN pip install -r requirements.txt
 
 # Copy project in
 COPY . $DIRPATH
-COPY .git/ $DIRPATH/.git/
 
 # Install vim
 # RUN apt-get update && apt-get install vim -y
