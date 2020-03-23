@@ -1,11 +1,4 @@
-# Frontend
-FROM node:10 as builder
-WORKDIR /npm
-COPY ./ui/ ./
-RUN npm ci --only=production
-RUN npm run build
-
-# Build actual image
+# Build image
 FROM python:3.8-alpine
 
 RUN mkdir /container
@@ -14,10 +7,6 @@ ADD server/requirements.txt /container
 
 # Set up project directory
 WORKDIR /container
-
-# Copy in npm artifacts from previous iamge
-RUN mkdir -p templates/ui
-COPY --from=builder /npm/dist/ ./dist/
 
 # MySQL
 RUN apk update 
@@ -29,7 +18,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 
 ENV INTERNAL_PORT 6969
 
-COPY ./server/ ./
+COPY server/ .
 
 # Requirements
 RUN pip install --upgrade pip

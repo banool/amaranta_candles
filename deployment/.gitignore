@@ -1,2 +1,3 @@
-amaranta_candles.service
-secrets.env
+amaranta_candles_server.service
+amaranta_candles_ui.service
+amaranta_candles_server.secrets

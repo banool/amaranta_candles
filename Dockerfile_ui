@@ -1,0 +1,16 @@
+# Frontend
+FROM node:10 as builder
+WORKDIR /npm
+COPY ui/ .
+RUN npm ci --only=production
+RUN npm run build
+
+# Build actual nginx image
+FROM nginx:stable-alpine
+
+# Set up project directory
+WORKDIR /container
+
+# Copy in npm artifacts from previous iamge
+COPY --from=builder /npm/dist/ /usr/share/nginx/html
+

@@ -1,0 +1,27 @@
+[Unit]
+Description=Amaranta Candles Server Container
+After=network.target
+
+[Service]
+Type=simple
+TimeoutStartSec=10s
+ExecStartPre=-/usr/bin/docker rm "amaranta_candles_server"
+User=daniel
+
+ExecStart=/usr/bin/docker run -t -a stdout -a stderr \
+{%- for k,v in secrets.items() %}
+  -e {{k}}={{v}} \
+{%- endfor %}
+  --network host \
+  --publish 127.0.0.1:42069:6969 \
+  --name amaranta_candles_server quay.io/banool/amaranta_candles_server:latest
+
+
+ExecReload=-/usr/bin/docker stop "amaranta_candles_server"
+ExecReload=-/usr/bin/docker rm "amaranta_candles_server"
+ExecStop=-/usr/bin/docker stop "amaranta_candles_server"
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
