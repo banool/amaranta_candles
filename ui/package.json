@@ -8,7 +8,7 @@
     "start": "webpack-dev-server",
     "style-check": "prettier --check 'src/**/*.{js,jsx}' "
   },
-  "devDependencies": {
+  "dependencies": {
     "@babel/cli": "^7.8.3",
     "@babel/core": "^7.8.3",
     "@babel/plugin-transform-react-jsx": "^7.8.3",
