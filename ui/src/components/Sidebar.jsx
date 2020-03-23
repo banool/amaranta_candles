@@ -13,7 +13,7 @@ const pages = ["candles", "scents", "dyes", "waxes", "batches", "vessels", "scen
 export default props => {
   return (
     <div>
-      <h1>AMARANTA CANDLE LLC. INC.</h1>
+      <h1>AMARANTA CANDLE SUPREME INC. LLC. PTY. LTD.</h1>
       <ul component="nav">
         <Link to="/">
           <li style={styles.link}>home</li>
