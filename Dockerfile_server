@@ -10,7 +10,7 @@ WORKDIR /container
 
 # MySQL
 RUN apk update 
-RUN apk add --virtual build-deps gcc python3-dev musl-dev mariadb-connector-c-dev
+RUN apk add gcc python3-dev musl-dev mariadb-connector-c-dev mysql-client
 
 # Docker specific environment vars
 ENV PYTHONUNBUFFERED 1
@@ -24,7 +24,8 @@ COPY server/ .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-RUN apk del build-deps
+# Clean up
+RUN apk del gcc python3-dev musl-dev
 
 # Run server
 EXPOSE $INTERNAL_PORT
