@@ -25,6 +25,11 @@ const styles = {
     width: 220,
     padding: 5,
     verticalAlign: "top",
+  },
+  contentCell: {
+    border: "2px solid #333",
+    padding: 5,
+    verticalAlign: "top",
   }
 };
 
@@ -39,7 +44,10 @@ const App = ({}) => {
                 <td style={styles.sidebarCell}>
                   <Sidebar />
                 </td>
-                <td>
+                <td style={styles.contentCell}>
+                  <h2>
+                    this is the candle stuff
+                  </h2>
                   this is the rest of the stuffs this is the rest of the stuffs
                   this is the rest of the stuffs this is the rest of the stuffs
                   this is the rest of the stuffs this is the rest of the stuffs
