@@ -8,12 +8,11 @@ TimeoutStartSec=10s
 ExecStartPre=-/usr/bin/docker rm "amaranta_candles_ui"
 User=daniel
 
-ExecStart=/usr/bin/docker run -t -a stdout -a stderr \
+ExecStart=/usr/bin/docker run \
 {%- for k,v in secrets.items() %}
   -e {{k}}={{v}} \
 {%- endfor %}
-  --network host \
-  --publish 127.0.0.1:9999:8888 \
+  --publish 127.0.0.1:42069:80 \
   --name amaranta_candles_ui quay.io/banool/amaranta_candles_ui:latest
 
 

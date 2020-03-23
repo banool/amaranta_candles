@@ -13,7 +13,6 @@ ExecStart=/usr/bin/docker run -t -a stdout -a stderr \
   -e {{k}}={{v}} \
 {%- endfor %}
   --network host \
-  --publish 127.0.0.1:42069:6969 \
   --name amaranta_candles_server quay.io/banool/amaranta_candles_server:latest
 
 
