@@ -4,17 +4,20 @@ WORKDIR /npm
 COPY ./ui/ ./
 RUN npm ci --only=production
 RUN npm run build
-RUN cp index.html dist
 
 # Build actual image
 FROM python:3.8-alpine
+
+RUN mkdir /container
+
+ADD server/requirements.txt /container
 
 # Set up project directory
 WORKDIR /container
 
 # Copy in npm artifacts from previous iamge
-RUN mkdir ui
-COPY --from=builder /npm/dist/ ./ui/
+RUN mkdir -p templates/ui
+COPY --from=builder /npm/dist/ ./dist/
 
 # MySQL
 RUN apk update 
