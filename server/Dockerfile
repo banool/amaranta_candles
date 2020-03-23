@@ -1,5 +1,11 @@
 # Image
-FROM python:3.8
+FROM python:3.8-alpine
+
+# MySQL
+RUN apk update 
+RUN apk add --virtual build-deps gcc python3-dev musl-dev mariadb-connector-c-dev
+# RUN apk add --virtual mariadb-connector-c-dev
+
 
 # Build and copy in frontend compiled files
 # todo
@@ -19,6 +25,8 @@ WORKDIR $DIRPATH
 COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+
+RUN apk del build-deps
 
 # Copy project in
 COPY . $DIRPATH
