@@ -7,6 +7,8 @@ import Sidebar from "./Sidebar.jsx";
 import Footer from "./Footer.jsx";
 import * as colors from "../constants/colors.js";
 
+import ScentsPage from "../pages/ScentsPage.jsx";
+
 const styles = {
   root: {
     display: "flex",
@@ -29,7 +31,8 @@ const styles = {
   },
   contentCell: {
     border: "2px solid #333",
-    padding: 5,
+    width: "100%",
+    padding: "5px 10px",
     verticalAlign: "top"
   }
 };
@@ -47,36 +50,30 @@ const App = ({}) => {
                     <Sidebar />
                   </td>
                   <td style={styles.contentCell}>
-                    {/*
-                      <Sidebar width={250} />
-                      <div>
-                        <Switch>
-                          <Route path="/a">
-                            <div>a</div>
-                          </Route>
-                          <Route path="/b">
-                            <div>bsdfasdfsaadfgd</div>
-                          </Route>
-                          <Route path="/">
-                            <div>home</div>
-                          </Route>
-                        </Switch>
-                      </div>
-                    */}
-                    <h2>this is the candle stuff</h2>
-                    this is the rest of the stuffs this is the rest of the
-                    stuffs this is the rest of the stuffs this is the rest of
-                    the stuffs this is the rest of the stuffs this is the rest
-                    of the stuffs this is the rest of the stuffs this is the
-                    rest of the stuffs this is the rest of the stuffs this is
-                    the rest of the stuffs this is the rest of the stuffs this
-                    is the rest of the stuffs this is the rest of the stuffs
-                    this is the rest of the stuffsthis is the rest of the stuffs
-                    this is the rest of the stuffs this is the rest of the
-                    stuffs this is the rest of the stuffs this is the rest of
-                    the stuffs this is the rest of the stuffs this is the rest
-                    of the stuffs this is the rest of the stuffs this is the
-                    rest of the stuffs this is the rest of the stuffs
+                    <Switch>
+                      <Route path="/scents">
+                        <ScentsPage />
+                      </Route>
+                      <Route path="/">
+                        <div>
+                          <h2>this is the candle stuff</h2>
+                          this is the rest of the stuffs this is the rest of the
+                          stuffs this is the rest of the stuffs this is the rest
+                          of the stuffs this is the rest of the stuffs this is
+                          the rest of the stuffs this is the rest of the stuffs
+                          this is the rest of the stuffs this is the rest of the
+                          stuffs this is the rest of the stuffs this is the rest
+                          of the stuffs this is the rest of the stuffs this is
+                          the rest of the stuffs this is the rest of the
+                          stuffsthis is the rest of the stuffs this is the rest
+                          of the stuffs this is the rest of the stuffs this is
+                          the rest of the stuffs this is the rest of the stuffs
+                          this is the rest of the stuffs this is the rest of the
+                          stuffs this is the rest of the stuffs this is the rest
+                          of the stuffs this is the rest of the stuffs
+                        </div>
+                      </Route>
+                    </Switch>
                   </td>
                 </tr>
               </tbody>

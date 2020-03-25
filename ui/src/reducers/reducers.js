@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import messagesReducer from "../store/messagesSlice.js";
+import scentsReducer from "../store/scentsSlice.js";
 
 export default combineReducers({
-  messages: messagesReducer
+  scents: scentsReducer
 });

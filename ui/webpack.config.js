@@ -13,7 +13,10 @@ module.exports = {
     index: "index.html",
     serveIndex: true,
     publicPath: "/static/",
-    hot: true
+    hot: true,
+    proxy: {
+      "/api": "http://192.168.86.34:6969"
+    }
   },
   mode: "development",
   module: {
