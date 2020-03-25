@@ -3,10 +3,15 @@ const common = require("./webpack.common.js");
 
 module.exports = merge(common, {
   devtool: "eval-source-map",
+  output: {
+    publicPath: "http://localhost:8080/static/"
+  },
   devServer: {
     index: "index.html",
     serveIndex: true,
-    publicPath: "/static/",
+    port: 8080,
+    // Moved to output as per https://github.com/webpack/webpack-dev-server/issues/1385
+    // publicPath: "/static/",
     hot: true,
     proxy: {
       "/api": {
