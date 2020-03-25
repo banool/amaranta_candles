@@ -45,21 +45,17 @@ export default ({}) => {
         </label>
         <br />
         <label>
-          notes:
-          <input
-            type="text"
-            value={notes}
-            onChange={e => setNotes(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
           photo_link:
           <input
             type="text"
             value={photoLink}
             onChange={e => setPhotoLink(e.target.value)}
           />
+          <br />
+          <label>
+            notes:
+            <textarea value={notes} onChange={e => setNotes(e.target.value)} />
+          </label>
         </label>
         <br />
         <input type="button" value="Submit" onClick={onCreateScent} />
