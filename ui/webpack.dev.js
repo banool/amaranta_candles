@@ -10,7 +10,8 @@ module.exports = merge(common, {
     hot: true,
     proxy: {
       "/api": "http://192.168.86.34:6969"
-    }
+    },
+    historyApiFallback: true
   },
   mode: "development"
 });

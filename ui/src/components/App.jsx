@@ -1,7 +1,7 @@
 import { hot } from "react-hot-loader/root";
 import React from "react";
 
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Sidebar from "./Sidebar.jsx";
 import Footer from "./Footer.jsx";
