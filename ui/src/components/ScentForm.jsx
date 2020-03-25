@@ -3,24 +3,33 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createScent } from "../store/scentsSlice.js";
 
-export default ({}) => {
+export default ({ existing }) => {
+  const updating = existing !== undefined;
   const dispatch = useDispatch();
 
-  const [name, setName] = useState("");
-  const [url, setUrl] = useState("");
-  const [notes, setNotes] = useState("");
-  const [photoLink, setPhotoLink] = useState("");
+  const [name, setName] = useState(updating ? existing.name : "");
+  const [url, setUrl] = useState(updating ? existing.url : "");
+  const [notes, setNotes] = useState(updating ? existing.notes : "");
+  const [photoLink, setPhotoLink] = useState(
+    updating ? existing.photo_link : ""
+  );
 
-  const onCreateScent = () => {
-    console.log("creating");
-    dispatch(
-      createScent({
-        name,
-        url,
-        notes,
-        photo_link: photoLink
-      })
-    );
+  const stateToScent = () => {
+    return {
+      name,
+      url,
+      notes,
+      photo_link: photoLink
+    };
+  };
+
+  const onSubmit = () => {
+    if (updating) {
+      // TODO: Implement.
+      console.error("Not implemented yet :]");
+    } else {
+      dispatch(createScent(stateToScent()));
+    }
   };
 
   return (
@@ -58,7 +67,7 @@ export default ({}) => {
           </label>
         </label>
         <br />
-        <input type="button" value="Submit" onClick={onCreateScent} />
+        <input type="button" value="Submit" onClick={onSubmit} />
       </form>
     </div>
   );

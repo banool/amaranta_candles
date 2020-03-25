@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchScents, scentsSelector } from "../store/scentsSlice.js";
-import CreateScentForm from "../components/CreateScentForm.jsx";
+import ScentForm from "../components/ScentForm.jsx";
 
 const ScentRow = ({ scent }) => {
   return (
@@ -67,7 +67,7 @@ export default () => {
       <h2>Scents</h2>
       {renderScents()}
       <h3>Create</h3>
-      <CreateScentForm />
+      <ScentForm />
     </div>
   );
 };
