@@ -4,17 +4,21 @@
 You need .env files like `.env.base`, `.env.dev`, and `.env.prod`. You can see what env vars you need by looking at core/secrets.py.
 
 ## Local development
+Write a requirements.txt file from the Pipfile:
+```
+pipenv lock --requirements > requirements.txt
+```
 Build the container
 ```
-docker image build -t amaranta_candles .
+docker image build -t amaranta_candles_server . -f Dockerfile_server
 ```
 
 Run the container
 ```
-docker ps -a | c1 | xargs docker rm -f; export EXTERNAL_PORT=42069 && export INTERNAL_PORT=6969 && docker run -it --publish 0.0.0.0:$EXTERNAL_PORT:$INTERNAL_PORT --name amaranta_candles --env-file .env.base --env-file .env.dev amaranta_candles:latest
+docker ps -a | grep amaranta_candles_server | c1 | xargs docker rm -f; docker run -it --publish 0.0.0.0:6969:6969 --name amaranta_candles_server --env-file .env.base --env-file .env.dev amaranta_candles_server:latest
 ```
 
-You should now see a site at http://localhost:42069
+You should now see a site at http://localhost:6969
 
 ## Docker setup
 Real:
