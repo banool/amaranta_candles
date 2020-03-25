@@ -19,6 +19,21 @@ module.exports = {
             plugins: ["@babel/plugin-transform-react-jsx"]
           }
         }
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/typescript"],
+            plugins: [
+              "@babel/plugin-transform-react-jsx",
+              "@babel/proposal-class-properties",
+              "@babel/proposal-object-rest-spread"
+            ]
+          }
+        }
       }
     ]
   },
@@ -27,6 +42,6 @@ module.exports = {
     alias: {
       "react-dom": "@hot-loader/react-dom"
     },
-    extensions: [".js", ".jsx"]
+    extensions: [".js", ".jsx", ".ts"]
   }
 };
