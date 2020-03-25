@@ -29,3 +29,24 @@ export function fetchScents() {
     }
   };
 }
+
+export function createScent(scent) {
+  return async dispatch => {
+    try {
+      const response = await fetch("/api/scent/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8"
+        },
+        body: JSON.stringify(scent)
+      });
+
+      const data = await response.json();
+      console.log("CreateScent response", data);
+      dispatch(fetchScents());
+    } catch (error) {
+      // TODO: dispatch failure.
+      console.error("failed the thing");
+    }
+  };
+}
