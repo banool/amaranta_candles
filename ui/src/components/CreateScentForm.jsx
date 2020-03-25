@@ -34,6 +34,7 @@ export default ({}) => {
             onChange={e => setName(e.target.value)}
           />
         </label>
+        <br />
         <label>
           url:
           <input
@@ -42,6 +43,7 @@ export default ({}) => {
             onChange={e => setUrl(e.target.value)}
           />
         </label>
+        <br />
         <label>
           notes:
           <input
@@ -50,6 +52,7 @@ export default ({}) => {
             onChange={e => setNotes(e.target.value)}
           />
         </label>
+        <br />
         <label>
           photo_link:
           <input
@@ -58,6 +61,7 @@ export default ({}) => {
             onChange={e => setPhotoLink(e.target.value)}
           />
         </label>
+        <br />
         <input type="button" value="Submit" onClick={onCreateScent} />
       </form>
     </div>
