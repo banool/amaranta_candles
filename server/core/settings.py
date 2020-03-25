@@ -131,43 +131,25 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-LOG_FILE = os.path.join(SITE_ROOT, "debug.log")
-"""
-        'logfile': {
-            'level': 'DEBUG',
-            'class': 'logging.RotatingFileHandler',
-            'filename': LOG_FILE,
-            'formatter': 'verbose',
-            'maxBytes': 1000000,
-            'backupCount': 2,
-        }
-"""
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': True,
+    'disable_existing_loggers': False,
     'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        'mine': {
+            'format': '%(levelname)s %(asctime)s %(message)s'
         },
     },
     'handlers': {
         'console': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
+            'formatter': 'mine',
         },
     },
-    'loggers': {
-        '': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-        },
-        'django.request': {
-            'handlers': ['console'],
-            'propagate': False,
-            'level': 'INFO'
-        }
-    }
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
 }
 
 
