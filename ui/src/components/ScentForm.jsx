@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { useDispatch } from "react-redux";
-import { createScent } from "../store/scentsSlice.js";
+import { createScent } from "../store/scentsSlice";
 
 export default ({ existing }) => {
   const updating = existing !== undefined;

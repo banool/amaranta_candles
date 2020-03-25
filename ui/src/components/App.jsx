@@ -3,11 +3,11 @@ import React from "react";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import Sidebar from "./Sidebar.jsx";
-import Footer from "./Footer.jsx";
-import * as colors from "../constants/colors.js";
+import Sidebar from "./Sidebar";
+import Footer from "./Footer";
+import * as colors from "../constants/colors";
 
-import ScentsPage from "../pages/ScentsPage.jsx";
+import ScentsPage from "../pages/ScentsPage";
 
 const styles = {
   root: {
