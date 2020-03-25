@@ -10,7 +10,8 @@ module.exports = merge(common, {
     hot: true,
     proxy: {
       "/api": {
-        target: "candles.amaranta.house",
+        target: {
+          host: "candles.amaranta.house",
           port: 443,
           protocol: "https:"
         },
