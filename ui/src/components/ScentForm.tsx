@@ -3,16 +3,35 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createScent } from "../store/scentsSlice";
 
-export default ({ existing }) => {
+type Scent = {
+  id?: number;
+  name: string;
+  url: string;
+  notes: string;
+  photo_link: string;
+};
+
+type ScentFormProps = {
+  existing?: Scent;
+};
+
+export default ({ existing }: ScentFormProps) => {
   const updating = existing !== undefined;
   const dispatch = useDispatch();
 
-  const [name, setName] = useState(updating ? existing.name : "");
-  const [url, setUrl] = useState(updating ? existing.url : "");
-  const [notes, setNotes] = useState(updating ? existing.notes : "");
-  const [photoLink, setPhotoLink] = useState(
-    updating ? existing.photo_link : ""
-  );
+  const defaultScent: Scent =
+    existing ||
+    {
+      name: "1",
+      url: "",
+      notes: "",
+      photo_link: ""
+    };
+
+  const [name, setName] = useState(defaultScent.name);
+  const [url, setUrl] = useState(defaultScent.url);
+  const [notes, setNotes] = useState(defaultScent.notes);
+  const [photoLink, setPhotoLink] = useState(defaultScent.photo_link);
 
   const stateToScent = () => {
     return {

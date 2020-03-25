@@ -9,7 +9,7 @@ import * as colors from "../constants/colors";
 
 import ScentsPage from "../pages/ScentsPage";
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
   root: {
     display: "flex",
     flexDirection: "row",

@@ -1,6 +1,6 @@
 import React from "react";
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
   root: {
     marginTop: 5,
     textAlign: "right",
