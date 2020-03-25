@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 Type=simple
-TimeoutStartSec=10s
-ExecStartPre=-/usr/bin/docker rm "amaranta_candles_ui"
+TimeoutStartSec=60s
+ExecStartPre=-/usr/bin/docker rm -f "amaranta_candles_ui"
 User=daniel
 
 ExecStart=/usr/bin/docker run \
@@ -13,14 +13,14 @@ ExecStart=/usr/bin/docker run \
   -e {{k}}={{v}} \
 {%- endfor %}
   --publish 127.0.0.1:42069:80 \
-  --name amaranta_candles_ui quay.io/banool/amaranta_candles_ui:latest
+  --name amaranta_candles_ui docker.pkg.github.com/banool/amaranta_candles/amaranta_candles_ui:latest
 
 
 ExecReload=-/usr/bin/docker stop "amaranta_candles_ui"
-ExecReload=-/usr/bin/docker rm "amaranta_candles_ui"
+ExecReload=-/usr/bin/docker rm -f "amaranta_candles_ui"
 ExecStop=-/usr/bin/docker stop "amaranta_candles_ui"
 Restart=always
-RestartSec=30
+RestartSec=60
 
 [Install]
 WantedBy=multi-user.target
