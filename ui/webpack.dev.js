@@ -9,7 +9,14 @@ module.exports = merge(common, {
     publicPath: "/static/",
     hot: true,
     proxy: {
-      "/api": "http://192.168.86.34:6969"
+      "/api": {
+        target: "candles.amaranta.house",
+          port: 443,
+          protocol: "https:"
+        },
+        secure: true,
+        changeOrigin: true
+      }
     },
     historyApiFallback: true
   },
