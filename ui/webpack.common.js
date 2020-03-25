@@ -8,17 +8,6 @@ module.exports = {
     path: path.resolve(__dirname, "dist/static"),
     pathinfo: true
   },
-  devtool: "eval-source-map",
-  devServer: {
-    index: "index.html",
-    serveIndex: true,
-    publicPath: "/static/",
-    hot: true,
-    proxy: {
-      "/api": "http://192.168.86.34:6969"
-    }
-  },
-  mode: "development",
   module: {
     rules: [
       {
