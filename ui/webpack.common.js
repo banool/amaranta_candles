@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./src/index.jsx",
+  entry: "./src/index.tsx",
   output: {
     library: "App",
     filename: "app.js",
@@ -42,6 +42,6 @@ module.exports = {
     alias: {
       "react-dom": "@hot-loader/react-dom"
     },
-    extensions: [".js", ".jsx", ".ts"]
+    extensions: [".js", ".jsx", ".ts", ".tsx"]
   }
 };
