@@ -16,7 +16,6 @@ ssl._create_default_https_context = ssl._create_unverified_context
 LOG = logging.getLogger(__name__)
 
 
-
 class Scent(models.Model):
     name = models.CharField(max_length=128)
     url = models.CharField(max_length=256, null=True, blank=True)
@@ -25,4 +24,5 @@ class Scent(models.Model):
 
     def __str__(self):
         return self.name
+
 

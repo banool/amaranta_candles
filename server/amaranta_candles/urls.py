@@ -1,6 +1,7 @@
 from django.urls import path
+from rest_framework import routers
 from . import views
 
-urlpatterns = [
-    path('scent/', views.ScentListCreate.as_view()),
-]
+router = routers.SimpleRouter()
+router.register(r'scent', views.ScentListCreate)
+urlpatterns = router.urls
