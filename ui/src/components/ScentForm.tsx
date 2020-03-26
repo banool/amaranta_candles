@@ -1,15 +1,8 @@
 import React, { useState } from "react";
 
 import { useDispatch } from "react-redux";
-import { createScent } from "../store/scentsSlice";
+import { createScent, Scent } from "../store/scentsSlice";
 
-type Scent = {
-  id?: number;
-  name: string;
-  url: string;
-  notes: string;
-  photo_link: string;
-};
 
 type ScentFormProps = {
   existing?: Scent;
@@ -22,7 +15,7 @@ export default ({ existing }: ScentFormProps) => {
   const defaultScent: Scent =
     existing ||
     {
-      name: "1",
+      name: "",
       url: "",
       notes: "",
       photo_link: ""

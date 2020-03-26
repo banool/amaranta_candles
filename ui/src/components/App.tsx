@@ -8,6 +8,7 @@ import Footer from "./Footer";
 import * as colors from "../constants/colors";
 
 import ScentsPage from "../pages/ScentsPage";
+import ScentPage from "../pages/ScentPage";
 
 const styles: { [key: string]: React.CSSProperties } = {
   root: {
@@ -51,9 +52,8 @@ const App = ({}) => {
                   </td>
                   <td style={styles.contentCell}>
                     <Switch>
-                      <Route path="/scents">
-                        <ScentsPage />
-                      </Route>
+                      <Route path="/scents/:id" children={<ScentPage />} />
+                      <Route path="/scents" children={<ScentsPage />} />
                       <Route path="/">
                         <div>
                           <h2>this is the candle stuff</h2>

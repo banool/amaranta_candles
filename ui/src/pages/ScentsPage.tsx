@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-import { fetchScents, scentsSelector } from "../store/scentsSlice";
+import { fetchScent, fetchScents, scentsSelector } from "../store/scentsSlice";
 import ScentForm from "../components/ScentForm";
 
 const ScentRow = ({ scent }) => {
   return (
     <tr>
-      <td>{scent.id}</td>
+      <td>
+        <Link to={`/scents/${scent.id}`}>{scent.id}</Link></td>
       <td>{scent.name}</td>
       <td>{scent.url}</td>
       <td>{scent.photo_link}</td>
@@ -48,8 +50,7 @@ const ScentsTable = ({ scents }) => {
 
 export default () => {
   const dispatch = useDispatch();
-  const { scents } = useSelector(scentsSelector);
-
+  const scents = useSelector(scentsSelector);
   useEffect(() => {
     dispatch(fetchScents());
   }, [dispatch]);
