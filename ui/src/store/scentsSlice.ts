@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export type Scent = {
+export interface Scent {
   id?: number;
   name: string;
   url: string;
