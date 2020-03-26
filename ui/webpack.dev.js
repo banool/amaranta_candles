@@ -7,6 +7,7 @@ module.exports = merge(common, {
   devServer: {
     index: "dist/index.html",
     serveIndex: true,
+    host: '0.0.0.0',
     port: 8080,
     hot: true,
     proxy: {
