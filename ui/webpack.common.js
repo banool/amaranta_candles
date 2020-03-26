@@ -1,11 +1,12 @@
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.tsx",
   output: {
     library: "App",
-    filename: "app.js",
-    path: path.resolve(__dirname, "dist/static"),
+    filename: "static/app.js",
+    path: path.resolve(__dirname, "dist"),
     pathinfo: true
   },
   module: {
@@ -43,5 +44,12 @@ module.exports = {
       "react-dom": "@hot-loader/react-dom"
     },
     extensions: [".js", ".jsx", ".ts", ".tsx"]
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: path.resolve(__dirname, "templates/index.html"),
+      minify: false
+    })
+  ]
 };
