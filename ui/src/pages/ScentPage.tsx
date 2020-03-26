@@ -2,15 +2,19 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
+import { Scent } from "../store/scentsSlice";
+
 import { fetchScent, scentSelector } from "../store/scentsSlice";
 
 export default () => {
   const { id } = useParams();
+  // TODO: Something if we fail this.
+  const numberId: number = Number(id);
   const dispatch = useDispatch();
-  const scent = useSelector(scentSelector(id));
+  const scent: Scent | undefined = useSelector(scentSelector(numberId));
 
   useEffect(() => {
-    dispatch(fetchScent(id));
+    dispatch(fetchScent(numberId));
   }, [dispatch]);
 
   const renderScent = () => {
