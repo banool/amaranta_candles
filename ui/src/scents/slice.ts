@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { RootState } from "../reducers/reducers";
+import { RootState } from "../common/reducers";
 
 import { Scent } from "./types";
 
