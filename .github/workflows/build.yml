@@ -12,6 +12,19 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  delete_old_versions:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/delete-package-versions@v1
+        with:
+          package-name: 'amaranta_candles_server'
+          num-old-versions-to-delete: 1000
+      - uses: actions/delete-package-versions@v1
+        with:
+          package-name: 'amaranta_candles_ui'
+          num-old-versions-to-delete: 1000
+    
   build_server:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' # Running this job only for master branch
