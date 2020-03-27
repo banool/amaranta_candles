@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { fetchScent, fetchScents, scentsSelector } from "../store/scentsSlice";
+import { fetchScents } from "../api/scents";
+import { scentsSelector } from "../store/scentsSlice";
 import ScentForm from "../components/ScentForm";
 
 const ScentRow = ({ scent }) => {

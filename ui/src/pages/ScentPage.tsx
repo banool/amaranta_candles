@@ -4,7 +4,8 @@ import { useParams } from "react-router-dom";
 
 import { Scent } from "../store/scentsSlice";
 
-import { fetchScent, scentSelector } from "../store/scentsSlice";
+import { fetchScent } from "../api/scents";
+import { scentSelector } from "../store/scentsSlice";
 
 export default () => {
   const { id } = useParams();
