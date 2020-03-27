@@ -19,11 +19,11 @@ jobs:
       - uses: actions/delete-package-versions@v1
         with:
           package-name: 'amaranta_candles_server'
-          num-old-versions-to-delete: 1000
+          num-old-versions-to-delete: 50
       - uses: actions/delete-package-versions@v1
         with:
           package-name: 'amaranta_candles_ui'
-          num-old-versions-to-delete: 1000
+          num-old-versions-to-delete: 50
     
   build_server:
     runs-on: ubuntu-latest
