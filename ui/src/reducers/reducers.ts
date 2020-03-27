@@ -1,6 +1,10 @@
 import { combineReducers } from "redux";
 import scentsReducer from "../store/scentsSlice";
 
-export default combineReducers({
+const rootReducer = combineReducers({
   scents: scentsReducer
 });
+
+export type RootState = ReturnType<typeof rootReducer>;
+
+export default  rootReducer

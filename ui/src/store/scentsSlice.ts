@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+import { RootState } from "../reducers/reducers";
+
 export const DEFAULT_SCENT_ID = -1;
 
 export interface Scent {
@@ -14,7 +16,7 @@ interface ScentsDict {
   [id: string]: Scent;
 }
 
-interface ScentsState {
+interface ScentsSliceState {
   scents: ScentsDict;
 }
 
@@ -26,7 +28,7 @@ interface GetScentSuccessAction {
   scent: Scent;
 }
 
-let initialState: ScentsState = {
+let initialState: ScentsSliceState = {
   scents: {}
 };
 
@@ -35,17 +37,14 @@ const scentsSlice = createSlice({
   initialState,
   reducers: {
     getScentsSuccess: (
-      state: ScentsState,
+      state,
       action: PayloadAction<GetScentsSuccessAction>
     ) => {
       const { scents } = action.payload;
       state.scents = {};
       scents.forEach(scent => (state.scents[scent.id] = scent));
     },
-    getScentSuccess: (
-      state: ScentsState,
-      action: PayloadAction<GetScentSuccessAction>
-    ) => {
+    getScentSuccess: (state, action: PayloadAction<GetScentSuccessAction>) => {
       const { scent } = action.payload;
       state.scents[scent.id] = scent;
     }
@@ -53,9 +52,9 @@ const scentsSlice = createSlice({
 });
 
 export const { getScentsSuccess, getScentSuccess } = scentsSlice.actions;
-export const scentsSelector = (state: ScentsState): Scent[] =>
+export const scentsSelector = (state: RootState): Scent[] =>
   Object.values(state.scents.scents);
-export const scentSelector = (id: number) => (state: ScentsState): Scent =>
+export const scentSelector = (id: number) => (state: RootState): Scent =>
   state.scents.scents[id];
 
 export default scentsSlice.reducer;
