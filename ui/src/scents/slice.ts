@@ -2,15 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { RootState } from "../reducers/reducers";
 
-export const DEFAULT_SCENT_ID = -1;
-
-export interface Scent {
-  id: number;
-  name: string;
-  url: string;
-  notes: string;
-  photo_link: string;
-}
+import { Scent } from "./types";
 
 interface ScentsDict {
   [id: string]: Scent;

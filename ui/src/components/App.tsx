@@ -7,8 +7,8 @@ import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import * as colors from "../constants/colors";
 
-import ScentsPage from "../pages/ScentsPage";
-import ScentPage from "../pages/ScentPage";
+import ScentsPage from "../scents/ScentsPage";
+import ScentPage from "../scents/ScentPage";
 
 const styles: { [key: string]: React.CSSProperties } = {
   root: {

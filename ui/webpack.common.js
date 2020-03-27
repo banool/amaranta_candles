@@ -43,7 +43,7 @@ module.exports = {
     alias: {
       "react-dom": "@hot-loader/react-dom"
     },
-    extensions: [".js", ".jsx", ".ts", ".tsx"]
+    extensions: [".js", ".jsx", ".ts", ".tsx", ".d.ts"]
   },
   plugins: [
     new HtmlWebpackPlugin({

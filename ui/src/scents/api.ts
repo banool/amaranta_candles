@@ -1,4 +1,5 @@
-import { getScentsSuccess, getScentSuccess, Scent } from "../store/scentsSlice";
+import { getScentsSuccess, getScentSuccess } from "./slice";
+import { Scent } from "./types";
 
 export function fetchScents() {
   return async dispatch => {

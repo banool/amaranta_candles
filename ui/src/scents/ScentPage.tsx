@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { Scent } from "../store/scentsSlice";
+import { Scent } from "./types";
 
-import { fetchScent } from "../api/scents";
-import { scentSelector } from "../store/scentsSlice";
+import { fetchScent } from "../scents/api";
+import { scentSelector } from "../scents/slice";
 
 export default () => {
   const { id } = useParams();

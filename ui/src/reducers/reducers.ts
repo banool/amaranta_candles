@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
-import scentsReducer from "../store/scentsSlice";
+
+import scentsReducer from "../scents/slice";
 
 const rootReducer = combineReducers({
   scents: scentsReducer
