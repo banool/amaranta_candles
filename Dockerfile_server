@@ -1,29 +1,36 @@
-# Build image
-FROM python:3.8-alpine
+# Build everything in first stage
+FROM python:3.8-alpine as base
 
-RUN mkdir /container
+FROM base as builder
 
-ADD server/requirements.txt /container
+RUN mkdir /install
+WORKDIR /install
 
-# Set up project directory
-WORKDIR /container
+COPY server/requirements.txt /install
 
-# MySQL
+# Build MySQL library
 RUN apk update 
 RUN apk add gcc python3-dev musl-dev mariadb-connector-c-dev mysql-client
+
+# Requirements
+RUN pip install --install-option="--prefix=/install" -r requirements.txt
+
+# Real image
+FROM base
+
+WORKDIR /container
+
+# Copy in build from previous stage
+COPY --from=builder /install /usr/local
+COPY server .
 
 # Docker specific environment vars
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
-COPY server/ .
-
-# Requirements
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-
-# Clean up
-RUN apk del gcc python3-dev musl-dev
+# Install only the MySQL stuff we need
+RUN apk update
+RUN apk add mariadb-connector-c-dev
 
 # Run server
 ENV INTERNAL_PORT 6969

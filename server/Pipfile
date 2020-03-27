@@ -11,8 +11,6 @@ django-mysql = ">=3.3.0"
 djangorestframework = ">=3.8.2"
 gunicorn = ">=19.9.0"
 mysqlclient = ">=1.4.6"
-python-dateutil = ">=2.7.3"
-pytz = ">=2018.5"
 django-filter = "*"
 
 [requires]
