@@ -49,6 +49,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: path.resolve(__dirname, "templates/index.html"),
+      base: "/",
       minify: false
     })
   ]
