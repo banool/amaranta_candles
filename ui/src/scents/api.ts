@@ -17,7 +17,7 @@ export function fetchScents() {
 export function fetchScent(id: number) {
   return async dispatch => {
     try {
-      const response = await fetch(`/api/scent/${id}/`);
+      const response = await fetch(`/api/scent/${id}`);
       const data = await response.json();
       dispatch(getScentSuccess({ scent: data }));
     } catch (error) {
@@ -30,7 +30,7 @@ export function fetchScent(id: number) {
 export function createScent(scent: Scent) {
   return async dispatch => {
     try {
-      const response = await fetch("/api/scent/", {
+      const response = await fetch("/api/scent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=utf-8"
