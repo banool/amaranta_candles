@@ -26,3 +26,10 @@ class Scent(models.Model):
         return self.name
 
 
+class Wax(models.Model):
+    name = models.CharField(max_length=128)
+    notes = models.CharField(max_length=8192, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+

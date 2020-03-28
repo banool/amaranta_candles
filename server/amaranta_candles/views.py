@@ -6,9 +6,10 @@ from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from amaranta_candles.models import Scent
+from amaranta_candles.models import Scent, Wax
 from amaranta_candles.serializers import (
     ScentSerializer,
+    WaxSerializer,
 )
 
 
@@ -23,4 +24,9 @@ class Base(ModelViewSet):
 class ScentListCreate(Base):
     queryset = Scent.objects.all()
     serializer_class = ScentSerializer
+
+
+class WaxListCreate(Base):
+    queryset = Wax.objects.all()
+    serializer_class = WaxSerializer
 

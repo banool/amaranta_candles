@@ -1,6 +1,5 @@
 import csv
 import datetime
-import pytz
 
 from django.core.management.base import BaseCommand
 from net_worth.models import Asset
