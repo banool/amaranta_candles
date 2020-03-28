@@ -1,4 +1,10 @@
-from amaranta_candles.models import Dye, Scent, Vessel, Wax
+from amaranta_candles.models import (
+    Batch,
+    Dye,
+    Scent,
+    Vessel,
+    Wax,
+)
 from rest_framework.serializers import ModelSerializer
 
 
@@ -11,6 +17,7 @@ def get_serializer(klass):
     return S
 
 
+BatchSerializer = get_serializer(Batch)
 DyeSerializer = get_serializer(Dye)
 ScentSerializer = get_serializer(Scent)
 VesselSerializer = get_serializer(Vessel)

@@ -16,9 +16,15 @@ LOG = logging.getLogger(__name__)
 class Base(models.Model):
     name = models.CharField(max_length=128)
     notes = models.CharField(max_length=8192, null=True, blank=True)
+    # This is just when the model was made in the DB
+    instance_created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
+
+
+class Batch(Base):
+    made_at = models.DateTimeField()
 
 
 class Dye(Base):
