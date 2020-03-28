@@ -55,6 +55,7 @@ const ScentsTable = ({ scents }) => {
 export default () => {
   const dispatch = useDispatch();
   const scents = useSelector(scentsSelector);
+
   useEffect(() => {
     dispatch(fetchScents());
   }, [dispatch]);

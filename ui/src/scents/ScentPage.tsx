@@ -16,7 +16,7 @@ export default () => {
 
   useEffect(() => {
     dispatch(fetchScent(numberId));
-  }, [dispatch]);
+  }, [dispatch, numberId]);
 
   const renderScent = () => {
     if (scent === undefined) {
