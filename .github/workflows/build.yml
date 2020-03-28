@@ -37,35 +37,33 @@ jobs:
         skip-tags: true
     needs:
      [delete_old_versions]
-    
+
   build_server:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' # Running this job only for master branch
-
     steps:
-    - uses: actions/checkout@v2 # Checking out the repo
-
-    - name: Build and Publish latest Docker image
-      uses: banool/gp-docker-action@1.0.2
+    - uses: actions/checkout@master
+    - name: Build and publish amaranta_candles_server to Github Packages
+      uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
-        image-name: amaranta_candles_server # Provide only Docker image name, tag will be automatically set to latest
+        name: banool/amaranta_candles/amaranta_candles_server
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: docker.pkg.github.com
         dockerfile: Dockerfile_server
     needs:
       [remove_old_artifacts, delete_old_versions]
-
+    
   build_ui:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' # Running this job only for master branch
-
     steps:
-    - uses: actions/checkout@v2 # Checking out the repo
-
-    - name: Build and Publish latest Docker image
-      uses: banool/gp-docker-action@1.0.2
+    - uses: actions/checkout@master
+    - name: Build and publish amaranta_candles_ui to Github Packages
+      uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
-        image-name: amaranta_candles_ui # Provide only Docker image name, tag will be automatically set to latest
+        name: banool/amaranta_candles/amaranta_candles_ui
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: docker.pkg.github.com
         dockerfile: Dockerfile_ui
     needs:
       [remove_old_artifacts, delete_old_versions]
