@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { fetchDyes } from "./api";
 import { dyesSelector } from "./slice";
 
+import DyeForm from "../components/DyeForm";
+
 import { DyeRoute, pathFor } from "../common/routes";
 
 const DyeRow = ({ dye }) => {
@@ -72,6 +74,7 @@ export default () => {
       <h2>Dyes</h2>
       {renderDyes()}
       <h3>Create</h3>
+      <DyeForm />
     </div>
   );
 };

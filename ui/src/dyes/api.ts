@@ -26,3 +26,24 @@ export function fetchDye(id: number) {
     }
   };
 }
+
+export function createDye(dye: Dye) {
+  return async dispatch => {
+    try {
+      const response = await fetch("/api/dye", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8"
+        },
+        body: JSON.stringify(dye)
+      });
+
+      const data = await response.json();
+      console.log("CreateDye response", data);
+      dispatch(fetchDyes());
+    } catch (error) {
+      // TODO: dispatch failure.
+      console.error("failed the thing");
+    }
+  };
+}
