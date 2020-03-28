@@ -1,5 +1,5 @@
 # Frontend
-FROM node:10 as builder
+FROM node:13 as builder
 WORKDIR /npm
 COPY ui/ .
 RUN npm ci --only=production
