@@ -20,3 +20,8 @@ To automatically pull new images and restart the containers if required, whack t
 ```
 @reboot docker run -d --name watchtower -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower --cleanup
 ```
+
+Make sure to symlink the pre commit hook here into .git
+```
+ln -s pre-commit ../.git/hooks
+```
