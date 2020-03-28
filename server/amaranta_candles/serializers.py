@@ -3,14 +3,13 @@ from rest_framework.serializers import ModelSerializer
 from amaranta_candles.models import Scent, Wax
 
 
-class ScentSerializer(ModelSerializer):
-    class Meta:
-        model = Scent
-        fields = '__all__'
+def get_serializer(klass):
+    class S(ModelSerializer):
+        class Meta:
+            model = klass
+            fields = "__all__"
+    return S
 
 
-class WaxSerializer(ModelSerializer):
-    class Meta:
-        model = Wax
-        fields = '__all__'
-
+ScentSerializer = get_serializer(Scent)
+WaxSerializer = get_serializer(Wax)

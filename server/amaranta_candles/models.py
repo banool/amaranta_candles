@@ -16,20 +16,25 @@ ssl._create_default_https_context = ssl._create_unverified_context
 LOG = logging.getLogger(__name__)
 
 
-class Scent(models.Model):
+class Base(models.Model):
     name = models.CharField(max_length=128)
-    url = models.CharField(max_length=256, null=True, blank=True)
     notes = models.CharField(max_length=8192, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Scent(Base):
+    url = models.CharField(max_length=256, null=True, blank=True)
     photo_link = models.CharField(max_length=256, null=True, blank=True)
 
-    def __str__(self):
-        return self.name
+
+class Wax(Base):
+   pass
 
 
-class Wax(models.Model):
-    name = models.CharField(max_length=128)
-    notes = models.CharField(max_length=8192, null=True, blank=True)
+# TODO Add dye, vessel, scent combos, batches, candles
 
-    def __str__(self):
-        return self.name
+IGNORE = [Base]
+
 

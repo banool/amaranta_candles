@@ -5,6 +5,8 @@ from amaranta_candles import models
 
 for model_name in dir(models):
     model = getattr(models, model_name)
+    if model in models.IGNORE:
+        continue
     if isinstance(model, ModelBase):
         admin.site.register(model)
 

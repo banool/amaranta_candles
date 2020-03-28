@@ -16,17 +16,14 @@ from amaranta_candles.serializers import (
 LOG = logging.getLogger(__name__)
 
 
-class Base(ModelViewSet):
-    login_url = "/accounts/login/"
-    filterset_fields = ['id']
+def get_view_set(klass, serializer_klass):
+    class MVS(ModelViewSet):
+        login_url = "/accounts/login/"
+        filterset_fields = ['id']
+        queryset = klass.objects.all()
+        serializer_class = serializer_klass
+    return MVS
 
 
-class ScentListCreate(Base):
-    queryset = Scent.objects.all()
-    serializer_class = ScentSerializer
-
-
-class WaxListCreate(Base):
-    queryset = Wax.objects.all()
-    serializer_class = WaxSerializer
-
+ScentModelViewSet = get_view_set(Scent, ScentSerializer)
+WaxModelViewSet = get_view_set(Wax, WaxSerializer)

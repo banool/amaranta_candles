@@ -4,6 +4,6 @@ from . import views
 
 
 router = routers.SimpleRouter(trailing_slash=False)
-router.register(r'scent', views.ScentListCreate)
-router.register(r'wax', views.WaxListCreate)
+router.register(r'scent', views.ScentModelViewSet)
+router.register(r'wax', views.WaxModelViewSet)
 urlpatterns = router.urls
