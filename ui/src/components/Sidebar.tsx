@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import * as colors from "../constants/colors";
 
-const pages = ["candles", "scents", "dyes", "waxes", "batches", "vessels", "scent combos"];
+import routes from "../common/routes";
 
 export default props => {
   return (
@@ -14,11 +14,16 @@ export default props => {
         <Link to="/">
           <li>home</li>
         </Link>
-        {pages.map(page => (
-          <Link to={`/${page}`} key={page}>
-            <li>{page}</li>
-          </Link>
-        ))}
+        {routes.map(route => {
+          if (route.sidebar === false) {
+            return null;
+          }
+          return (
+            <Link to={route.path} key={route.path}>
+              <li>{route.name}</li>
+            </Link>
+          );
+        })}
       </ul>
     </div>
   );

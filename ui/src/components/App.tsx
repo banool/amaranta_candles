@@ -7,8 +7,9 @@ import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import * as colors from "../constants/colors";
 
-import ScentsPage from "../scents/ScentsPage";
-import ScentPage from "../scents/ScentPage";
+import DefaultPage from "./DefaultPage";
+
+import routes from "../common/routes";
 
 const styles: { [key: string]: React.CSSProperties } = {
   root: {
@@ -52,26 +53,11 @@ const App = ({}) => {
                   </td>
                   <td style={styles.contentCell}>
                     <Switch>
-                      <Route path="/scents/:id" children={<ScentPage />} />
-                      <Route path="/scents" children={<ScentsPage />} />
+                      {routes.map(route => {
+                        return <Route key={route.path} path={route.path} children={<route.component />} />
+                      })}
                       <Route path="/">
-                        <div>
-                          <h2>this is the candle stuff</h2>
-                          this is the rest of the stuffs this is the rest of the
-                          stuffs this is the rest of the stuffs this is the rest
-                          of the stuffs this is the rest of the stuffs this is
-                          the rest of the stuffs this is the rest of the stuffs
-                          this is the rest of the stuffs this is the rest of the
-                          stuffs this is the rest of the stuffs this is the rest
-                          of the stuffs this is the rest of the stuffs this is
-                          the rest of the stuffs this is the rest of the
-                          stuffsthis is the rest of the stuffs this is the rest
-                          of the stuffs this is the rest of the stuffs this is
-                          the rest of the stuffs this is the rest of the stuffs
-                          this is the rest of the stuffs this is the rest of the
-                          stuffs this is the rest of the stuffs this is the rest
-                          of the stuffs this is the rest of the stuffs
-                        </div>
+                        <DefaultPage />
                       </Route>
                     </Switch>
                   </td>

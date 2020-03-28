@@ -6,11 +6,14 @@ import { fetchScents } from "../scents/api";
 import { scentsSelector } from "../scents/slice";
 import ScentForm from "../components/ScentForm";
 
+import { ScentsRoute, pathFor } from "../common/routes";
+
 const ScentRow = ({ scent }) => {
   return (
     <tr>
       <td>
-        <Link to={`/scents/${scent.id}`}>{scent.id}</Link></td>
+        <Link to={pathFor(ScentsRoute, { id: scent.id })}>{scent.id}</Link>
+      </td>
       <td>{scent.name}</td>
       <td>{scent.url}</td>
       <td>{scent.photo_link}</td>
@@ -23,10 +26,10 @@ const ScentsTable = ({ scents }) => {
   const styles = {
     scentsTable: {
       border: "2px solid #333",
-      width: "100%",
+      width: "100%"
     },
     scentsTableHead: {
-      border: "2px solid #333",
+      border: "2px solid #333"
     }
   };
   return (
