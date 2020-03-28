@@ -21,19 +21,23 @@ class Base(models.Model):
         return self.name
 
 
+class Dye(Base):
+    pass
+
+
 class Scent(Base):
     url = models.CharField(max_length=256, null=True, blank=True)
     photo_link = models.CharField(max_length=256, null=True, blank=True)
+
+
+class Vessel(Base):
+    pass
 
 
 class Wax(Base):
     pass
 
 
-class Dye(Base):
-    pass
-
-
-# TODO Add dye, vessel, scent combos, batches, candles
+# TODO Add scent combos, batches, candles
 
 IGNORE = [Base]

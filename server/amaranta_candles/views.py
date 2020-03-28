@@ -1,7 +1,12 @@
 import logging
 
-from amaranta_candles.models import Dye, Scent, Wax
-from amaranta_candles.serializers import DyeSerializer, ScentSerializer, WaxSerializer
+from amaranta_candles.models import Dye, Scent, Vessel, Wax
+from amaranta_candles.serializers import (
+    DyeSerializer,
+    ScentSerializer,
+    VesselSerializer,
+    WaxSerializer,
+)
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework.generics import ListCreateAPIView
@@ -21,6 +26,7 @@ def get_view_set(klass, serializer_klass):
     return MVS
 
 
-ScentModelViewSet = get_view_set(Scent, ScentSerializer)
-WaxModelViewSet = get_view_set(Wax, WaxSerializer)
 DyeModelViewSet = get_view_set(Dye, DyeSerializer)
+ScentModelViewSet = get_view_set(Scent, ScentSerializer)
+VesselModelViewSet = get_view_set(Vessel, VesselSerializer)
+WaxModelViewSet = get_view_set(Wax, WaxSerializer)
