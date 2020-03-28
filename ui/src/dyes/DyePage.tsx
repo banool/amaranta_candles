@@ -2,35 +2,35 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { Scent } from "./types";
+import { Dye } from "./types";
 
-import { fetchScent } from "./api";
-import { scentSelector } from "./slice";
+import { fetchDye } from "./api";
+import { dyeSelector } from "./slice";
 
 export default () => {
   const { id } = useParams();
   // TODO: Something if we fail this.
   const numberId: number = Number(id);
   const dispatch = useDispatch();
-  const scent: Scent | undefined = useSelector(scentSelector(numberId));
+  const dye: Dye | undefined = useSelector(dyeSelector(numberId));
 
   useEffect(() => {
-    dispatch(fetchScent(numberId));
+    dispatch(fetchDye(numberId));
   }, [dispatch, numberId]);
 
-  const renderScent = () => {
-    if (scent === undefined) {
+  const renderDye = () => {
+    if (dye === undefined) {
       return "loading...";
     }
     return <>
-      <h2>{scent.name}</h2>
-      <p>{scent.notes}</p>
+      <h2>{dye.name}</h2>
+      <p>{dye.notes}</p>
     </>
   }
 
   return (
     <div>
-      {renderScent()}
+      {renderDye()}
     </div>
   );
 };

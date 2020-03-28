@@ -6,6 +6,9 @@ import DefaultPage from "../components/DefaultPage";
 import ScentPage from "../scents/ScentPage";
 import ScentsPage from "../scents/ScentsPage";
 
+import DyePage from "../dyes/DyePage";
+import DyesPage from "../dyes/DyesPage";
+
 interface Route {
   name: string;
   path: string;
@@ -33,11 +36,17 @@ export const ScentsRoute: Route = {
   component: ScentsPage
 };
 
+export const DyeRoute: Route = {
+  name: "dye",
+  path: "/dyes/:id",
+  sidebar: false,
+  component: DyePage
+};
 export const DyesRoute: Route = {
   name: "dyes",
   path: "/dyes",
   sidebar: true,
-  component: DefaultPage
+  component: DyesPage
 };
 
 export const WaxesRoute: Route = {
@@ -72,6 +81,7 @@ const routes: Route[] = [
   CandlesRoute,
   ScentRoute,
   ScentsRoute,
+  DyeRoute,
   DyesRoute,
   WaxesRoute,
   BatchesRoute,
