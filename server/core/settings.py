@@ -75,9 +75,9 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     # This makes it not serve the browsable thing, just json.
-    'DEFAULT_RENDERER_CLASSES': ['rest_framework.renderers.JSONRenderer'],
-    'DEFAULT_PARSER_CLASSES': ['rest_framework.parsers.JSONParser'],
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
+    "DEFAULT_PARSER_CLASSES": ["rest_framework.parsers.JSONParser"],
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
 ROOT_URLCONF = "core.urls"
@@ -105,7 +105,7 @@ WSGI_APPLICATION = "core.wsgi.application"
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    "default": {
         "ENGINE": secrets["sql_engine"],
         "NAME": secrets["sql_database"],
         "USER": secrets["sql_user"],
@@ -129,24 +129,17 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'mine': {
-            'format': '%(levelname)s %(asctime)s %(message)s'
-        },
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {"mine": {"format": "%(levelname)s %(asctime)s %(message)s"}},
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "mine",
+        }
     },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'mine',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'DEBUG',
-    },
+    "root": {"handlers": ["console"], "level": "DEBUG"},
 }
 
 
@@ -168,6 +161,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = 'static'
+STATIC_ROOT = "static"
 
 APPEND_SLASH = False

@@ -36,6 +36,10 @@ class Scent(Base):
     photo_link = models.CharField(max_length=256, null=True, blank=True)
 
 
+class ScentCombo(Base):
+    scents = models.ManyToManyField(Scent)
+
+
 class Vessel(Base):
     pass
 
@@ -44,6 +48,6 @@ class Wax(Base):
     pass
 
 
-# TODO Add scent combos, batches, candles
+# TODO Add scent combos, candles
 
 IGNORE = [Base]
