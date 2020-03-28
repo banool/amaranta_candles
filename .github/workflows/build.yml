@@ -12,17 +12,6 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  remove_old_artifacts:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Remove old artifacts
-      uses: c-hive/gha-remove-artifacts@v1
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        age: '1 day'
-        skip-tags: true
-    
   delete_old_versions:
     runs-on: ubuntu-latest
     
@@ -35,6 +24,19 @@ jobs:
         with:
           package-name: 'amaranta_candles_ui'
           num-old-versions-to-delete: 50
+
+  remove_old_artifacts:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Remove old artifacts
+      uses: c-hive/gha-remove-artifacts@v1
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        age: '1 day'
+        skip-tags: true
+    needs:
+     [delete_old_versions]
     
   build_server:
     runs-on: ubuntu-latest
@@ -49,6 +51,8 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
         image-name: amaranta_candles_server # Provide only Docker image name, tag will be automatically set to latest
         dockerfile: Dockerfile_server
+    needs:
+      [remove_old_artifacts, delete_old_versions]
 
   build_ui:
     runs-on: ubuntu-latest
@@ -63,3 +67,5 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
         image-name: amaranta_candles_ui # Provide only Docker image name, tag will be automatically set to latest
         dockerfile: Dockerfile_ui
+    needs:
+      [remove_old_artifacts, delete_old_versions]
