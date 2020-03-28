@@ -5,7 +5,7 @@ import { RootState } from "../common/reducers";
 import { Dye } from "./types";
 
 interface DyesDict {
-  [id: string]: Dye;
+  [id: number]: Dye;
 }
 
 interface DyesSliceState {

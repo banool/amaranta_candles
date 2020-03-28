@@ -5,7 +5,7 @@ import { RootState } from "../common/reducers";
 import { Scent } from "./types";
 
 interface ScentsDict {
-  [id: string]: Scent;
+  [id: number]: Scent;
 }
 
 interface ScentsSliceState {
