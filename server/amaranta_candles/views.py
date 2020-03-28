@@ -1,8 +1,9 @@
 import logging
 
-from amaranta_candles.models import Batch, Dye, Scent, ScentCombo, Vessel, Wax
+from amaranta_candles.models import Batch, Candle, Dye, Scent, ScentCombo, Vessel, Wax
 from amaranta_candles.serializers import (
     BatchSerializer,
+    CandleSerializer,
     DyeSerializer,
     ScentSerializer,
     ScentComboSerializer,
@@ -29,6 +30,7 @@ def get_view_set(klass, serializer_klass):
 
 
 BatchModelViewSet = get_view_set(Batch, BatchSerializer)
+CandleModelViewSet = get_view_set(Candle, CandleSerializer)
 DyeModelViewSet = get_view_set(Dye, DyeSerializer)
 ScentModelViewSet = get_view_set(Scent, ScentSerializer)
 ScentComboModelViewSet = get_view_set(ScentCombo, ScentComboSerializer)
