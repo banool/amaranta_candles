@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { fetchDyes } from "./api";
 import { dyesSelector } from "./slice";
 
-import DyeForm from "../components/DyeForm";
+import DyeForm from "./DyeForm";
 
 import { DyeRoute, pathFor } from "../common/routes";
 

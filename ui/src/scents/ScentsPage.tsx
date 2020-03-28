@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { fetchScents } from "./api";
 import { scentsSelector } from "./slice";
 
-import ScentForm from "../components/ScentForm";
+import ScentForm from "./ScentForm";
 
 import { ScentRoute, pathFor } from "../common/routes";
 

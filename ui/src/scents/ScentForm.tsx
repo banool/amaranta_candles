@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 import { useDispatch } from "react-redux";
-import { createScent } from "../scents/api";
-import { Scent, DEFAULT_SCENT_ID } from "../scents/types";
+import { createScent } from "./api";
+import { Scent, DEFAULT_SCENT_ID } from "./types";
 
 type ScentFormProps = {
   existing?: Scent;
