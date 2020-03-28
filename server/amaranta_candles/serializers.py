@@ -1,6 +1,5 @@
-from rest_framework.serializers import ModelSerializer
-
 from amaranta_candles.models import Dye, Scent, Wax
+from rest_framework.serializers import ModelSerializer
 
 
 def get_serializer(klass):
@@ -8,6 +7,7 @@ def get_serializer(klass):
         class Meta:
             model = klass
             fields = "__all__"
+
     return S
 
 

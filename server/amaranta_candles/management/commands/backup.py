@@ -64,4 +64,3 @@ class Command(BaseCommand):
                 writer.writerow(row)
 
         print("Done!")
-

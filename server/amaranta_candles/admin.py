@@ -1,7 +1,6 @@
-from django.contrib import admin
-
-from django.db.models.base import ModelBase
 from amaranta_candles import models
+from django.contrib import admin
+from django.db.models.base import ModelBase
 
 for model_name in dir(models):
     model = getattr(models, model_name)
@@ -9,4 +8,3 @@ for model_name in dir(models):
         continue
     if isinstance(model, ModelBase):
         admin.site.register(model)
-

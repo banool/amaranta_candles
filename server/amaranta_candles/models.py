@@ -1,14 +1,11 @@
 import logging
-import traceback
-
-from django.db import models
-
-from functools import lru_cache
-import urllib.request
-
 import os
 import ssl
+import traceback
+import urllib.request
+from functools import lru_cache
 
+from django.db import models
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -40,5 +37,3 @@ class Dye(Base):
 # TODO Add dye, vessel, scent combos, batches, candles
 
 IGNORE = [Base]
-
-
