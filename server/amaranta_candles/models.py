@@ -30,7 +30,11 @@ class Scent(Base):
 
 
 class Wax(Base):
-   pass
+    pass
+
+
+class Dye(Base):
+    pass
 
 
 # TODO Add dye, vessel, scent combos, batches, candles

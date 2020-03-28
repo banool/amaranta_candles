@@ -6,8 +6,9 @@ from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from amaranta_candles.models import Scent, Wax
+from amaranta_candles.models import Dye, Scent, Wax
 from amaranta_candles.serializers import (
+    DyeSerializer,
     ScentSerializer,
     WaxSerializer,
 )
@@ -27,3 +28,4 @@ def get_view_set(klass, serializer_klass):
 
 ScentModelViewSet = get_view_set(Scent, ScentSerializer)
 WaxModelViewSet = get_view_set(Wax, WaxSerializer)
+DyeModelViewSet = get_view_set(Dye, DyeSerializer)
