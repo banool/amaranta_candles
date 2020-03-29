@@ -37,7 +37,7 @@ class Scent(Base):
 
 
 class ScentCombo(Base):
-    scent_ids = models.ManyToManyField(Scent)
+    scents = models.ManyToManyField(Scent)
 
 
 class Vessel(Base):
@@ -49,17 +49,17 @@ class Wax(Base):
 
 
 class ScentWithAmount(models.Model):
-    scent_id = models.ForeignKey(Scent, on_delete=models.PROTECT)
+    scent = models.ForeignKey(Scent, on_delete=models.PROTECT)
     amount = models.FloatField()
 
 
 class WaxWithAmount(models.Model):
-    wax_id = models.ForeignKey(Wax, on_delete=models.PROTECT)
+    wax = models.ForeignKey(Wax, on_delete=models.PROTECT)
     amount = models.FloatField()
 
 
 class DyeWithAmount(models.Model):
-    dye_id = models.ForeignKey(Dye, on_delete=models.PROTECT)
+    dye = models.ForeignKey(Dye, on_delete=models.PROTECT)
     amount = models.FloatField()
 
 
@@ -70,16 +70,16 @@ class Candle(models.Model):
     notes = models.CharField(max_length=8192, null=True, blank=True)
     instance_created_at = models.DateTimeField(auto_now_add=True)
 
-    batch_id = models.ForeignKey(Batch, on_delete=models.PROTECT)
-    dye_with_amount_ids = models.ManyToManyField(DyeWithAmount)
-    intended_scent_combo_id = models.ForeignKey(ScentCombo, on_delete=models.PROTECT)
-    scent_with_amount_ids = models.ManyToManyField(ScentWithAmount)
-    vessel_id = models.ForeignKey(Vessel, on_delete=models.PROTECT)
-    wax_with_amount_ids = models.ManyToManyField(WaxWithAmount)
+    batch = models.ForeignKey(Batch, on_delete=models.PROTECT)
+    dyes_with_amounts = models.ManyToManyField(DyeWithAmount)
+    intended_scent_combo = models.ForeignKey(ScentCombo, on_delete=models.PROTECT)
+    scents_with_amounts = models.ManyToManyField(ScentWithAmount)
+    vessel = models.ForeignKey(Vessel, on_delete=models.PROTECT)
+    waxes_with_amounts = models.ManyToManyField(WaxWithAmount)
 
     def save(self, *args, **kwargs):
         if not self.name:
-            isc = ScentCombo.objects.get(pk=self.intended_scent_combo_id)
+            isc = ScentCombo.objects.get(pk=self.intended_scent_combo)
             self.name = isc.name
         super().save(*args, **kwargs)
 
