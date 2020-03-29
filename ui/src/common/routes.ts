@@ -3,6 +3,10 @@ import { generatePath } from "react-router";
 
 import DefaultPage from "../components/DefaultPage";
 
+import BatchPage from "../batches/BatchPage";
+import BatchesPage from "../batches/BatchesPage";
+
+
 import ScentPage from "../scents/ScentPage";
 import ScentsPage from "../scents/ScentsPage";
 
@@ -59,11 +63,17 @@ export const WaxesRoute: Route = {
   component: DefaultPage
 };
 
+export const BatchRoute: Route = {
+  name: "batch",
+  path: "/batch/:id",
+  sidebar: false,
+  component: BatchPage
+};
 export const BatchesRoute: Route = {
   name: "batches",
   path: "/batches",
   sidebar: true,
-  component: DefaultPage
+  component: BatchesPage
 };
 
 export const VesselsRoute: Route = {
@@ -94,6 +104,7 @@ const routes: Route[] = [
   DyeRoute,
   DyesRoute,
   WaxesRoute,
+  BatchRoute,
   BatchesRoute,
   VesselsRoute,
   ScentComboRoute,
