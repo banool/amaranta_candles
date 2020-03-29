@@ -6,6 +6,9 @@ import DefaultPage from "../components/DefaultPage";
 import BatchPage from "../batches/BatchPage";
 import BatchesPage from "../batches/BatchesPage";
 
+import CandlePage from "../candles/CandlePage";
+import CandlesPage from "../candles/CandlesPage";
+
 import ScentPage from "../scents/ScentPage";
 import ScentsPage from "../scents/ScentsPage";
 
@@ -28,11 +31,17 @@ interface Route {
   component: React.FunctionComponent;
 }
 
+export const CandleRoute: Route = {
+  name: "candle",
+  path: "/candles/:id",
+  sidebar: false,
+  component: CandlePage,
+};
 export const CandlesRoute: Route = {
   name: "candles",
   path: "/candles",
   sidebar: true,
-  component: DefaultPage,
+  component: CandlesPage,
 };
 
 export const ScentRoute: Route = {
@@ -115,6 +124,7 @@ export const ScentCombosRoute: Route = {
 };
 
 const routes: Route[] = [
+  CandleRoute,
   CandlesRoute,
   ScentRoute,
   ScentsRoute,
