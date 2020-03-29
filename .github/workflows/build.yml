@@ -33,7 +33,7 @@ jobs:
       uses: c-hive/gha-remove-artifacts@v1
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        age: '1 day'
+        age: '1 second'
         skip-tags: true
     needs:
      [delete_old_versions]
@@ -43,14 +43,14 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Build and publish amaranta_candles_server to Github Packages
-      uses: elgohr/Publish-Docker-Github-Action@master
+      uses: docker/build-push-action@master
       with:
-        name: banool/amaranta_candles/amaranta_candles_server
+        repository: banool/amaranta_candles/amaranta_candles_server
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: docker.pkg.github.com
         dockerfile: Dockerfile_server
-        buildoptions: "--no-cache --force-rm"
+        # buildoptions: "--no-cache --force-rm"
     needs:
       [remove_old_artifacts, delete_old_versions]
     
@@ -59,13 +59,13 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Build and publish amaranta_candles_ui to Github Packages
-      uses: elgohr/Publish-Docker-Github-Action@master
+      uses: docker/build-push-action@master
       with:
-        name: banool/amaranta_candles/amaranta_candles_ui
+        repository: banool/amaranta_candles/amaranta_candles_ui
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: docker.pkg.github.com
         dockerfile: Dockerfile_ui
-        buildoptions: "--no-cache --force-rm"
+        # buildoptions: "--no-cache --force-rm"
     needs:
       [remove_old_artifacts, delete_old_versions]
