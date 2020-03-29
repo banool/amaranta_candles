@@ -18,6 +18,9 @@ import ScentCombosPage from "../scent_combos/ScentCombosPage";
 import WaxPage from "../waxes/WaxPage";
 import WaxesPage from "../waxes/WaxesPage";
 
+import VesselPage from "../vessels/VesselPage";
+import VesselsPage from "../vessels/VesselsPage";
+
 interface Route {
   name: string;
   path: string;
@@ -29,80 +32,86 @@ export const CandlesRoute: Route = {
   name: "candles",
   path: "/candles",
   sidebar: true,
-  component: DefaultPage
+  component: DefaultPage,
 };
 
 export const ScentRoute: Route = {
   name: "scent",
   path: "/scents/:id",
   sidebar: false,
-  component: ScentPage
+  component: ScentPage,
 };
 export const ScentsRoute: Route = {
   name: "scents",
   path: "/scents",
   sidebar: true,
-  component: ScentsPage
+  component: ScentsPage,
 };
 
 export const DyeRoute: Route = {
   name: "dye",
   path: "/dyes/:id",
   sidebar: false,
-  component: DyePage
+  component: DyePage,
 };
 export const DyesRoute: Route = {
   name: "dyes",
   path: "/dyes",
   sidebar: true,
-  component: DyesPage
+  component: DyesPage,
 };
 
 export const WaxRoute: Route = {
   name: "wax",
   path: "/waxes/:id",
   sidebar: false,
-  component: WaxPage
+  component: WaxPage,
 };
 export const WaxesRoute: Route = {
   name: "waxes",
   path: "/waxes",
   sidebar: true,
-  component: WaxesPage
+  component: WaxesPage,
 };
 
 export const BatchRoute: Route = {
   name: "batch",
   path: "/batch/:id",
   sidebar: false,
-  component: BatchPage
+  component: BatchPage,
 };
 export const BatchesRoute: Route = {
   name: "batches",
   path: "/batches",
   sidebar: true,
-  component: BatchesPage
+  component: BatchesPage,
 };
 
+export const VesselRoute: Route = {
+  name: "vessel",
+  path: "/vessels/:id",
+  sidebar: false,
+  component: VesselPage,
+};
 export const VesselsRoute: Route = {
   name: "vessels",
   path: "/vessels",
   sidebar: true,
-  component: DefaultPage
+  component: VesselsPage,
 };
 
 export const ScentComboRoute: Route = {
   name: "scent combo",
   path: "/scent_combos/:id",
   sidebar: false,
-  component: ScentComboPage
+  component: ScentComboPage,
 };
 
 export const ScentCombosRoute: Route = {
   name: "scent combos",
   path: "/scent_combos",
   sidebar: true,
-  component: ScentCombosPage
+  component: ScentCombosPage,
 };
 
 const routes: Route[] = [
@@ -115,9 +124,10 @@ const routes: Route[] = [
   WaxesRoute,
   BatchRoute,
   BatchesRoute,
+  VesselRoute,
   VesselsRoute,
   ScentComboRoute,
-  ScentCombosRoute
+  ScentCombosRoute,
 ];
 
 export default routes;
