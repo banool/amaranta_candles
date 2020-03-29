@@ -6,7 +6,6 @@ import DefaultPage from "../components/DefaultPage";
 import BatchPage from "../batches/BatchPage";
 import BatchesPage from "../batches/BatchesPage";
 
-
 import ScentPage from "../scents/ScentPage";
 import ScentsPage from "../scents/ScentsPage";
 
@@ -15,6 +14,9 @@ import DyesPage from "../dyes/DyesPage";
 
 import ScentComboPage from "../scent_combos/ScentComboPage";
 import ScentCombosPage from "../scent_combos/ScentCombosPage";
+
+import WaxPage from "../waxes/WaxPage";
+import WaxesPage from "../waxes/WaxesPage";
 
 interface Route {
   name: string;
@@ -56,11 +58,17 @@ export const DyesRoute: Route = {
   component: DyesPage
 };
 
+export const WaxRoute: Route = {
+  name: "wax",
+  path: "/waxes/:id",
+  sidebar: false,
+  component: WaxPage
+};
 export const WaxesRoute: Route = {
   name: "waxes",
   path: "/waxes",
   sidebar: true,
-  component: DefaultPage
+  component: WaxesPage
 };
 
 export const BatchRoute: Route = {
@@ -103,6 +111,7 @@ const routes: Route[] = [
   ScentsRoute,
   DyeRoute,
   DyesRoute,
+  WaxRoute,
   WaxesRoute,
   BatchRoute,
   BatchesRoute,
