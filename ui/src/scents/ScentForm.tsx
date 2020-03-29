@@ -25,7 +25,7 @@ export default ({ existing }: ScentFormProps) => {
   const [notes, setNotes] = useState(defaultScent.notes);
   const [photoLink, setPhotoLink] = useState(defaultScent.photo_link);
 
-  const stateToScent = () => {
+  const stateToScent = (): Scent => {
     return {
       id: DEFAULT_SCENT_ID,
       name,
@@ -72,11 +72,11 @@ export default ({ existing }: ScentFormProps) => {
             value={photoLink}
             onChange={e => setPhotoLink(e.target.value)}
           />
-          <br />
-          <label>
-            notes:
-            <textarea value={notes} onChange={e => setNotes(e.target.value)} />
-          </label>
+        </label>
+        <br />
+        <label>
+          notes:
+          <textarea value={notes} onChange={e => setNotes(e.target.value)} />
         </label>
         <br />
         <input type="button" value="Submit" onClick={onSubmit} />

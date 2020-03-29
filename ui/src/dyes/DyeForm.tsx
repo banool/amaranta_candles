@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 import { useDispatch } from "react-redux";
-import { createDye } from "../dyes/api";
-import { Dye, DEFAULT_DYE_ID } from "../dyes/types";
+import { createDye } from "./api";
+import { Dye, DEFAULT_DYE_ID } from "./types";
 
 type DyeFormProps = {
   existing?: Dye;
@@ -25,7 +25,7 @@ export default ({ existing }: DyeFormProps) => {
   const [notes, setNotes] = useState(defaultDye.notes);
   const [photoLink, setPhotoLink] = useState(defaultDye.photo_link);
 
-  const stateToDye = () => {
+  const stateToDye = (): Dye => {
     return {
       id: DEFAULT_DYE_ID,
       name,
@@ -72,11 +72,11 @@ export default ({ existing }: DyeFormProps) => {
             value={photoLink}
             onChange={e => setPhotoLink(e.target.value)}
           />
-          <br />
-          <label>
-            notes:
-            <textarea value={notes} onChange={e => setNotes(e.target.value)} />
-          </label>
+        </label>
+        <br />
+        <label>
+          notes:
+          <textarea value={notes} onChange={e => setNotes(e.target.value)} />
         </label>
         <br />
         <input type="button" value="Submit" onClick={onSubmit} />

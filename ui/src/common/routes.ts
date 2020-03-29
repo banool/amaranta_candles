@@ -9,6 +9,9 @@ import ScentsPage from "../scents/ScentsPage";
 import DyePage from "../dyes/DyePage";
 import DyesPage from "../dyes/DyesPage";
 
+import ScentComboPage from "../scent_combos/ScentComboPage";
+import ScentCombosPage from "../scent_combos/ScentCombosPage";
+
 interface Route {
   name: string;
   path: string;
@@ -70,11 +73,18 @@ export const VesselsRoute: Route = {
   component: DefaultPage
 };
 
+export const ScentComboRoute: Route = {
+  name: "scent combo",
+  path: "/scent_combos/:id",
+  sidebar: false,
+  component: ScentComboPage
+};
+
 export const ScentCombosRoute: Route = {
   name: "scent combos",
   path: "/scent_combos",
   sidebar: true,
-  component: DefaultPage
+  component: ScentCombosPage
 };
 
 const routes: Route[] = [
@@ -86,6 +96,7 @@ const routes: Route[] = [
   WaxesRoute,
   BatchesRoute,
   VesselsRoute,
+  ScentComboRoute,
   ScentCombosRoute
 ];
 
