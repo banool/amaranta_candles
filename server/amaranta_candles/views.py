@@ -1,3 +1,4 @@
+import json
 import logging
 
 from amaranta_candles.models import Batch, Candle, Dye, Scent, ScentCombo, Vessel, Wax
@@ -25,6 +26,23 @@ def get_view_set(klass, serializer_klass):
         filterset_fields = ["id"]
         queryset = klass.objects.all()
         serializer_class = serializer_klass
+
+        def set_recursive_serializer_class_if_needed(self, request):
+            recursive = bool(json.loads(request.GET.get("recursive", "false")))
+            if not recursive:
+                return
+            recursive_serializer_class = getattr(self.serializer_class, "recursive_serializer_class", None)
+            if recursive_serializer_class:
+                print(f"Using recursive serializer {recursive_serializer_class.__name__}")
+                self.serializer_class = recursive_serializer_class
+
+        def list(self, request):
+            self.set_recursive_serializer_class_if_needed(request)
+            return super().list(request)
+
+        def retrieve(self, request, pk=None):
+            self.set_recursive_serializer_class_if_needed(request)
+            return super().retrieve(request, pk=pk)
 
     return MVS
 
