@@ -45,12 +45,12 @@ jobs:
     - name: Build and publish amaranta_candles_server to Github Packages
       uses: docker/build-push-action@master
       with:
-        repository: banool/amaranta_candles
+        repository: banool/amaranta_candles/amaranta_candles_server
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: docker.pkg.github.com
         dockerfile: Dockerfile_server
-        tags: latest-server
+        tags: latest
         # build_args: "--no-cache --force-rm"
         # always_pull true
     needs:
@@ -63,12 +63,12 @@ jobs:
     - name: Build and publish amaranta_candles_ui to Github Packages
       uses: docker/build-push-action@master
       with:
-        repository: banool/amaranta_candles
+        repository: banool/amaranta_candles/amaranta_candles_ui
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: docker.pkg.github.com
         dockerfile: Dockerfile_ui
-        tags: latest-ui
+        tags: latest
         # build_args: "--no-cache --force-rm"
         # always_pull: true
     needs:
