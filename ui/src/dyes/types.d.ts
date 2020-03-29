@@ -1,16 +1,16 @@
 
 export interface Dye {
   id: number;
-  name: string;
-  url: string;
-  notes: string;
-  photo_link: string;
+  name: string | null;
+  url: string | null;
+  notes: string | null;
+  photo_link: string | null;
 }
 
 export interface StagingDye {
   id?: number;
-  name: string;
-  url: string;
-  notes: string;
-  photo_link: string;
+  name: string | null;
+  url: string | null;
+  notes: string | null;
+  photo_link: string | null;
 }

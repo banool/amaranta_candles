@@ -7,6 +7,12 @@ import { ScentCombo, StagingScentCombo } from "./types";
 import { fetchScents } from "../scents/api";
 import { scentsSelector } from "../scents/slice";
 
+const defaults: StagingScentCombo = {
+  name: "",
+  notes: "",
+  scents: [],
+};
+
 type ScentComboFormProps = {
   existing?: ScentCombo;
 };
@@ -15,23 +21,30 @@ export default ({ existing }: ScentComboFormProps) => {
   const updating = existing !== undefined;
   const dispatch = useDispatch();
 
-  const defaults: StagingScentCombo = {
-    name: "",
-    notes: "",
-    scents: []
+  const getInitial = <T extends unknown>(
+    field: string,
+    defaults: StagingScentCombo,
+    existing?: ScentCombo,
+    idsOnly = false
+  ): NonNullable<T> => {
+    if (existing !== undefined && existing[field] !== null) {
+      if (idsOnly) {
+        return existing[field].map((item) => item.id);
+      }
+      return existing[field];
+    }
+    return defaults[field];
   };
 
-  if (existing !== undefined) {
-    defaults.name = existing.name;
-    defaults.notes = existing.notes;
-    defaults.scents = existing.scents.map(scent => scent.id);
-  }
+  const [name, setName] = useState(getInitial<typeof defaults.name>("name", defaults, existing));
+  const [notes, setNotes] = useState(
+    getInitial<typeof defaults.notes>("notes", defaults, existing)
+  );
+  const [scents, setScentIds] = useState(
+    getInitial<typeof defaults.scents>("scents", defaults, existing, true)
+  );
 
-  const [name, setName] = useState(defaults.name);
-  const [notes, setNotes] = useState(defaults.notes);
-  const [scentIds, setScentIds] = useState(defaults.scents);
-
-  const scents = useSelector(scentsSelector);
+  const allScents = useSelector(scentsSelector);
 
   useEffect(() => {
     dispatch(fetchScents());
@@ -41,7 +54,7 @@ export default ({ existing }: ScentComboFormProps) => {
     return {
       name,
       notes,
-      scents: scentIds
+      scents: scents,
     };
   };
 
@@ -60,32 +73,26 @@ export default ({ existing }: ScentComboFormProps) => {
       <form>
         <label>
           name:
-          <input
-            type="text"
-            value={name}
-            onChange={e => setName(e.target.value)}
-          />
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
         </label>
         <br />
         <label>
           notes:
-          <textarea value={notes} onChange={e => setNotes(e.target.value)} />
+          <textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
         </label>
         <br />
         <label>
           scents:
           <select
             multiple
-            value={scentIds.map(String)}
-            onChange={e => {
-              setScentIds(
-                Array.from(e.target.selectedOptions, item => Number(item.value))
-              );
+            value={scents.map(String)}
+            onChange={(e) => {
+              setScentIds(Array.from(e.target.selectedOptions, (item) => Number(item.value)));
             }}
           >
-            {scents === null
+            {allScents === null
               ? null
-              : scents.map(scent => (
+              : allScents.map((scent) => (
                   <option key={scent.id} value={scent.id}>
                     {scent.name}
                   </option>
