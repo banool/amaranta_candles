@@ -68,4 +68,4 @@ jobs:
         dockerfile: Dockerfile_ui
         buildoptions: "--no-cache --force-rm"
     needs:
-      [remove_old_artifacts, delete_old_versions, build_server]
+      [remove_old_artifacts, delete_old_versions]
