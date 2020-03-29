@@ -4,7 +4,7 @@ import { Dye, StagingDye } from "./types";
 export function fetchDyes() {
   return async dispatch => {
     try {
-      const response = await fetch("/api/dye");
+      const response = await fetch("/api/dye?recursive=true");
       const data = await response.json();
 
       const dyes: Dye[] = data;
@@ -20,7 +20,7 @@ export function fetchDyes() {
 export function fetchDye(id: number) {
   return async dispatch => {
     try {
-      const response = await fetch(`/api/dye/${id}`);
+      const response = await fetch(`/api/dye/${id}?recursive=true`);
       const data = await response.json();
 
       const dye: Dye = data;

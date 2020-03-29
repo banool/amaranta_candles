@@ -6,7 +6,7 @@ import { fetchScent } from "../scents/api";
 export function fetchScentCombos() {
   return async dispatch => {
     try {
-      const response = await fetch("/api/scent_combo");
+      const response = await fetch("/api/scent_combo?recursive=true");
       const data = await response.json();
 
       const scentCombos: ScentCombo[] = data;
@@ -22,7 +22,7 @@ export function fetchScentCombos() {
 export function fetchScentCombo(id: number) {
   return async dispatch => {
     try {
-      const response = await fetch(`/api/scent_combo/${id}`);
+      const response = await fetch(`/api/scent_combo/${id}?recursive=true`);
       const data = await response.json();
 
       const scentCombo: ScentCombo = data;

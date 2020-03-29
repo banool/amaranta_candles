@@ -4,7 +4,7 @@ import { Scent, StagingScent } from "./types";
 export function fetchScents() {
   return async dispatch => {
     try {
-      const response = await fetch("/api/scent");
+      const response = await fetch("/api/scent?recursive=true");
       const data = await response.json();
 
       const scents: Scent[] = data;
@@ -20,7 +20,7 @@ export function fetchScents() {
 export function fetchScent(id: number) {
   return async dispatch => {
     try {
-      const response = await fetch(`/api/scent/${id}`);
+      const response = await fetch(`/api/scent/${id}?recursive=true`);
       const data = await response.json();
 
       const scent: Scent = data;

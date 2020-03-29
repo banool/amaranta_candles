@@ -15,7 +15,7 @@ const ScentPage = ({ scent }: ScentPageProps) => {
   return (
     <>
       <h2>{scent.name}</h2>
-      <p>{markedNotes}</p>
+      <div>{markedNotes}</div>
     </>
   );
 };
