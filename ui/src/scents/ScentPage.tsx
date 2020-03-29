@@ -11,7 +11,7 @@ import useMarked from "../common/hooks/useMarked";
 
 type ScentPageProps = { scent: Scent };
 const ScentPage = ({ scent }: ScentPageProps) => {
-  const markedNotes = useMarked(scent.notes);
+  const markedNotes = scent.notes === null ? null : useMarked(scent.notes);
   return (
     <>
       <h2>{scent.name}</h2>
