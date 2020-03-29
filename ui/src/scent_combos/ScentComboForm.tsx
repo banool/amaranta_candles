@@ -10,7 +10,7 @@ import { scentsSelector } from "../scents/slice";
 const defaults: StagingScentCombo = {
   name: "",
   notes: "",
-  scents: [],
+  scents: []
 };
 
 type ScentComboFormProps = {
@@ -29,7 +29,7 @@ export default ({ existing }: ScentComboFormProps) => {
   ): NonNullable<T> => {
     if (existing !== undefined && existing[field] !== null) {
       if (idsOnly) {
-        return existing[field].map((item) => item.id);
+        return existing[field].map(item => item.id);
       }
       return existing[field];
     }
@@ -54,7 +54,7 @@ export default ({ existing }: ScentComboFormProps) => {
     return {
       name,
       notes,
-      scents: scents,
+      scents: scents
     };
   };
 
@@ -73,12 +73,12 @@ export default ({ existing }: ScentComboFormProps) => {
       <form>
         <label>
           name:
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          <input type="text" value={name} onChange={e => setName(e.target.value)} />
         </label>
         <br />
         <label>
           notes:
-          <textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
+          <textarea value={notes} onChange={e => setNotes(e.target.value)} />
         </label>
         <br />
         <label>
@@ -86,13 +86,13 @@ export default ({ existing }: ScentComboFormProps) => {
           <select
             multiple
             value={scents.map(String)}
-            onChange={(e) => {
-              setScentIds(Array.from(e.target.selectedOptions, (item) => Number(item.value)));
+            onChange={e => {
+              setScentIds(Array.from(e.target.selectedOptions, item => Number(item.value)));
             }}
           >
             {allScents === null
               ? null
-              : allScents.map((scent) => (
+              : allScents.map(scent => (
                   <option key={scent.id} value={scent.id}>
                     {scent.name}
                   </option>

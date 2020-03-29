@@ -4,12 +4,12 @@ export interface ScentCombo {
   id: number;
   name: string | null;
   notes: string | null;
-  scents: Scent[]
+  scents: Scent[];
 }
 
 export interface StagingScentCombo {
   id?: number;
   name: string | null;
   notes: string | null;
-  scents: number[]
+  scents: number[];
 }

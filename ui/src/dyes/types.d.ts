@@ -1,4 +1,3 @@
-
 export interface Dye {
   id: number;
   name: string | null;

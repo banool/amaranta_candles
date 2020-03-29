@@ -8,7 +8,7 @@ const defaults: StagingScent = {
   name: "",
   url: "",
   notes: "",
-  photo_link: "",
+  photo_link: ""
 };
 
 type ScentFormProps = {
@@ -43,7 +43,7 @@ const ScentForm = ({ existing }: ScentFormProps) => {
       name,
       url: url === defaults.url ? null : url,
       notes: notes === defaults.notes ? null : notes,
-      photo_link: photoLink === defaults.photo_link ? null : photoLink,
+      photo_link: photoLink === defaults.photo_link ? null : photoLink
     };
   };
 
@@ -61,22 +61,22 @@ const ScentForm = ({ existing }: ScentFormProps) => {
       <form>
         <label>
           name:
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          <input type="text" value={name} onChange={e => setName(e.target.value)} />
         </label>
         <br />
         <label>
           url:
-          <input type="text" value={url} onChange={(e) => setUrl(e.target.value)} />
+          <input type="text" value={url} onChange={e => setUrl(e.target.value)} />
         </label>
         <br />
         <label>
           photo_link:
-          <input type="text" value={photoLink} onChange={(e) => setPhotoLink(e.target.value)} />
+          <input type="text" value={photoLink} onChange={e => setPhotoLink(e.target.value)} />
         </label>
         <br />
         <label>
           notes:
-          <textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
+          <textarea value={notes} onChange={e => setNotes(e.target.value)} />
         </label>
         <br />
         <input type="button" value="Submit" onClick={onSubmit} />

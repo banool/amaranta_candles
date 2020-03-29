@@ -15,9 +15,7 @@ const ScentComboPage = ({}: ScentComboPageProps) => {
   // TODO: Something if we fail this.
   const numberId: number = Number(id);
   const dispatch = useDispatch();
-  const scentCombo: ScentCombo | undefined = useSelector(
-    scentComboSelector(numberId)
-  );
+  const scentCombo: ScentCombo | undefined = useSelector(scentComboSelector(numberId));
 
   useEffect(() => {
     dispatch(fetchScentCombo(numberId));

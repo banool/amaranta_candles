@@ -17,9 +17,7 @@ const ScentComboRow = ({ scentCombo }: ScentComboRowProps) => {
   return (
     <tr>
       <td>
-        <Link to={pathFor(ScentComboRoute, { id: scentCombo.id })}>
-          {scentCombo.id}
-        </Link>
+        <Link to={pathFor(ScentComboRoute, { id: scentCombo.id })}>{scentCombo.id}</Link>
       </td>
       <td>{scentCombo.name}</td>
       <td>

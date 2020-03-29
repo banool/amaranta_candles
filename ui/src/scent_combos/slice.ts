@@ -28,10 +28,7 @@ const scentCombosSlice = createSlice({
   name: "scentCombos",
   initialState,
   reducers: {
-    getScentCombosSuccess: (
-      state,
-      action: PayloadAction<GetScentCombosSuccessAction>
-    ) => {
+    getScentCombosSuccess: (state, action: PayloadAction<GetScentCombosSuccessAction>) => {
       const { scentCombos } = action.payload;
       state.scentCombos = {};
       scentCombos.forEach(scentCombo => (state.scentCombos[scentCombo.id] = scentCombo));

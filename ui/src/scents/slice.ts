@@ -28,10 +28,7 @@ const scentsSlice = createSlice({
   name: "scents",
   initialState,
   reducers: {
-    getScentsSuccess: (
-      state,
-      action: PayloadAction<GetScentsSuccessAction>
-    ) => {
+    getScentsSuccess: (state, action: PayloadAction<GetScentsSuccessAction>) => {
       const { scents } = action.payload;
       state.scents = {};
       scents.forEach(scent => (state.scents[scent.id] = scent));
@@ -44,9 +41,7 @@ const scentsSlice = createSlice({
 });
 
 export const { getScentsSuccess, getScentSuccess } = scentsSlice.actions;
-export const scentsSelector = (state: RootState): Scent[] =>
-  Object.values(state.scents.scents);
-export const scentSelector = (id: number) => (state: RootState): Scent =>
-  state.scents.scents[id];
+export const scentsSelector = (state: RootState): Scent[] => Object.values(state.scents.scents);
+export const scentSelector = (id: number) => (state: RootState): Scent => state.scents.scents[id];
 
 export default scentsSlice.reducer;

@@ -28,10 +28,7 @@ const dyesSlice = createSlice({
   name: "dyes",
   initialState,
   reducers: {
-    getDyesSuccess: (
-      state,
-      action: PayloadAction<GetDyesSuccessAction>
-    ) => {
+    getDyesSuccess: (state, action: PayloadAction<GetDyesSuccessAction>) => {
       const { dyes } = action.payload;
       state.dyes = {};
       dyes.forEach(dye => (state.dyes[dye.id] = dye));
@@ -44,9 +41,7 @@ const dyesSlice = createSlice({
 });
 
 export const { getDyesSuccess, getDyeSuccess } = dyesSlice.actions;
-export const dyesSelector = (state: RootState): Dye[] =>
-  Object.values(state.dyes.dyes);
-export const dyeSelector = (id: number) => (state: RootState): Dye =>
-  state.dyes.dyes[id];
+export const dyesSelector = (state: RootState): Dye[] => Object.values(state.dyes.dyes);
+export const dyeSelector = (id: number) => (state: RootState): Dye => state.dyes.dyes[id];
 
 export default dyesSlice.reducer;

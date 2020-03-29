@@ -54,7 +54,13 @@ const App = ({}) => {
                   <td style={styles.contentCell}>
                     <Switch>
                       {routes.map(route => {
-                        return <Route key={route.path} path={route.path} children={<route.component />} />
+                        return (
+                          <Route
+                            key={route.path}
+                            path={route.path}
+                            children={<route.component />}
+                          />
+                        );
                       })}
                       <Route path="/">
                         <DefaultPage />
