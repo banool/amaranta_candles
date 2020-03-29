@@ -6,7 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.prod.js",
     "start": "webpack-dev-server --config webpack.dev.js",
-    "style-check": "prettier --check 'src/**/*.{js,jsx}' ",
+    "style-check": "prettier --check 'src/**/*.{js,jsx,ts,tsx}' ",
+    "style-fix": "prettier --write 'src/**/*.{js,jsx,ts,tsx}' ",
     "type-check": "tsc"
   },
   "dependencies": {
