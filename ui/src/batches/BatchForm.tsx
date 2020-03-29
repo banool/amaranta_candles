@@ -53,8 +53,6 @@ export default ({ existing }: BatchFormProps) => {
     }
   };
 
-  console.log(madeAt);
-
   return (
     <div>
       <form>
