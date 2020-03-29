@@ -1,12 +1,15 @@
 import { getScentsSuccess, getScentSuccess } from "./slice";
-import { Scent } from "./types";
+import { Scent, StagingScent } from "./types";
 
 export function fetchScents() {
   return async dispatch => {
     try {
       const response = await fetch("/api/scent");
       const data = await response.json();
-      dispatch(getScentsSuccess({ scents: data }));
+
+      const scents: Scent[] = data;
+
+      dispatch(getScentsSuccess({ scents }));
     } catch (error) {
       // TODO: dispatch failure.
       console.error("failed the thing", error);
@@ -19,7 +22,10 @@ export function fetchScent(id: number) {
     try {
       const response = await fetch(`/api/scent/${id}`);
       const data = await response.json();
-      dispatch(getScentSuccess({ scent: data }));
+
+      const scent: Scent = data;
+
+      dispatch(getScentSuccess({ scent }));
     } catch (error) {
       // TODO: dispatch failure.
       console.error("failed the thing", error);
@@ -27,7 +33,7 @@ export function fetchScent(id: number) {
   };
 }
 
-export function createScent(scent: Scent) {
+export function createScent(scent: StagingScent) {
   return async dispatch => {
     try {
       const response = await fetch("/api/scent", {
