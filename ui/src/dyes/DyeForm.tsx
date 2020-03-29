@@ -2,32 +2,36 @@ import React, { useState } from "react";
 
 import { useDispatch } from "react-redux";
 import { createDye } from "./api";
-import { Dye, DEFAULT_DYE_ID } from "./types";
+import { Dye, StagingDye } from "./types";
 
 type DyeFormProps = {
   existing?: Dye;
 };
-
 export default ({ existing }: DyeFormProps) => {
   const updating = existing !== undefined;
   const dispatch = useDispatch();
 
-  const defaultDye: Dye = existing || {
-    id: DEFAULT_DYE_ID,
+  const defaults: StagingDye = {
     name: "",
     url: "",
     notes: "",
     photo_link: ""
   };
 
-  const [name, setName] = useState(defaultDye.name);
-  const [url, setUrl] = useState(defaultDye.url);
-  const [notes, setNotes] = useState(defaultDye.notes);
-  const [photoLink, setPhotoLink] = useState(defaultDye.photo_link);
+  if (existing !== undefined) {
+    defaults.name = existing.name;
+    defaults.url = existing.url;
+    defaults.notes = existing.notes;
+    defaults.photo_link = existing.photo_link;
+  }
 
-  const stateToDye = (): Dye => {
+  const [name, setName] = useState(defaults.name);
+  const [url, setUrl] = useState(defaults.url);
+  const [notes, setNotes] = useState(defaults.notes);
+  const [photoLink, setPhotoLink] = useState(defaults.photo_link);
+
+  const stateToDye = (): StagingDye => {
     return {
-      id: DEFAULT_DYE_ID,
       name,
       url,
       notes,

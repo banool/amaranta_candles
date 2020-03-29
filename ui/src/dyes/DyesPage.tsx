@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 
 import { fetchDyes } from "./api";
 import { dyesSelector } from "./slice";
+import { Dye } from "./types";
 
 import DyeForm from "./DyeForm";
 
 import { DyeRoute, pathFor } from "../common/routes";
 
-const DyeRow = ({ dye }) => {
+type DyeRowProps = { dye: Dye };
+const DyeRow = ({ dye }: DyeRowProps) => {
   return (
     <tr>
       <td>
@@ -23,7 +25,8 @@ const DyeRow = ({ dye }) => {
   );
 };
 
-const DyesTable = ({ dyes }) => {
+type DyesTableProps = { dyes: Dye[] };
+const DyesTable = ({ dyes }: DyesTableProps) => {
   const styles = {
     dyesTable: {
       border: "2px solid #333",
@@ -53,7 +56,8 @@ const DyesTable = ({ dyes }) => {
   );
 };
 
-export default () => {
+type DyesPageProps = {};
+const DyesPage = ({}: DyesPageProps) => {
   const dispatch = useDispatch();
   const dyes = useSelector(dyesSelector);
 
@@ -78,3 +82,5 @@ export default () => {
     </div>
   );
 };
+
+export default DyesPage;

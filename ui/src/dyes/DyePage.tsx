@@ -7,7 +7,8 @@ import { Dye } from "./types";
 import { fetchDye } from "./api";
 import { dyeSelector } from "./slice";
 
-export default () => {
+type DyePageProps = {};
+const DyePage = ({}: DyePageProps) => {
   const { id } = useParams();
   // TODO: Something if we fail this.
   const numberId: number = Number(id);
@@ -22,15 +23,15 @@ export default () => {
     if (dye === undefined) {
       return "loading...";
     }
-    return <>
-      <h2>{dye.name}</h2>
-      <p>{dye.notes}</p>
-    </>
-  }
+    return (
+      <>
+        <h2>{dye.name}</h2>
+        <p>{dye.notes}</p>
+      </>
+    );
+  };
 
-  return (
-    <div>
-      {renderDye()}
-    </div>
-  );
+  return <div>{renderDye()}</div>;
 };
+
+export default DyePage;

@@ -1,12 +1,15 @@
 import { getDyesSuccess, getDyeSuccess } from "./slice";
-import { Dye } from "./types";
+import { Dye, StagingDye } from "./types";
 
 export function fetchDyes() {
   return async dispatch => {
     try {
       const response = await fetch("/api/dye");
       const data = await response.json();
-      dispatch(getDyesSuccess({ dyes: data }));
+
+      const dyes: Dye[] = data;
+
+      dispatch(getDyesSuccess({ dyes }));
     } catch (error) {
       // TODO: dispatch failure.
       console.error("failed the thing", error);
@@ -19,7 +22,10 @@ export function fetchDye(id: number) {
     try {
       const response = await fetch(`/api/dye/${id}`);
       const data = await response.json();
-      dispatch(getDyeSuccess({ dye: data }));
+
+      const dye: Dye = data;
+
+      dispatch(getDyeSuccess({ dye }));
     } catch (error) {
       // TODO: dispatch failure.
       console.error("failed the thing", error);
@@ -27,7 +33,7 @@ export function fetchDye(id: number) {
   };
 }
 
-export function createDye(dye: Dye) {
+export function createDye(dye: StagingDye) {
   return async dispatch => {
     try {
       const response = await fetch("/api/dye", {
