@@ -50,7 +50,8 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: docker.pkg.github.com
         dockerfile: Dockerfile_server
-        # buildoptions: "--no-cache --force-rm"
+        # build_args: "--no-cache --force-rm"
+        # always_pull true
     needs:
       [remove_old_artifacts, delete_old_versions]
     
@@ -66,6 +67,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: docker.pkg.github.com
         dockerfile: Dockerfile_ui
-        # buildoptions: "--no-cache --force-rm"
+        # build_args: "--no-cache --force-rm"
+        # always_pull: true
     needs:
       [remove_old_artifacts, delete_old_versions]
