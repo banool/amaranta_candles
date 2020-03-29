@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { createScentCombo } from "./api";
-import { ScentCombo, StagingScentCombo, DEFAULT_SCENT_COMBO_ID } from "./types";
+import { ScentCombo, StagingScentCombo } from "./types";
 
 import { fetchScents } from "../scents/api";
 import { scentsSelector } from "../scents/slice";
@@ -15,22 +15,21 @@ export default ({ existing }: ScentComboFormProps) => {
   const updating = existing !== undefined;
   const dispatch = useDispatch();
 
-  const defaultStagingScentCombo: StagingScentCombo = {
-    id: DEFAULT_SCENT_COMBO_ID,
+  const defaults: StagingScentCombo = {
     name: "",
     notes: "",
     scents: []
   };
 
   if (existing !== undefined) {
-    defaultStagingScentCombo.name = existing.name;
-    defaultStagingScentCombo.notes = existing.notes;
-    defaultStagingScentCombo.scents = existing.scents.map(scent => scent.id);
+    defaults.name = existing.name;
+    defaults.notes = existing.notes;
+    defaults.scents = existing.scents.map(scent => scent.id);
   }
 
-  const [name, setName] = useState(defaultStagingScentCombo.name);
-  const [notes, setNotes] = useState(defaultStagingScentCombo.notes);
-  const [scentIds, setScentIds] = useState(defaultStagingScentCombo.scents);
+  const [name, setName] = useState(defaults.name);
+  const [notes, setNotes] = useState(defaults.notes);
+  const [scentIds, setScentIds] = useState(defaults.scents);
 
   const scents = useSelector(scentsSelector);
 
@@ -40,7 +39,6 @@ export default ({ existing }: ScentComboFormProps) => {
 
   const stateToStagingScentCombo = (): StagingScentCombo => {
     return {
-      id: DEFAULT_SCENT_COMBO_ID,
       name,
       notes,
       scents: scentIds

@@ -7,7 +7,8 @@ import { Scent } from "./types";
 import { fetchScent } from "./api";
 import { scentSelector } from "./slice";
 
-export default () => {
+type ScentPageProps = {};
+const ScentPage = ({}: ScentPageProps) => {
   const { id } = useParams();
   // TODO: Something if we fail this.
   const numberId: number = Number(id);
@@ -22,15 +23,15 @@ export default () => {
     if (scent === undefined) {
       return "loading...";
     }
-    return <>
-      <h2>{scent.name}</h2>
-      <p>{scent.notes}</p>
-    </>
-  }
+    return (
+      <>
+        <h2>{scent.name}</h2>
+        <p>{scent.notes}</p>
+      </>
+    );
+  };
 
-  return (
-    <div>
-      {renderScent()}
-    </div>
-  );
+  return <div>{renderScent()}</div>;
 };
+
+export default ScentPage;

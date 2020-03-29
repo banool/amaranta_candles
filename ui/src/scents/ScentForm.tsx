@@ -2,32 +2,36 @@ import React, { useState } from "react";
 
 import { useDispatch } from "react-redux";
 import { createScent } from "./api";
-import { Scent, DEFAULT_SCENT_ID } from "./types";
+import { Scent, StagingScent } from "./types";
 
 type ScentFormProps = {
   existing?: Scent;
 };
-
-export default ({ existing }: ScentFormProps) => {
+const ScentForm = ({ existing }: ScentFormProps) => {
   const updating = existing !== undefined;
   const dispatch = useDispatch();
 
-  const defaultScent: Scent = existing || {
-    id: DEFAULT_SCENT_ID,
+  const defaults: StagingScent = {
     name: "",
     url: "",
     notes: "",
     photo_link: ""
   };
 
-  const [name, setName] = useState(defaultScent.name);
-  const [url, setUrl] = useState(defaultScent.url);
-  const [notes, setNotes] = useState(defaultScent.notes);
-  const [photoLink, setPhotoLink] = useState(defaultScent.photo_link);
+  if (existing !== undefined) {
+    defaults.name = existing.name;
+    defaults.url = existing.url;
+    defaults.notes = existing.notes;
+    defaults.photo_link = existing.photo_link;
+  }
 
-  const stateToScent = (): Scent => {
+  const [name, setName] = useState(defaults.name);
+  const [url, setUrl] = useState(defaults.url);
+  const [notes, setNotes] = useState(defaults.notes);
+  const [photoLink, setPhotoLink] = useState(defaults.photo_link);
+
+  const stateToScent = (): StagingScent => {
     return {
-      id: DEFAULT_SCENT_ID,
       name,
       url,
       notes,
@@ -84,3 +88,5 @@ export default ({ existing }: ScentFormProps) => {
     </div>
   );
 };
+
+export default ScentForm;

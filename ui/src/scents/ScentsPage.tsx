@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 
 import { fetchScents } from "./api";
 import { scentsSelector } from "./slice";
+import { Scent } from "./types";
 
 import ScentForm from "./ScentForm";
 
 import { ScentRoute, pathFor } from "../common/routes";
 
-const ScentRow = ({ scent }) => {
+type ScentRowProps = { scent: Scent };
+const ScentRow = ({ scent }: ScentRowProps) => {
   return (
     <tr>
       <td>
@@ -23,7 +25,8 @@ const ScentRow = ({ scent }) => {
   );
 };
 
-const ScentsTable = ({ scents }) => {
+type ScentsTableProps = { scents: Scent[] };
+const ScentsTable = ({ scents }: ScentsTableProps) => {
   const styles = {
     scentsTable: {
       border: "2px solid #333",
@@ -53,7 +56,8 @@ const ScentsTable = ({ scents }) => {
   );
 };
 
-export default () => {
+type ScentsPageProps = {};
+const ScentsPage = ({}: ScentsPageProps) => {
   const dispatch = useDispatch();
   const scents = useSelector(scentsSelector);
 
@@ -78,3 +82,5 @@ export default () => {
     </div>
   );
 };
+
+export default ScentsPage;
