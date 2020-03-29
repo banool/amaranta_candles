@@ -1,5 +1,5 @@
 import { getScentCombosSuccess, getScentComboSuccess } from "./slice";
-import { ScentCombo } from "./types";
+import { ScentCombo, StagingScentCombo } from "./types";
 
 import { fetchScent } from "../scents/api";
 
@@ -11,15 +11,6 @@ export function fetchScentCombos() {
 
       const scentCombos: ScentCombo[] = data;
 
-      const allRequiredScentIds = new Set<number>();
-      scentCombos.forEach(scentCombo => {
-        scentCombo.scent_ids.forEach(scentId => {
-          allRequiredScentIds.add(scentId);
-        });
-      });
-      allRequiredScentIds.forEach(scentId => {
-        dispatch(fetchScent(scentId));
-      });
       dispatch(getScentCombosSuccess({ scentCombos }));
     } catch (error) {
       // TODO: dispatch failure.
@@ -35,9 +26,7 @@ export function fetchScentCombo(id: number) {
       const data = await response.json();
 
       const scentCombo: ScentCombo = data;
-      scentCombo.scent_ids.forEach(scentId => {
-        dispatch(fetchScent(scentId));
-      });
+
       dispatch(getScentComboSuccess({ scentCombo }));
     } catch (error) {
       // TODO: dispatch failure.
@@ -46,7 +35,7 @@ export function fetchScentCombo(id: number) {
   };
 }
 
-export function createScentCombo(scentCombo: ScentCombo) {
+export function createScentCombo(scentCombo: StagingScentCombo) {
   return async dispatch => {
     try {
       const response = await fetch("/api/scent_combo", {

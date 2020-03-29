@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import { ScentCombo } from "./types";
 
 import { fetchScentCombo } from "./api";
 import { scentComboSelector } from "./slice";
 
-import ScentLink from "../scents/ScentLink";
+import { ScentRoute, pathFor } from "../common/routes";
 
-export default () => {
+type ScentComboPageProps = {};
+const ScentComboPage = ({}: ScentComboPageProps) => {
   const { id } = useParams();
   // TODO: Something if we fail this.
   const numberId: number = Number(id);
@@ -31,8 +32,8 @@ export default () => {
         <h2>{scentCombo.name}</h2>
         <p>{scentCombo.notes}</p>
         <h3>Scents</h3>
-        {scentCombo.scent_ids.map(scentId => (
-          <ScentLink key={scentId} scentId={scentId} />
+        {scentCombo.scents.map(scent => (
+          <Link to={pathFor(ScentRoute, { id: scent.id })}>{scent.name}</Link>
         ))}
       </>
     );
@@ -40,3 +41,5 @@ export default () => {
 
   return <div>{renderScentCombo()}</div>;
 };
+
+export default ScentComboPage;

@@ -5,22 +5,28 @@ import { Link } from "react-router-dom";
 import { fetchScentCombos } from "./api";
 import { scentCombosSelector } from "./slice";
 
+import { ScentCombo } from "./types";
 import ScentComboForm from "./ScentComboForm";
 
-import { ScentComboRoute, pathFor } from "../common/routes";
+import { ScentRoute, ScentComboRoute, pathFor } from "../common/routes";
 
-import ScentLink from "../scents/ScentLink";
-
-const ScentComboRow = ({ scentCombo }) => {
+type ScentComboRowProps = {
+  scentCombo: ScentCombo;
+};
+const ScentComboRow = ({ scentCombo }: ScentComboRowProps) => {
   return (
     <tr>
       <td>
-        <Link to={pathFor(ScentComboRoute, { id: scentCombo.id })}>{scentCombo.id}</Link>
+        <Link to={pathFor(ScentComboRoute, { id: scentCombo.id })}>
+          {scentCombo.id}
+        </Link>
       </td>
       <td>{scentCombo.name}</td>
       <td>
-        {scentCombo.scent_ids.map(scentId => (
-          <ScentLink key={scentId} scentId={scentId} />
+        {scentCombo.scents.map(scent => (
+          <div key={scent.id}>
+            <Link to={pathFor(ScentRoute, { id: scent.id })}>{scent.name}</Link>
+          </div>
         ))}
       </td>
       <td>{scentCombo.notes}</td>
@@ -28,7 +34,10 @@ const ScentComboRow = ({ scentCombo }) => {
   );
 };
 
-const ScentCombosTable = ({ scentCombos }) => {
+type ScentCombosTableProps = {
+  scentCombos: ScentCombo[];
+};
+const ScentCombosTable = ({ scentCombos }: ScentCombosTableProps) => {
   const styles = {
     scentCombosTable: {
       border: "2px solid #333",
@@ -57,7 +66,8 @@ const ScentCombosTable = ({ scentCombos }) => {
   );
 };
 
-export default () => {
+type ScentCombosPageProps = {};
+const ScentCombosPage = ({}: ScentCombosPageProps) => {
   const dispatch = useDispatch();
   const scentCombos = useSelector(scentCombosSelector);
 
@@ -82,3 +92,5 @@ export default () => {
     </div>
   );
 };
+
+export default ScentCombosPage;

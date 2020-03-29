@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { createScentCombo } from "./api";
-import { ScentCombo, DEFAULT_SCENT_COMBO_ID } from "./types";
+import { ScentCombo, StagingScentCombo, DEFAULT_SCENT_COMBO_ID } from "./types";
 
 import { fetchScents } from "../scents/api";
 import { scentsSelector } from "../scents/slice";
@@ -15,16 +15,22 @@ export default ({ existing }: ScentComboFormProps) => {
   const updating = existing !== undefined;
   const dispatch = useDispatch();
 
-  const defaultScentCombo: ScentCombo = existing || {
+  const defaultStagingScentCombo: StagingScentCombo = {
     id: DEFAULT_SCENT_COMBO_ID,
     name: "",
     notes: "",
-    scent_ids: []
+    scents: []
   };
 
-  const [name, setName] = useState(defaultScentCombo.name);
-  const [notes, setNotes] = useState(defaultScentCombo.notes);
-  const [scentIds, setScentIds] = useState(defaultScentCombo.scent_ids);
+  if (existing !== undefined) {
+    defaultStagingScentCombo.name = existing.name;
+    defaultStagingScentCombo.notes = existing.notes;
+    defaultStagingScentCombo.scents = existing.scents.map(scent => scent.id);
+  }
+
+  const [name, setName] = useState(defaultStagingScentCombo.name);
+  const [notes, setNotes] = useState(defaultStagingScentCombo.notes);
+  const [scentIds, setScentIds] = useState(defaultStagingScentCombo.scents);
 
   const scents = useSelector(scentsSelector);
 
@@ -32,12 +38,12 @@ export default ({ existing }: ScentComboFormProps) => {
     dispatch(fetchScents());
   }, [dispatch]);
 
-  const stateToScentCombo = (): ScentCombo => {
+  const stateToStagingScentCombo = (): StagingScentCombo => {
     return {
       id: DEFAULT_SCENT_COMBO_ID,
       name,
       notes,
-      scent_ids: scentIds
+      scents: scentIds
     };
   };
 
@@ -46,7 +52,8 @@ export default ({ existing }: ScentComboFormProps) => {
       // TODO: Implement.
       console.error("Not implemented yet :]");
     } else {
-      dispatch(createScentCombo(stateToScentCombo()));
+      console.log(stateToStagingScentCombo());
+      dispatch(createScentCombo(stateToStagingScentCombo()));
     }
   };
 
@@ -69,23 +76,23 @@ export default ({ existing }: ScentComboFormProps) => {
         <br />
         <label>
           scents:
-        <select
-          multiple
-          value={scentIds.map(String)}
-          onChange={e => {
-            setScentIds(
-              Array.from(e.target.selectedOptions, item => Number(item.value))
-            );
-          }}
-        >
-          {scents === null
-            ? null
-            : scents.map(scent => (
-                <option key={scent.id} value={scent.id}>
-                  {scent.name}
-                </option>
-              ))}
-        </select>
+          <select
+            multiple
+            value={scentIds.map(String)}
+            onChange={e => {
+              setScentIds(
+                Array.from(e.target.selectedOptions, item => Number(item.value))
+              );
+            }}
+          >
+            {scents === null
+              ? null
+              : scents.map(scent => (
+                  <option key={scent.id} value={scent.id}>
+                    {scent.name}
+                  </option>
+                ))}
+          </select>
         </label>
         <br />
         <input type="button" value="Submit" onClick={onSubmit} />
