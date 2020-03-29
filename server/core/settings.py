@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "amaranta_candles",
+    "graphene_django",
     "rest_framework",
 ]
 
@@ -164,3 +165,7 @@ STATIC_URL = "/static/"
 STATIC_ROOT = "static"
 
 APPEND_SLASH = False
+
+GRAPHENE = {
+    'SCHEMA': 'core.schema.schema' # Where your Graphene schema lives
+}

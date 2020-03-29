@@ -12,6 +12,7 @@ djangorestframework = ">=3.8.2"
 gunicorn = ">=19.9.0"
 mysqlclient = ">=1.4.6"
 django-filter = "*"
+graphene-django = "*"
 
 [requires]
 python_version = "3.8"

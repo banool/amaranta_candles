@@ -78,6 +78,8 @@ class CandleSerializerRecursive(ModelSerializer):
     scents_with_amounts = ScentWithAmountSerializerRecursive(many=True, read_only=True)
     waxes_with_amounts = WaxWithAmountSerializerRecursive(many=True, read_only=True)
     intended_scent_combo = ScentComboSerializerRecursive(read_only=True)
+    batch = BatchSerializer(read_only=True)
+    vessel = VesselSerializer(read_only=True)
 
     class Meta:
         model = Candle
