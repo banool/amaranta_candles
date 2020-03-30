@@ -1,6 +1,6 @@
 import graphene
 
-from amaranta_candles.schema import Query
+from amaranta_candles.schema import Mutation, Query
 
 
 class Query(Query, graphene.ObjectType):
@@ -9,4 +9,4 @@ class Query(Query, graphene.ObjectType):
     pass
 
 
-schema = graphene.Schema(query=Query)
+schema = graphene.Schema(query=Query, mutation=Mutation)

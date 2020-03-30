@@ -1,0 +1,181 @@
+
+n CreateScentCombo($name: String!, $scents: [ID]!) {
+  scentCombo(name: $name, scents: $scents) {
+    scentCombo {
+      name
+      scents {
+        id
+      }
+    }
+  }
+}
+
+query getscentcombos {
+  scentCombos {
+    id
+    name
+    scents {
+      id
+      name
+    }
+  }
+}
+
+mutation CreateWaxWithAmount($wax:ID!, $amount:Float!) {
+  waxWithAmount(wax:$wax, amount:$amount) {
+    waxWithAmount {
+      wax {
+        id
+      } 
+      amount
+    }
+  }
+}
+
+mutation CreateCandle(
+  $name:String!,
+  $notes:String!,
+  $batch:ID!,
+  $dyesWithAmounts:[ID]!,
+  $intendedScentCombo:ID!,
+  $scentsWithAmounts:[ID]!,
+  $vessel:ID!,
+  $waxesWithAmounts:[ID]!,
+) {
+  candle(
+    name:$name,
+    notes:$notes,
+    batch:$batch,
+    dyesWithAmounts:$dyesWithAmounts,
+    intendedScentCombo:$intendedScentCombo,
+    scentsWithAmounts:$scentsWithAmounts,
+    vessel:$vessel,
+    waxesWithAmounts:$waxesWithAmounts,
+  ) {
+    candle {
+      name,
+      notes,
+      batch {
+        id
+      },
+      dyesWithAmounts {
+        id
+      },
+      intendedScentCombo {
+        id
+      },
+      scentsWithAmounts {
+        id
+      },
+      vessel {
+        id
+      },
+      waxesWithAmounts {
+        id
+      }
+    }
+  }
+}
+
+
+query introspect {
+  __type(name: "BatchMutationInput") {
+    name
+    fields {
+      name
+      type {
+        name
+        kind
+      }
+    }
+  }
+}
+
+
+query allintrospect {
+  __schema {
+    types {
+      name
+    }
+  }
+}
+
+query getbatches {
+  batches {
+    name
+  }
+}
+
+query getbatch {
+  batch(id: 1) {
+    name
+  }
+}
+
+query getcandles {
+  candles {
+    id
+    name
+    scentsWithAmounts {
+      id
+      scent {
+        id
+        name
+      }
+      amount
+    }
+    dyesWithAmounts {
+      id
+      dye {
+        id
+        name
+      }
+      amount
+    }
+    waxesWithAmounts {
+      id
+      wax {
+        id
+        name
+      }
+      amount
+    }
+    intendedScentCombo {
+      id
+      scents {
+        id
+        name
+      }
+    }
+    batch {
+      id
+      name
+      madeAt
+    }
+    vessel {
+      id
+      name
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+# vars for making a candle
+
+{
+  "name": "graphql candle!!!",
+  "notes": "made in graphql",
+  "batch": 1,
+  "dyesWithAmounts": 1,
+  "intendedScentCombo": 7,
+  "scentsWithAmounts": 1,
+  "vessel": 5,
+  "waxesWithAmounts": 1
+}

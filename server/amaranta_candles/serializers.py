@@ -10,10 +10,12 @@ LOG = logging.getLogger(__name__)
 def get_serializer(klass):
     class S(ModelSerializer):
         recursive_serializer_class = None
+        name = f"{klass.__name__}Serializer"
 
         class Meta:
             model = klass
             fields = "__all__"
+            name = f"{klass.__name__}Serializer"
 
     return S
 
@@ -84,7 +86,7 @@ class CandleSerializerRecursive(ModelSerializer):
     class Meta:
         model = Candle
         fields = "__all__"
-    
+
 
 ScentComboSerializer.recursive_serializer_class = ScentComboSerializerRecursive
 DyeWithAmountSerializer.recursive_serializer_class = DyeWithAmountSerializerRecursive

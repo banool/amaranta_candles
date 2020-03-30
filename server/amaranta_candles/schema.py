@@ -1,7 +1,20 @@
 import graphene
 
 from graphene_django.types import DjangoObjectType
+from graphene_django.rest_framework.mutation import SerializerMutation
 
+from amaranta_candles.serializers import (
+    BatchSerializer,
+    CandleSerializer,
+    DyeSerializer,
+    DyeWithAmountSerializer,
+    ScentSerializer,
+    ScentComboSerializer,
+    ScentWithAmountSerializer,
+    VesselSerializer,
+    WaxSerializer,
+    WaxWithAmountSerializer,
+)
 from amaranta_candles.models import Batch, Candle, Dye, DyeWithAmount, Scent, ScentCombo, ScentWithAmount, Vessel, Wax, WaxWithAmount
 
 
@@ -13,6 +26,8 @@ def get_type_class(klass):
             name = f"{klass.__name__}Type"
     return T
 
+
+# Get types
 
 BatchType = get_type_class(Batch)
 CandleType = get_type_class(Candle)
@@ -62,7 +77,7 @@ class Query:
 
     def resolve_batch(self, info, id=None):
         if id is None:
-            return None
+            raise RuntimeError("Must give ID")
         return Batch.objects.get(pk=id)
 
     def resolve_candles(self, info, **kwargs):
@@ -70,7 +85,7 @@ class Query:
 
     def resolve_candle(self, info, id=None):
         if id is None:
-            return None
+            raise RuntimeError("Must give ID")
         return Candle.objects.get(pk=id)
 
     def resolve_dyes(self, info, **kwargs):
@@ -78,7 +93,7 @@ class Query:
 
     def resolve_dye(self, info, id=None):
         if id is None:
-            return None
+            raise RuntimeError("Must give ID")
         return Dye.objects.get(pk=id)
 
     def resolve_dyes_with_amounts(self, info, **kwargs):
@@ -86,7 +101,7 @@ class Query:
 
     def resolve_dye_with_amount(self, info, id=None):
         if id is None:
-            return None
+            raise RuntimeError("Must give ID")
         return DyeWithAmount.objects.get(pk=id)
 
     def resolve_scents(self, info, **kwargs):
@@ -94,7 +109,7 @@ class Query:
 
     def resolve_scent(self, info, id=None):
         if id is None:
-            return None
+            raise RuntimeError("Must give ID")
         return Scent.objects.get(pk=id)
 
     def resolve_scent_combos(self, info, **kwargs):
@@ -102,7 +117,7 @@ class Query:
 
     def resolve_scent_combo(self, info, id=None):
         if id is None:
-            return None
+            raise RuntimeError("Must give ID")
         return ScentCombo.objects.get(pk=id)
 
     def resolve_scents_with_amounts(self, info, **kwargs):
@@ -110,7 +125,7 @@ class Query:
 
     def resolve_scent_with_amount(self, info, id=None):
         if id is None:
-            return None
+            raise RuntimeError("Must give ID")
         return ScentWithAmount.objects.get(pk=id)
 
     def resolve_vessels(self, info, **kwargs):
@@ -118,7 +133,7 @@ class Query:
 
     def resolve_vessel(self, info, id=None):
         if id is None:
-            return None
+            raise RuntimeError("Must give ID")
         return Vessel.objects.get(pk=id)
 
     def resolve_waxes(self, info, **kwargs):
@@ -126,7 +141,7 @@ class Query:
 
     def resolve_wax(self, info, id=None):
         if id is None:
-            return None
+            raise RuntimeError("Must give ID")
         return Wax.objects.get(pk=id)
 
     def resolve_waxes_with_amounts(self, info, **kwargs):
@@ -134,5 +149,157 @@ class Query:
 
     def resolve_wax_with_amount(self, info, id=None):
         if id is None:
-            return None
+            raise RuntimeError("Must give ID")
         return WaxWithAmount.objects.get(pk=id)
+
+
+def set_type_class(serializer_klass, n):
+    class T(SerializerMutation):
+        class Meta:
+            serializer_class = serializer_klass
+            name = f"{n}Mutation"
+    return T
+
+# Set types. We need custom classes for non-leaf models.
+
+BatchMutation = set_type_class(BatchSerializer, "Batch")
+DyeMutation = set_type_class(DyeSerializer, "Dye")
+ScentMutation = set_type_class(ScentSerializer, "Scent")
+VesselMutation = set_type_class(VesselSerializer, "Vessel")
+WaxMutation = set_type_class(WaxSerializer, "Wax")
+
+
+class CandleMutation(graphene.Mutation):
+    # The input arguments for this mutation
+    class Arguments:
+        name = graphene.String()
+
+        notes = graphene.String()
+
+        batch = graphene.ID()
+        dyes_with_amounts = graphene.List(graphene.ID)
+        intended_scent_combo = graphene.ID(required=True)
+        scents_with_amounts = graphene.List(graphene.ID)
+        vessel = graphene.ID(required=True)
+        waxes_with_amounts = graphene.List(graphene.ID)
+
+        id = graphene.ID()
+
+    # The class attributes define the response of the mutation
+    candle = graphene.Field(CandleType)
+
+    def mutate(
+        self,
+        info,
+        name,
+        notes,
+        batch,
+        dyes_with_amounts,
+        intended_scent_combo,
+        scents_with_amounts,
+        vessel,
+        waxes_with_amounts,
+    ):
+        batch = Batch.objects.get(pk=batch)
+        intended_scent_combo = ScentCombo.objects.get(pk=intended_scent_combo)
+        vessel = Vessel.objects.get(pk=vessel)
+        candle = Candle.objects.create(
+            name=name,
+            notes=notes,
+            batch=batch,
+            intended_scent_combo=intended_scent_combo,
+            vessel=vessel,
+        )
+        candle.save()
+        for dwa in dyes_with_amounts:
+            candle.dyes_with_amounts.add(dwa)
+        for swa in scents_with_amounts:
+            candle.scents_with_amounts.add(swa)
+        for wwa in waxes_with_amounts:
+            candle.waxes_with_amounts.add(wwa)
+        candle.save()
+        return CandleMutation(candle=candle)
+
+
+
+class ScentComboMutation(graphene.Mutation):
+    # The input arguments for this mutation
+    class Arguments:
+        name = graphene.String(required=True)
+        scents = graphene.List(graphene.ID, required=True)
+
+        id = graphene.ID()
+
+    # The class attributes define the response of the mutation
+    scent_combo = graphene.Field(ScentComboType)
+
+    def mutate(self, info, name, scents):
+        scent_combo = ScentCombo.objects.create(name=name)
+        scent_combo.save()
+        for s in scents:
+            scent_combo.scents.add(s)
+        scent_combo.save()
+        # Notice we return an instance of this mutation
+        return ScentComboMutation(scent_combo=scent_combo)
+
+
+class DyeWithAmountMutation(graphene.Mutation):
+    class Arguments:
+        dye = graphene.ID()
+        amount = graphene.Float()
+
+        id = graphene.ID()
+
+    # The class attributes define the response of the mutation
+    dye_with_amount = graphene.Field(DyeWithAmountType)
+
+    def mutate(self, info, dye, amount):
+        dwa = DyeWithAmount.objects.create(dye=dye, amount=amount)
+        dwa.save()
+        return DyeWithAmountMutation(dye_with_amount=dwa)
+
+
+class ScentWithAmountMutation(graphene.Mutation):
+    class Arguments:
+        dye = graphene.ID()
+        amount = graphene.Float()
+
+        id = graphene.ID()
+
+    # The class attributes define the response of the mutation
+    scent_with_amount = graphene.Field(ScentWithAmountType)
+
+    def mutate(self, info, scent, amount):
+        swa = ScentWithAmount.objects.create(scent=scent, amount=amount)
+        swa.save()
+        return ScentWithAmountMutation(scent_with_amount=swa)
+
+
+class WaxWithAmountMutation(graphene.Mutation):
+    class Arguments:
+        wax = graphene.ID()
+        amount = graphene.Float()
+
+        id = graphene.ID()
+
+    # The class attributes define the response of the mutation
+    wax_with_amount = graphene.Field(WaxWithAmountType)
+
+    def mutate(self, info, wax, amount):
+        wax = Wax.objects.get(pk=wax)
+        wwa = WaxWithAmount.objects.create(wax=wax, amount=amount)
+        wwa.save()
+        return WaxWithAmountMutation(wax_with_amount=wwa)
+
+
+class Mutation(graphene.ObjectType):
+    batch = BatchMutation.Field()
+    candle = CandleMutation.Field()
+    dye = DyeMutation.Field()
+    dye_with_amount = DyeWithAmountMutation.Field()
+    scent = ScentMutation.Field()
+    scent_combo = ScentComboMutation.Field()
+    scent_with_amount = ScentWithAmountMutation.Field()
+    vessel = VesselMutation.Field()
+    wax = WaxMutation.Field()
+    wax_with_amount = WaxWithAmountMutation.Field()
