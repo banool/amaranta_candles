@@ -160,6 +160,18 @@ query getcandles {
 }
 
 
+# This query changes an existing item
+mutation CreateWax($name: String!, $notes:String!) {
+  wax(name: $name, notes:$notes, id:6) {
+    wax {
+      id
+      name
+      notes
+    }
+  }
+}
+
+
 
 
 

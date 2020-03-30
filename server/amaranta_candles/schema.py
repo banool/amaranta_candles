@@ -152,21 +152,106 @@ class Query:
             raise RuntimeError("Must give ID")
         return WaxWithAmount.objects.get(pk=id)
 
+# Set types.
 
-def set_type_class(serializer_klass, n):
-    class T(SerializerMutation):
-        class Meta:
-            serializer_class = serializer_klass
-            name = f"{n}Mutation"
-    return T
+class BatchMutation(graphene.Mutation):
+    class Arguments:
+        name = graphene.String(required=True)
+        made_at = graphene.DateTime(required=True)
 
-# Set types. We need custom classes for non-leaf models.
+        id = graphene.ID()
 
-BatchMutation = set_type_class(BatchSerializer, "Batch")
-DyeMutation = set_type_class(DyeSerializer, "Dye")
-ScentMutation = set_type_class(ScentSerializer, "Scent")
-VesselMutation = set_type_class(VesselSerializer, "Vessel")
-WaxMutation = set_type_class(WaxSerializer, "Wax")
+    batch = graphene.Field(BatchType)
+
+    def mutate(self, info, name, made_at, id=None):
+        if id is not None:
+            b = Batch.objects.get(pk=id)
+            b.name = name
+            b.made_at = made_at
+        else:
+            b = Batch.objects.create(name=name, made_at=made_at)
+        b.save()
+        return BatchMutation(batch=b)
+
+
+class DyeMutation(graphene.Mutation):
+    class Arguments:
+        name = graphene.String(required=True)
+        notes = graphene.String()
+
+        id = graphene.ID()
+
+    dye = graphene.Field(DyeType)
+
+    def mutate(self, info, name, notes, id=None):
+        if id is not None:
+            d = Dye.objects.get(pk=id)
+            d.name = name
+            d.notes = notes
+        else:
+            d = Dye.objects.create(name=name, notes=notes)
+        d.save()
+        return DyeMutation(dye=d)
+
+
+class ScentMutation(graphene.Mutation):
+    class Arguments:
+        name = graphene.String(required=True)
+        notes = graphene.String()
+
+        id = graphene.ID()
+
+    scent = graphene.Field(ScentType)
+
+    def mutate(self, info, name, notes, id=None):
+        if id is not None:
+            s = Scent.objects.get(pk=id)
+            s.name = name
+            s.notes = notes
+        else:
+            s = Scent.objects.create(name=name, notes=notes)
+        s.save()
+        return ScentMutation(scent=s)
+
+
+class VesselMutation(graphene.Mutation):
+    class Arguments:
+        name = graphene.String(required=True)
+        notes = graphene.String()
+
+        id = graphene.ID()
+
+    vessel = graphene.Field(VesselType)
+
+    def mutate(self, info, name, notes, id=None):
+        if id is not None:
+            v = Vessel.objects.get(pk=id)
+            v.name = name
+            v.notes = notes
+        else:
+            v = Vessel.objects.create(name=name, notes=notes)
+        v.save()
+        return VesselMutation(vessel=v)
+
+
+class WaxMutation(graphene.Mutation):
+    class Arguments:
+        name = graphene.String(required=True)
+        notes = graphene.String()
+
+        id = graphene.ID()
+
+    wax = graphene.Field(WaxType)
+
+    def mutate(self, info, name, notes, id=None):
+        if id is not None:
+            w = Wax.objects.get(pk=id)
+            w.name = name
+            w.notes = notes
+        else:
+            w = Wax.objects.create(name=name, notes=notes)
+        w.save()
+        return WaxMutation(wax=w)
 
 
 class CandleMutation(graphene.Mutation):
@@ -176,12 +261,12 @@ class CandleMutation(graphene.Mutation):
 
         notes = graphene.String()
 
-        batch = graphene.ID()
+        batch = graphene.ID(required=True)
         dyes_with_amounts = graphene.List(graphene.ID)
         intended_scent_combo = graphene.ID(required=True)
-        scents_with_amounts = graphene.List(graphene.ID)
+        scents_with_amounts = graphene.List(graphene.ID, required=True)
         vessel = graphene.ID(required=True)
-        waxes_with_amounts = graphene.List(graphene.ID)
+        waxes_with_amounts = graphene.List(graphene.ID, required=True)
 
         id = graphene.ID()
 
@@ -221,7 +306,6 @@ class CandleMutation(graphene.Mutation):
         return CandleMutation(candle=candle)
 
 
-
 class ScentComboMutation(graphene.Mutation):
     # The input arguments for this mutation
     class Arguments:
@@ -245,8 +329,8 @@ class ScentComboMutation(graphene.Mutation):
 
 class DyeWithAmountMutation(graphene.Mutation):
     class Arguments:
-        dye = graphene.ID()
-        amount = graphene.Float()
+        dye = graphene.ID(required=True)
+        amount = graphene.Float(required=True)
 
         id = graphene.ID()
 
@@ -261,8 +345,8 @@ class DyeWithAmountMutation(graphene.Mutation):
 
 class ScentWithAmountMutation(graphene.Mutation):
     class Arguments:
-        dye = graphene.ID()
-        amount = graphene.Float()
+        dye = graphene.ID(required=True)
+        amount = graphene.Float(required=True)
 
         id = graphene.ID()
 
@@ -277,8 +361,8 @@ class ScentWithAmountMutation(graphene.Mutation):
 
 class WaxWithAmountMutation(graphene.Mutation):
     class Arguments:
-        wax = graphene.ID()
-        amount = graphene.Float()
+        wax = graphene.ID(required=True)
+        amount = graphene.Float(required=True)
 
         id = graphene.ID()
 
@@ -290,6 +374,27 @@ class WaxWithAmountMutation(graphene.Mutation):
         wwa = WaxWithAmount.objects.create(wax=wax, amount=amount)
         wwa.save()
         return WaxWithAmountMutation(wax_with_amount=wwa)
+
+
+class WaxMutation(graphene.Mutation):
+    class Arguments:
+        name = graphene.String(required=True)
+        notes = graphene.String()
+
+        id = graphene.ID()
+
+    wax = graphene.Field(WaxType)
+
+    def mutate(self, info, name, notes, id=None):
+        if id is not None:
+            w = Wax.objects.get(pk=id)
+            w.name = name
+            w.notes = notes
+        else:
+            w = Wax.objects.create(name=name, notes=notes)
+        w.save()
+        return WaxMutation(wax=w)
+
 
 
 class Mutation(graphene.ObjectType):
