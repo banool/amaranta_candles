@@ -35,6 +35,7 @@ const AmountTable = ({ data, field, linkRoute }) => {
     },
     amountTableHead: {
       border: "2px solid #333",
+      width: "50%",
     },
   };
   return (
