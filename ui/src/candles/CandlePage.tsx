@@ -58,7 +58,7 @@ const AmountTable = ({ items, field, linkRoute }) => {
       </thead>
       <tbody>
         {items.map((item) => (
-          <AmountTableRow key={item[field].id} data={item} field={field} linkRoute={linkRoute} />
+          <AmountTableRow key={item[field].id} item={item} field={field} linkRoute={linkRoute} />
         ))}
       </tbody>
     </table>
