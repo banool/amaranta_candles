@@ -37,7 +37,7 @@ const AmountTableRow = ({ item, field, linkRoute }) => {
     </tr>
   );
 };
-const AmountTable = ({ items, field, linkRoute }) => {
+const AmountTable = ({ items, field, linkRoute, unit }) => {
   const styles = {
     amountTable: {
       border: "2px solid #333",
@@ -53,7 +53,7 @@ const AmountTable = ({ items, field, linkRoute }) => {
       <thead>
         <tr>
           <th style={styles.amountTableHead}>name</th>
-          <th style={styles.amountTableHead}>amount</th>
+          <th style={styles.amountTableHead}>amount ({unit})</th>
         </tr>
       </thead>
       <tbody>
@@ -78,7 +78,7 @@ const CandlePage = ({ candle }: CandlePageProps) => {
       </p>
       <h3>dyes</h3>
       <p>
-        <AmountTable items={candle.dyes_with_amounts} field={"dye"} linkRoute={DyeRoute} />
+        <AmountTable items={candle.dyes_with_amounts} field={"dye"} linkRoute={DyeRoute} unit={"drops"} />
       </p>
       <h3>scent combo</h3>
       <p>
@@ -88,7 +88,7 @@ const CandlePage = ({ candle }: CandlePageProps) => {
       </p>
       <h3>scents</h3>
       <p>
-        <AmountTable items={candle.scents_with_amounts} field={"scent"} linkRoute={ScentRoute} />
+        <AmountTable items={candle.scents_with_amounts} field={"scent"} linkRoute={ScentRoute} unit={"oz"}/>
       </p>
       <h3>vessel</h3>
       <p>
@@ -96,7 +96,7 @@ const CandlePage = ({ candle }: CandlePageProps) => {
       </p>
       <h3>waxes</h3>
       <p>
-        <AmountTable items={candle.waxes_with_amounts} field={"wax"} linkRoute={WaxRoute} />
+        <AmountTable items={candle.waxes_with_amounts} field={"wax"} linkRoute={WaxRoute} unit={"oz"}/>
       </p>
     </>
   );
