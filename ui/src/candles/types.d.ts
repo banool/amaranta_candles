@@ -6,7 +6,6 @@ import { ScentCombo } from "../scent_combos/types";
 import { Vessel } from "../vessels/types";
 import { Wax } from "../waxes/types";
 
-
 export interface DyeWithAmount {
   dye: Dye;
   amount: number;

@@ -17,17 +17,27 @@ import {
   pathFor,
 } from "../common/routes";
 
-const AmountTableRow = ({ data, field, linkRoute }) => {
+// TODO(koopman): Figure out typescript annotations for amount tables.
+// Currently assumes item of type
+// Item {
+//   [field]: {
+//     id: number,
+//     name: string,
+//   },
+//   amount: number
+// }
+// Where field is the name of the field, eg. wax, scent etc.
+const AmountTableRow = ({ item, field, linkRoute }) => {
   return (
     <tr>
       <td>
-        <Link to={pathFor(linkRoute, { id: data[field].id })}>{data[field].name}</Link>
+        <Link to={pathFor(linkRoute, { id: item[field].id })}>{item[field].name}</Link>
       </td>
-      <td>{data.amount}</td>
+      <td>{item.amount}</td>
     </tr>
   );
 };
-const AmountTable = ({ data, field, linkRoute }) => {
+const AmountTable = ({ items, field, linkRoute }) => {
   const styles = {
     amountTable: {
       border: "2px solid #333",
@@ -47,7 +57,7 @@ const AmountTable = ({ data, field, linkRoute }) => {
         </tr>
       </thead>
       <tbody>
-        {data.map((item) => (
+        {items.map((item) => (
           <AmountTableRow key={item[field].id} data={item} field={field} linkRoute={linkRoute} />
         ))}
       </tbody>
@@ -68,7 +78,7 @@ const CandlePage = ({ candle }: CandlePageProps) => {
       </p>
       <h3>dyes</h3>
       <p>
-        <AmountTable data={candle.dyes_with_amounts} field={"dye"} linkRoute={DyeRoute} />
+        <AmountTable items={candle.dyes_with_amounts} field={"dye"} linkRoute={DyeRoute} />
       </p>
       <h3>scent combo</h3>
       <p>
@@ -78,7 +88,7 @@ const CandlePage = ({ candle }: CandlePageProps) => {
       </p>
       <h3>scents</h3>
       <p>
-        <AmountTable data={candle.scents_with_amounts} field={"scent"} linkRoute={ScentRoute} />
+        <AmountTable items={candle.scents_with_amounts} field={"scent"} linkRoute={ScentRoute} />
       </p>
       <h3>vessel</h3>
       <p>
@@ -86,7 +96,7 @@ const CandlePage = ({ candle }: CandlePageProps) => {
       </p>
       <h3>waxes</h3>
       <p>
-        <AmountTable data={candle.waxes_with_amounts} field={"wax"} linkRoute={WaxRoute} />
+        <AmountTable items={candle.waxes_with_amounts} field={"wax"} linkRoute={WaxRoute} />
       </p>
     </>
   );
