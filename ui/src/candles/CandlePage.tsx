@@ -81,9 +81,9 @@ const CandlePage = ({ candle }: CandlePageProps) => {
         <AmountTable data={candle.scents_with_amounts} field={"scent"} linkRoute={ScentRoute} />
       </p>
       <h3>vessel</h3>
-      <p><Link to={pathFor(VesselRoute, { id: candle.vessel.id })}>
-          {candle.vessel.name}
-        </Link></p>
+      <p>
+        <Link to={pathFor(VesselRoute, { id: candle.vessel.id })}>{candle.vessel.name}</Link>
+      </p>
       <h3>waxes</h3>
       <p>
         <AmountTable data={candle.waxes_with_amounts} field={"wax"} linkRoute={WaxRoute} />
