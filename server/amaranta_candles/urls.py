@@ -12,6 +12,7 @@ router.register(r"scent", views.ScentModelViewSet)
 router.register(r"scent_combo", views.ScentComboModelViewSet)
 router.register(r"vessel", views.VesselModelViewSet)
 router.register(r"wax", views.WaxModelViewSet)
+router.register(r"wick", views.WickModelViewSet)
 urlpatterns = router.urls
 
 urlpatterns += [path('graphql', GraphQLView.as_view(graphiql=True))]

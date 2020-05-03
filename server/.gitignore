@@ -1,6 +1,8 @@
 # My stuff
 .env*
 *.swp
+/myvenv
+fake.sqlite
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

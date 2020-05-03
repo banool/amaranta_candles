@@ -1,6 +1,6 @@
 import logging
 
-from amaranta_candles.models import Batch, Candle, Dye, Scent, ScentCombo, Vessel, Wax, DyeWithAmount, ScentWithAmount, WaxWithAmount
+from amaranta_candles.models import Batch, Candle, Dye, Scent, ScentCombo, Vessel, Wax, DyeWithAmount, ScentWithAmount, WaxWithAmount, Wick
 from rest_framework.serializers import ModelSerializer
 
 
