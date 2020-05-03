@@ -52,15 +52,24 @@ class ScentWithAmount(models.Model):
     scent = models.ForeignKey(Scent, on_delete=models.PROTECT)
     amount = models.FloatField()
 
+    def __str__(self):
+        return f"{self.scent.name} - {self.amount}"
+
 
 class WaxWithAmount(models.Model):
     wax = models.ForeignKey(Wax, on_delete=models.PROTECT)
     amount = models.FloatField()
 
+    def __str__(self):
+        return f"{self.wax.name} - {self.amount}"
+
 
 class DyeWithAmount(models.Model):
     dye = models.ForeignKey(Dye, on_delete=models.PROTECT)
     amount = models.FloatField()
+
+    def __str__(self):
+        return f"{self.dye.name} - {self.amount}"
 
 
 class Candle(models.Model):
@@ -82,6 +91,9 @@ class Candle(models.Model):
             isc = ScentCombo.objects.get(pk=self.intended_scent_combo)
             self.name = isc.name
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name or self.intended_scent_combo.name
 
 
 INTERMEDIATES = [ScentWithAmount, WaxWithAmount, DyeWithAmount]
