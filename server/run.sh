@@ -6,6 +6,8 @@ if [ "$deployment_mode" = "dev" ]; then
     python manage.py collectstatic --no-input
 fi
 
+python manage.py collectstatic --no-input
+
 python manage.py migrate
 python manage.py initadmin
 python manage.py shell < add_candle.py
