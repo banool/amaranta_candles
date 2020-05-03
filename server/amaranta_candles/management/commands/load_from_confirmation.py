@@ -38,8 +38,8 @@ class Command(BaseCommand):
                 m = Scent(name=match[1])
 
             # Match Wick
-            match = re.match(r'^(.*) \d+ pc Bag$', l)
-            if match:
+            match = re.match(r'^(.*) \d+ pc Bag.*$', l)
+            if match and "Bar" not in match[1]:
                 m = Wick(name=match[1])
 
             # Match Wax
@@ -62,3 +62,4 @@ class Command(BaseCommand):
                 print(f"Would save this model: {m}")
 
         print("Done!")
+

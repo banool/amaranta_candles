@@ -1,3 +1,7 @@
+"""
+You must run load_from_confirmation before this.
+"""
+
 import datetime
 import sys
 
@@ -13,43 +17,53 @@ else:
     print("No candle exists in the DB, adding one")
 
 
-b = Batch(name="horoscope", made_at=datetime.datetime.now())
-b.save()
-d = Dye(name="black")
-d.save()
-s1 = Scent(name="amber and driftwood")
-s1.save()
-s2 = Scent(name="citrus and mangosteen")
-s2.save()
-v = Vessel(name="16oz ball jar")
-v.save()
-w = Wax(name="464 soy wax")
-w.save()
-wi = Wick(name="CD 12 pretabbed")
-wi.save()
+b = Batch(name="First", made_at=datetime.datetime.strptime("2020-02-05", "%Y-%m-%d"))
+if not Batch.objects.filter(name=b.name):
+    b.save()
+    print(f"Saved Batch: {b}")
+else:
+    b = Batch.objects.filter(name=b.name)[0]
+    print(f"Batch already exists: {b}")
 
-sc = ScentCombo()
-sc.save()
-sc.scents.add(s1)
-sc.scents.add(s2)
-sc.save()
+s1 = Scent.objects.filter(name="Oakmoss and Amber")[0]
+s2 = Scent.objects.filter(name="Blood Orange")[0]
 
-dwa = DyeWithAmount(dye=d, amount=2)
-dwa.save()
-swa1 = ScentWithAmount(scent=s1, amount=0.3)
+v = Vessel(name="Large Mason Jar")
+if not Vessel.objects.filter(name=v.name):
+    v.save()
+    print(f"Saved Vessel: {v}")
+else:
+    v = Vessel.objects.filter(name=v.name)[0]
+    print(f"Vessel already exists: {v}")
+
+w = Wax.objects.filter(name="Golden Brands 464 Soy Wax")[0]
+wi = Wick.objects.filter(name='CD 12 6" Pretabbed Wick')[0]
+
+sc = ScentCombo(name="For")
+if not ScentCombo.objects.filter(name=sc.name):
+    sc.save()
+    sc.scents.add(s1)
+    sc.scents.add(s2)
+    sc.save()
+    print(f"Saved ScentCombo: {sc}")
+else:
+    sc = ScentCombo.objects.filter(name=sc.name)[0]
+    print(f"ScentCombo already exists: {sc}")
+
+swa1 = ScentWithAmount(scent=s1, amount=0.6)
 swa1.save()
-swa2 = ScentWithAmount(scent=s2, amount=0.6)
+swa2 = ScentWithAmount(scent=s2, amount=0.2)
 swa2.save()
-wwa = WaxWithAmount(wax=w, amount=14)
+wwa = WaxWithAmount(wax=w, amount=12)
 wwa.save()
 
 c = Candle(batch=b, intended_scent_combo=sc, vessel=v, wick=wi)
 c.save()
-c.dyes_with_amounts.add(dwa)
 c.scents_with_amounts.add(swa1)
 c.scents_with_amounts.add(swa2)
 c.waxes_with_amounts.add(wwa)
 c.save()
+print(f"Saved Candle: {c}")
 
 cs = CandleSerializer(instance=c)
 print(cs.data)

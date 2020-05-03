@@ -10,6 +10,7 @@ python manage.py collectstatic --no-input
 
 python manage.py migrate
 python manage.py initadmin
+python manage.py load_from_confirmation --order-confirmation-file confirmation2.txt --real
 python manage.py shell < add_candle.py
 if [ "$deployment_mode" = "dev" ]; then
     python manage.py runserver 0.0.0.0:$PORT
