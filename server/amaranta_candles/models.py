@@ -48,6 +48,10 @@ class Wax(Base):
     pass
 
 
+class Wick(Base):
+    pass
+
+
 class ScentWithAmount(models.Model):
     scent = models.ForeignKey(Scent, on_delete=models.PROTECT)
     amount = models.FloatField()
@@ -85,6 +89,7 @@ class Candle(models.Model):
     scents_with_amounts = models.ManyToManyField(ScentWithAmount)
     vessel = models.ForeignKey(Vessel, on_delete=models.PROTECT)
     waxes_with_amounts = models.ManyToManyField(WaxWithAmount)
+    wick = models.ForeignKey(Wick, on_delete=models.PROTECT)
 
     def save(self, *args, **kwargs):
         if not self.name:
