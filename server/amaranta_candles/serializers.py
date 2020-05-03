@@ -29,6 +29,7 @@ DyeSerializer = get_serializer(Dye)
 ScentSerializer = get_serializer(Scent)
 VesselSerializer = get_serializer(Vessel)
 WaxSerializer = get_serializer(Wax)
+WickSerializer = get_serializer(Wick)
 
 ScentComboSerializer = get_serializer(ScentCombo)
 
@@ -82,6 +83,7 @@ class CandleSerializerRecursive(ModelSerializer):
     intended_scent_combo = ScentComboSerializerRecursive(read_only=True)
     batch = BatchSerializer(read_only=True)
     vessel = VesselSerializer(read_only=True)
+    wick = WickSerializer(read_only=True)
 
     class Meta:
         model = Candle

@@ -1,7 +1,7 @@
 import json
 import logging
 
-from amaranta_candles.models import Batch, Candle, Dye, Scent, ScentCombo, Vessel, Wax
+from amaranta_candles.models import Batch, Candle, Dye, Scent, ScentCombo, Vessel, Wax, Wick
 from amaranta_candles.serializers import (
     BatchSerializer,
     CandleSerializer,
@@ -10,6 +10,7 @@ from amaranta_candles.serializers import (
     ScentComboSerializer,
     VesselSerializer,
     WaxSerializer,
+    WickSerializer,
 )
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -54,3 +55,4 @@ ScentModelViewSet = get_view_set(Scent, ScentSerializer)
 ScentComboModelViewSet = get_view_set(ScentCombo, ScentComboSerializer)
 VesselModelViewSet = get_view_set(Vessel, VesselSerializer)
 WaxModelViewSet = get_view_set(Wax, WaxSerializer)
+WickModelViewSet = get_view_set(Wick, WickSerializer)

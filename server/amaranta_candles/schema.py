@@ -14,8 +14,9 @@ from amaranta_candles.serializers import (
     VesselSerializer,
     WaxSerializer,
     WaxWithAmountSerializer,
+    WickSerializer,
 )
-from amaranta_candles.models import Batch, Candle, Dye, DyeWithAmount, Scent, ScentCombo, ScentWithAmount, Vessel, Wax, WaxWithAmount
+from amaranta_candles.models import Batch, Candle, Dye, DyeWithAmount, Scent, ScentCombo, ScentWithAmount, Vessel, Wax, WaxWithAmount, Wick
 
 
 def get_type_class(klass):
@@ -39,6 +40,7 @@ ScentWithAmountType = get_type_class(ScentWithAmount)
 VesselType = get_type_class(Vessel)
 WaxType = get_type_class(Wax)
 WaxWithAmountType = get_type_class(WaxWithAmount)
+WickType = get_type_class(Wick)
 
 
 class Query:
@@ -71,6 +73,9 @@ class Query:
 
     waxes_with_amounts = graphene.List(WaxWithAmountType)
     wax_with_amount = graphene.Field(WaxWithAmountType, id=graphene.Int())
+
+    wicks = graphene.List(WickType)
+    wick = graphene.Field(WickType, id=graphene.Int())
 
     def resolve_batches(self, info, **kwargs):
         return Batch.objects.all()
@@ -151,6 +156,15 @@ class Query:
         if id is None:
             raise RuntimeError("Must give ID")
         return WaxWithAmount.objects.get(pk=id)
+
+    def resolve_wicks(self, info, **kwargs):
+        return Wick.objects.all()
+
+    def resolve_wick(self, info, id=None):
+        if id is None:
+            raise RuntimeError("Must give ID")
+        return Wick.objects.get(pk=id)
+
 
 # Set types.
 
@@ -396,6 +410,25 @@ class WaxMutation(graphene.Mutation):
         return WaxMutation(wax=w)
 
 
+class WickMutation(graphene.Mutation):
+    class Arguments:
+        name = graphene.String(required=True)
+        notes = graphene.String()
+
+        id = graphene.ID()
+
+    wick = graphene.Field(WickType)
+
+    def mutate(self, info, name, notes, id=None):
+        if id is not None:
+            w = Wick.objects.get(pk=id)
+            w.name = name
+            w.notes = notes
+        else:
+            w = Wick.objects.create(name=name, notes=notes)
+        w.save()
+        return WickMutation(wick=w)
+
 
 class Mutation(graphene.ObjectType):
     batch = BatchMutation.Field()
@@ -408,3 +441,4 @@ class Mutation(graphene.ObjectType):
     vessel = VesselMutation.Field()
     wax = WaxMutation.Field()
     wax_with_amount = WaxWithAmountMutation.Field()
+    wick = WickMutation.Field()
