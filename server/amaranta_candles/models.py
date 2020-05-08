@@ -84,7 +84,7 @@ class Candle(models.Model):
     instance_created_at = models.DateTimeField(auto_now_add=True)
 
     batch = models.ForeignKey(Batch, on_delete=models.PROTECT)
-    dyes_with_amounts = models.ManyToManyField(DyeWithAmount)
+    dyes_with_amounts = models.ManyToManyField(DyeWithAmount, blank=True)
     intended_scent_combo = models.ForeignKey(ScentCombo, on_delete=models.PROTECT)
     scents_with_amounts = models.ManyToManyField(ScentWithAmount)
     vessel = models.ForeignKey(Vessel, on_delete=models.PROTECT)
