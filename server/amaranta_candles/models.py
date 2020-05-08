@@ -15,7 +15,7 @@ LOG = logging.getLogger(__name__)
 
 class Base(models.Model):
     name = models.CharField(max_length=128)
-    notes = models.CharField(max_length=8192, null=True, blank=True)
+    notes = models.TextField(max_length=8192, null=True, blank=True)
     # This is just when the model was made in the DB
     instance_created_at = models.DateTimeField(auto_now_add=True)
 
@@ -80,7 +80,7 @@ class Candle(models.Model):
     # Name is optional. If not given, just use the intended_scent_combo's name.
     name = models.CharField(max_length=128, null=True, blank=True)
 
-    notes = models.CharField(max_length=8192, null=True, blank=True)
+    notes = models.TextField(max_length=8192, null=True, blank=True)
     instance_created_at = models.DateTimeField(auto_now_add=True)
 
     batch = models.ForeignKey(Batch, on_delete=models.PROTECT)
