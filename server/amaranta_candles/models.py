@@ -1,13 +1,10 @@
 import logging
 import os
-import ssl
 import traceback
 import urllib.request
 from functools import lru_cache
 
 from django.db import models
-
-ssl._create_default_https_context = ssl._create_unverified_context
 
 
 LOG = logging.getLogger(__name__)
