@@ -26,7 +26,7 @@ else:
     print(f"Batch already exists: {b}")
 
 s1 = Scent.objects.filter(name="Oakmoss and Amber")[0]
-s2 = Scent.objects.filter(name="Blood Orange")[0]
+s2 = Scent.objects.filter(name="Rain Water")[0]
 
 v = Vessel(name="Large Mason Jar")
 if not Vessel.objects.filter(name=v.name):
