@@ -2,6 +2,11 @@
 
 PORT=$1
 
+if [ -z "$PORT" ]; then
+    echo "ERROR: Please provide port"
+    exit 1
+fi
+
 if [ "$deployment_mode" = "dev" ]; then
     python manage.py collectstatic --no-input
 fi
