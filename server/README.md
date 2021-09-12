@@ -31,7 +31,7 @@ docker image build -t amaranta_candles_server . -f Dockerfile_server
 
 Run the container
 ```
-docker ps -a | grep amaranta_candles_server | c1 | xargs docker rm -f; docker run -it --publish 0.0.0.0:6969:6969 --name amaranta_candles_server --env-file .env.base --env-file .env.dev amaranta_candles_server:latest
+docker ps -a | grep amaranta_candles_server | c1 | xargs docker rm -f; docker run -it --publish 0.0.0.0:6969:6969 --name amaranta_candles_server --env-file .env.base --env-file .env.dev_mysql amaranta_candles_server:latest
 ```
 
 You should now see a site at http://localhost:6969

@@ -32,9 +32,15 @@ class Scent(Base):
     url = models.CharField(max_length=256, null=True, blank=True)
     photo_link = models.CharField(max_length=256, null=True, blank=True)
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 class ScentCombo(Base):
     scents = models.ManyToManyField(Scent)
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class Vessel(Base):

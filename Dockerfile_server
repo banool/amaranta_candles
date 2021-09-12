@@ -13,7 +13,7 @@ RUN apk update
 RUN apk add gcc python3-dev musl-dev mariadb-connector-c-dev mysql-client
 
 # Requirements
-RUN pip install --install-option="--prefix=/install" -r requirements.txt
+RUN pip install --prefix=/install -r requirements.txt
 
 # Real image
 FROM base

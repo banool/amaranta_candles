@@ -25,9 +25,6 @@ else:
     b = Batch.objects.filter(name=b.name)[0]
     print(f"Batch already exists: {b}")
 
-s1 = Scent.objects.filter(name="Oakmoss and Amber")[0]
-s2 = Scent.objects.filter(name="Rain Water")[0]
-
 v = Vessel(name="Large Mason Jar")
 if not Vessel.objects.filter(name=v.name):
     v.save()
@@ -38,6 +35,9 @@ else:
 
 w = Wax.objects.filter(name="Golden Brands 464 Soy Wax")[0]
 wi = Wick.objects.filter(name='CD 12 6" Pretabbed Wick')[0]
+
+s1 = Scent.objects.filter(name="Oakmoss and Amber")[0]
+s2 = Scent.objects.filter(name="Rain Water")[0]
 
 sc = ScentCombo(name="For")
 if not ScentCombo.objects.filter(name=sc.name):
