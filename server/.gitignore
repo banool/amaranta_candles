@@ -1,8 +1,11 @@
 # My stuff
-.env*
+.env.base
+.env.dev_mysql
 *.swp
 /myvenv
 fake.sqlite
+/external_static
+local.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -4,6 +4,22 @@
 You need .env files like `.env.base`, `.env.dev`, and `.env.prod`. You can see what env vars you need by looking at core/secrets.py.
 
 ## Local development
+```
+# Source environment.
+pipenv shell
+
+# Set up env vars.
+export `cat .env.base | xargs`
+export `cat .env.dev_sqlite | xargs`
+
+# Make DB file.
+touch local.db
+
+# Run the server.
+./run.sh 6969
+```
+
+## Local development (Docker)
 Write a requirements.txt file from the Pipfile:
 ```
 pipenv lock --requirements > requirements.txt
