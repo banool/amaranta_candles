@@ -42,6 +42,7 @@ const vesselsSlice = createSlice({
 
 export const { getVesselsSuccess, getVesselSuccess } = vesselsSlice.actions;
 export const vesselsSelector = (state: RootState): Vessel[] => Object.values(state.vessels.vessels);
-export const vesselSelector = (id: number) => (state: RootState): Vessel => state.vessels.vessels[id];
+export const vesselSelector = (id: number) => (state: RootState): Vessel =>
+  state.vessels.vessels[id];
 
 export default vesselsSlice.reducer;

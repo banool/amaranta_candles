@@ -1,6 +1,18 @@
 import logging
 
-from amaranta_candles.models import Batch, Candle, Dye, Scent, ScentCombo, Vessel, Wax, DyeWithAmount, ScentWithAmount, WaxWithAmount, Wick
+from amaranta_candles.models import (
+    Batch,
+    Candle,
+    Dye,
+    Scent,
+    ScentCombo,
+    Vessel,
+    Wax,
+    DyeWithAmount,
+    ScentWithAmount,
+    WaxWithAmount,
+    Wick,
+)
 from rest_framework.serializers import ModelSerializer
 
 
@@ -43,6 +55,7 @@ CandleSerializer = get_serializer(Candle)
 # These are recursive serializers.
 # When you get them, the ids are resolved into objects.
 # These are all set as read only.
+
 
 class ScentComboSerializerRecursive(ModelSerializer):
     scents = ScentSerializer(many=True, read_only=True)
@@ -92,6 +105,8 @@ class CandleSerializerRecursive(ModelSerializer):
 
 ScentComboSerializer.recursive_serializer_class = ScentComboSerializerRecursive
 DyeWithAmountSerializer.recursive_serializer_class = DyeWithAmountSerializerRecursive
-ScentWithAmountSerializer.recursive_serializer_class = ScentWithAmountSerializerRecursive
+ScentWithAmountSerializer.recursive_serializer_class = (
+    ScentWithAmountSerializerRecursive
+)
 WaxWithAmountSerializer.recursive_serializer_class = WaxWithAmountSerializerRecursive
 CandleSerializer.recursive_serializer_class = CandleSerializerRecursive

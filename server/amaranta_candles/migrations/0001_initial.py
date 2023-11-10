@@ -5,105 +5,248 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Base',
+            name="Base",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=128)),
-                ('notes', models.CharField(blank=True, max_length=8192, null=True)),
-                ('instance_created_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=128)),
+                ("notes", models.CharField(blank=True, max_length=8192, null=True)),
+                ("instance_created_at", models.DateTimeField(auto_now_add=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Batch',
+            name="Batch",
             fields=[
-                ('base_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='amaranta_candles.Base')),
-                ('made_at', models.DateTimeField()),
+                (
+                    "base_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="amaranta_candles.Base",
+                    ),
+                ),
+                ("made_at", models.DateTimeField()),
             ],
-            bases=('amaranta_candles.base',),
+            bases=("amaranta_candles.base",),
         ),
         migrations.CreateModel(
-            name='Dye',
+            name="Dye",
             fields=[
-                ('base_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='amaranta_candles.Base')),
+                (
+                    "base_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="amaranta_candles.Base",
+                    ),
+                ),
             ],
-            bases=('amaranta_candles.base',),
+            bases=("amaranta_candles.base",),
         ),
         migrations.CreateModel(
-            name='Scent',
+            name="Scent",
             fields=[
-                ('base_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='amaranta_candles.Base')),
-                ('url', models.CharField(blank=True, max_length=256, null=True)),
-                ('photo_link', models.CharField(blank=True, max_length=256, null=True)),
+                (
+                    "base_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="amaranta_candles.Base",
+                    ),
+                ),
+                ("url", models.CharField(blank=True, max_length=256, null=True)),
+                ("photo_link", models.CharField(blank=True, max_length=256, null=True)),
             ],
-            bases=('amaranta_candles.base',),
+            bases=("amaranta_candles.base",),
         ),
         migrations.CreateModel(
-            name='Vessel',
+            name="Vessel",
             fields=[
-                ('base_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='amaranta_candles.Base')),
+                (
+                    "base_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="amaranta_candles.Base",
+                    ),
+                ),
             ],
-            bases=('amaranta_candles.base',),
+            bases=("amaranta_candles.base",),
         ),
         migrations.CreateModel(
-            name='Wax',
+            name="Wax",
             fields=[
-                ('base_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='amaranta_candles.Base')),
+                (
+                    "base_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="amaranta_candles.Base",
+                    ),
+                ),
             ],
-            bases=('amaranta_candles.base',),
+            bases=("amaranta_candles.base",),
         ),
         migrations.CreateModel(
-            name='WaxWithAmount',
+            name="WaxWithAmount",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.FloatField()),
-                ('wax_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='amaranta_candles.Wax')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("amount", models.FloatField()),
+                (
+                    "wax_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="amaranta_candles.Wax",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ScentWithAmount',
+            name="ScentWithAmount",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.FloatField()),
-                ('scent_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='amaranta_candles.Scent')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("amount", models.FloatField()),
+                (
+                    "scent_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="amaranta_candles.Scent",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ScentCombo',
+            name="ScentCombo",
             fields=[
-                ('base_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='amaranta_candles.Base')),
-                ('scent_ids', models.ManyToManyField(to='amaranta_candles.Scent')),
+                (
+                    "base_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="amaranta_candles.Base",
+                    ),
+                ),
+                ("scent_ids", models.ManyToManyField(to="amaranta_candles.Scent")),
             ],
-            bases=('amaranta_candles.base',),
+            bases=("amaranta_candles.base",),
         ),
         migrations.CreateModel(
-            name='DyeWithAmount',
+            name="DyeWithAmount",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.FloatField()),
-                ('dye_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='amaranta_candles.Dye')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("amount", models.FloatField()),
+                (
+                    "dye_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="amaranta_candles.Dye",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Candle',
+            name="Candle",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(blank=True, max_length=128, null=True)),
-                ('notes', models.CharField(blank=True, max_length=8192, null=True)),
-                ('instance_created_at', models.DateTimeField(auto_now_add=True)),
-                ('dye_with_amount_ids', models.ManyToManyField(to='amaranta_candles.DyeWithAmount')),
-                ('scent_with_amount_ids', models.ManyToManyField(to='amaranta_candles.ScentWithAmount')),
-                ('wax_with_amount_ids', models.ManyToManyField(to='amaranta_candles.WaxWithAmount')),
-                ('batch_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='amaranta_candles.Batch')),
-                ('intended_scent_combo_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='amaranta_candles.ScentCombo')),
-                ('vessel_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='amaranta_candles.Vessel')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(blank=True, max_length=128, null=True)),
+                ("notes", models.CharField(blank=True, max_length=8192, null=True)),
+                ("instance_created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "dye_with_amount_ids",
+                    models.ManyToManyField(to="amaranta_candles.DyeWithAmount"),
+                ),
+                (
+                    "scent_with_amount_ids",
+                    models.ManyToManyField(to="amaranta_candles.ScentWithAmount"),
+                ),
+                (
+                    "wax_with_amount_ids",
+                    models.ManyToManyField(to="amaranta_candles.WaxWithAmount"),
+                ),
+                (
+                    "batch_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="amaranta_candles.Batch",
+                    ),
+                ),
+                (
+                    "intended_scent_combo_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="amaranta_candles.ScentCombo",
+                    ),
+                ),
+                (
+                    "vessel_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="amaranta_candles.Vessel",
+                    ),
+                ),
             ],
         ),
     ]

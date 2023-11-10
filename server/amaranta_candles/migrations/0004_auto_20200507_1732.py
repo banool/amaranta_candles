@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('amaranta_candles', '0003_auto_20200503_0917'),
+        ("amaranta_candles", "0003_auto_20200503_0917"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='candle',
-            name='dyes_with_amounts',
-            field=models.ManyToManyField(blank=True, to='amaranta_candles.DyeWithAmount'),
+            model_name="candle",
+            name="dyes_with_amounts",
+            field=models.ManyToManyField(
+                blank=True, to="amaranta_candles.DyeWithAmount"
+            ),
         ),
     ]

@@ -6,23 +6,36 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('amaranta_candles', '0002_auto_20200328_1812'),
+        ("amaranta_candles", "0002_auto_20200328_1812"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Wick',
+            name="Wick",
             fields=[
-                ('base_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='amaranta_candles.Base')),
+                (
+                    "base_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="amaranta_candles.Base",
+                    ),
+                ),
             ],
-            bases=('amaranta_candles.base',),
+            bases=("amaranta_candles.base",),
         ),
         migrations.AddField(
-            model_name='candle',
-            name='wick',
-            field=models.ForeignKey(default=Wick(name="fake default").id, on_delete=django.db.models.deletion.PROTECT, to='amaranta_candles.Wick'),
+            model_name="candle",
+            name="wick",
+            field=models.ForeignKey(
+                default=Wick(name="fake default").id,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="amaranta_candles.Wick",
+            ),
             preserve_default=False,
         ),
     ]

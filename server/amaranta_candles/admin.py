@@ -20,6 +20,7 @@ for model_name in dir(models):
         else:
             admin.site.register(model)
 
+
 # Add a custom Candle form that makes it easier to input an entire Candle.
 class EasyCandle(models.Candle):
     class Meta:
@@ -106,7 +107,6 @@ class EasyCandleForm(forms.ModelForm):
     def process_amounts(
         self, data, field, model, link_model, lookup=None, add_if_missing=False
     ):
-
         # Destructure the comma separated string.
         cs = self.process_comma_separated(data, field)
         if not cs:

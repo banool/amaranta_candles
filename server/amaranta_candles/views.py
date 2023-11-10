@@ -2,7 +2,16 @@ import json
 import logging
 
 from core.secrets import secrets
-from amaranta_candles.models import Batch, Candle, Dye, Scent, ScentCombo, Vessel, Wax, Wick
+from amaranta_candles.models import (
+    Batch,
+    Candle,
+    Dye,
+    Scent,
+    ScentCombo,
+    Vessel,
+    Wax,
+    Wick,
+)
 from amaranta_candles.serializers import (
     BatchSerializer,
     CandleSerializer,
@@ -33,9 +42,13 @@ def get_view_set(klass, serializer_klass):
             recursive = bool(json.loads(request.GET.get("recursive", "false")))
             if not recursive:
                 return
-            recursive_serializer_class = getattr(self.serializer_class, "recursive_serializer_class", None)
+            recursive_serializer_class = getattr(
+                self.serializer_class, "recursive_serializer_class", None
+            )
             if recursive_serializer_class:
-                print(f"Using recursive serializer {recursive_serializer_class.__name__}")
+                print(
+                    f"Using recursive serializer {recursive_serializer_class.__name__}"
+                )
                 self.serializer_class = recursive_serializer_class
 
         def list(self, request):
@@ -48,7 +61,9 @@ def get_view_set(klass, serializer_klass):
 
         def create(self, request):
             if not secrets["allow_writes_from_ui"]:
-                return Response({"error": "Writes from the UI are disabled"}, status=403)
+                return Response(
+                    {"error": "Writes from the UI are disabled"}, status=403
+                )
             super().create(request)
 
     return MVS

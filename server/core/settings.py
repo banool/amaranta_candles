@@ -170,6 +170,4 @@ STATIC_ROOT = "external_static"
 
 APPEND_SLASH = False
 
-GRAPHENE = {
-    'SCHEMA': 'core.schema.schema' # Where your Graphene schema lives
-}
+GRAPHENE = {"SCHEMA": "core.schema.schema"}  # Where your Graphene schema lives

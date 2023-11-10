@@ -14,7 +14,7 @@ import {
   ScentComboRoute,
   VesselRoute,
   WaxRoute,
-  pathFor,
+  pathFor
 } from "../common/routes";
 
 // TODO(koopman): Figure out typescript annotations for amount tables.
@@ -41,12 +41,12 @@ const AmountTable = ({ items, field, linkRoute, unit }) => {
   const styles = {
     amountTable: {
       border: "2px solid #333",
-      width: "100%",
+      width: "100%"
     },
     amountTableHead: {
       border: "2px solid #333",
-      width: "50%",
-    },
+      width: "50%"
+    }
   };
   return (
     <table style={styles.amountTable}>
@@ -57,7 +57,7 @@ const AmountTable = ({ items, field, linkRoute, unit }) => {
         </tr>
       </thead>
       <tbody>
-        {items.map((item) => (
+        {items.map(item => (
           <AmountTableRow key={item[field].id} item={item} field={field} linkRoute={linkRoute} />
         ))}
       </tbody>
@@ -78,7 +78,12 @@ const CandlePage = ({ candle }: CandlePageProps) => {
       </p>
       <h3>dyes</h3>
       <p>
-        <AmountTable items={candle.dyes_with_amounts} field={"dye"} linkRoute={DyeRoute} unit={"drops"} />
+        <AmountTable
+          items={candle.dyes_with_amounts}
+          field={"dye"}
+          linkRoute={DyeRoute}
+          unit={"drops"}
+        />
       </p>
       <h3>scent combo</h3>
       <p>
@@ -88,7 +93,12 @@ const CandlePage = ({ candle }: CandlePageProps) => {
       </p>
       <h3>scents</h3>
       <p>
-        <AmountTable items={candle.scents_with_amounts} field={"scent"} linkRoute={ScentRoute} unit={"oz"}/>
+        <AmountTable
+          items={candle.scents_with_amounts}
+          field={"scent"}
+          linkRoute={ScentRoute}
+          unit={"oz"}
+        />
       </p>
       <h3>vessel</h3>
       <p>
@@ -96,7 +106,12 @@ const CandlePage = ({ candle }: CandlePageProps) => {
       </p>
       <h3>waxes</h3>
       <p>
-        <AmountTable items={candle.waxes_with_amounts} field={"wax"} linkRoute={WaxRoute} unit={"oz"}/>
+        <AmountTable
+          items={candle.waxes_with_amounts}
+          field={"wax"}
+          linkRoute={WaxRoute}
+          unit={"oz"}
+        />
       </p>
     </>
   );

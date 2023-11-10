@@ -1,4 +1,3 @@
-
 import { Batch } from "../batches/types";
 import { Dye } from "../dyes/types";
 import { Scent } from "../scents/types";

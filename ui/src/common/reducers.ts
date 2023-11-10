@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
   scentCombos: scentCombosReducer,
   dyes: dyesReducer,
   vessels: vesselsReducer,
-  waxes: waxesReducer,
+  waxes: waxesReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

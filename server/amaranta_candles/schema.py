@@ -16,7 +16,19 @@ from amaranta_candles.serializers import (
     WaxWithAmountSerializer,
     WickSerializer,
 )
-from amaranta_candles.models import Batch, Candle, Dye, DyeWithAmount, Scent, ScentCombo, ScentWithAmount, Vessel, Wax, WaxWithAmount, Wick
+from amaranta_candles.models import (
+    Batch,
+    Candle,
+    Dye,
+    DyeWithAmount,
+    Scent,
+    ScentCombo,
+    ScentWithAmount,
+    Vessel,
+    Wax,
+    WaxWithAmount,
+    Wick,
+)
 
 
 def get_type_class(klass):
@@ -25,6 +37,7 @@ def get_type_class(klass):
             model = klass
             fields = "__all__"
             name = f"{klass.__name__}Type"
+
     return T
 
 
@@ -167,6 +180,7 @@ class Query:
 
 
 # Set types.
+
 
 class BatchMutation(graphene.Mutation):
     class Arguments:

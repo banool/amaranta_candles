@@ -28,22 +28,22 @@ class Command(BaseCommand):
             m = None
 
             # Match Dye
-            match = re.match(r'^(.*) \d+ oz Bottle.*$', l)
+            match = re.match(r"^(.*) \d+ oz Bottle.*$", l)
             if match and "dye" in l.lower():
                 m = Dye(name=match[1])
 
             # Match Scent
-            match = re.match(r'^(.*) \d+ oz Bottle.*$', l)
+            match = re.match(r"^(.*) \d+ oz Bottle.*$", l)
             if match and "dye" not in l.lower():
                 m = Scent(name=match[1])
 
             # Match Wick
-            match = re.match(r'^(.*) \d+ pc Bag.*$', l)
+            match = re.match(r"^(.*) \d+ pc Bag.*$", l)
             if match and "Bar" not in match[1]:
                 m = Wick(name=match[1])
 
             # Match Wax
-            match = re.match(r'^(.*) \d+ lb .*$', l)
+            match = re.match(r"^(.*) \d+ lb .*$", l)
             if match:
                 m = Wax(name=match[1])
 
@@ -62,4 +62,3 @@ class Command(BaseCommand):
                 print(f"Would save this model: {m}")
 
         print("Done!")
-

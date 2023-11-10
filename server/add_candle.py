@@ -8,7 +8,6 @@ import sys
 from amaranta_candles.models import *
 from amaranta_candles.serializers import CandleSerializer
 
-
 num_candles = list(Candle.objects.all())
 if len(num_candles) > 0:
     print("There is already a candle in the db")

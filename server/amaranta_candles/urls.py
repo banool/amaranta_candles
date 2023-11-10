@@ -15,4 +15,4 @@ router.register(r"wax", views.WaxModelViewSet)
 router.register(r"wick", views.WickModelViewSet)
 urlpatterns = router.urls
 
-urlpatterns += [path('graphql', GraphQLView.as_view(graphiql=True))]
+urlpatterns += [path("graphql", GraphQLView.as_view(graphiql=True))]

@@ -42,6 +42,7 @@ const candlesSlice = createSlice({
 
 export const { getCandlesSuccess, getCandleSuccess } = candlesSlice.actions;
 export const candlesSelector = (state: RootState): Candle[] => Object.values(state.candles.candles);
-export const candleSelector = (id: number) => (state: RootState): Candle => state.candles.candles[id];
+export const candleSelector = (id: number) => (state: RootState): Candle =>
+  state.candles.candles[id];
 
 export default candlesSlice.reducer;

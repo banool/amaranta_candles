@@ -7,7 +7,7 @@ import { Batch, StagingBatch } from "./types";
 const defaults: StagingBatch = {
   name: "",
   notes: "",
-  made_at: "",
+  made_at: ""
 };
 
 type BatchFormProps = {
@@ -40,7 +40,7 @@ export default ({ existing }: BatchFormProps) => {
     return {
       name,
       notes: notes === defaults.notes ? null : notes,
-      made_at: madeAt,
+      made_at: madeAt
     };
   };
 
@@ -58,7 +58,7 @@ export default ({ existing }: BatchFormProps) => {
       <form>
         <label>
           name:
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          <input type="text" value={name} onChange={e => setName(e.target.value)} />
         </label>
         <br />
         <label>
@@ -66,7 +66,7 @@ export default ({ existing }: BatchFormProps) => {
           <input
             type="datetime-local"
             value={madeAt}
-            onChange={(e) => {
+            onChange={e => {
               console.log("change", e.target.value), setMadeAt(e.target.value);
             }}
           />
@@ -74,7 +74,7 @@ export default ({ existing }: BatchFormProps) => {
         <br />
         <label>
           notes:
-          <textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
+          <textarea value={notes} onChange={e => setNotes(e.target.value)} />
         </label>
         <br />
         <input type="button" value="Submit" onClick={onSubmit} />
