@@ -50,6 +50,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = secrets["secret_key"]
 ALLOWED_HOSTS = secrets["allowed_hosts"]
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 INSTALLED_APPS = [
@@ -62,11 +64,13 @@ INSTALLED_APPS = [
     "amaranta_candles",
     "graphene_django",
     "rest_framework",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",

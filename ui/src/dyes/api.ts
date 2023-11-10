@@ -4,7 +4,7 @@ import { Dye, StagingDye } from "./types";
 export function fetchDyes() {
   return async dispatch => {
     try {
-      const response = await fetch("https://candles-api.dport.me/dye?recursive=true");
+      const response = await fetch(`${apiBase}/dye?recursive=true`);
       const data = await response.json();
 
       const dyes: Dye[] = data;
@@ -20,7 +20,7 @@ export function fetchDyes() {
 export function fetchDye(id: number) {
   return async dispatch => {
     try {
-      const response = await fetch(`https://candles-api.dport.me/dye/${id}?recursive=true`);
+      const response = await fetch(`${apiBase}/dye/${id}?recursive=true`);
       const data = await response.json();
 
       const dye: Dye = data;
@@ -36,7 +36,7 @@ export function fetchDye(id: number) {
 export function createDye(dye: StagingDye) {
   return async dispatch => {
     try {
-      const response = await fetch("https://candles-api.dport.me/dye", {
+      const response = await fetch(`${apiBase}/dye`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=utf-8"
