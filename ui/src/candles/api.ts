@@ -1,10 +1,11 @@
+import { apiBase } from "../common/store";
 import { getCandlesSuccess, getCandleSuccess } from "./slice";
 import { Candle } from "./types";
 
 export function fetchCandles() {
   return async dispatch => {
     try {
-      const response = await fetch("/api/candle?recursive=true");
+      const response = await fetch(`${apiBase}/candle?recursive=true`);
       const data = await response.json();
 
       const candles: Candle[] = data;
@@ -20,7 +21,7 @@ export function fetchCandles() {
 export function fetchCandle(id: number) {
   return async dispatch => {
     try {
-      const response = await fetch(`/api/candle/${id}?recursive=true`);
+      const response = await fetch(`${apiBase}/candle/${id}?recursive=true`);
       const data = await response.json();
 
       const candle: Candle = data;

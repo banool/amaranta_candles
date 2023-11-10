@@ -1,10 +1,11 @@
+import { apiBase } from "../common/store";
 import { getBatchesSuccess, getBatchSuccess } from "./slice";
 import { Batch, StagingBatch } from "./types";
 
 export function fetchBatches() {
   return async dispatch => {
     try {
-      const response = await fetch("/api/batch?recursive=true");
+      const response = await fetch(`${apiBase}/batch?recursive=true`);
       const data = await response.json();
 
       const batches: Batch[] = data;
@@ -20,7 +21,7 @@ export function fetchBatches() {
 export function fetchBatch(id: number) {
   return async dispatch => {
     try {
-      const response = await fetch(`/api/batch/${id}?recursive=true`);
+      const response = await fetch(`${apiBase}/batch/${id}?recursive=true`);
       const data = await response.json();
 
       const batch: Batch = data;
@@ -38,7 +39,7 @@ export function createBatch(batch: StagingBatch) {
     try {
       console.log("CreateBatch request", batch);
 
-      const response = await fetch("/api/batch", {
+      const response = await fetch("${apiBase}/batch", {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=utf-8"

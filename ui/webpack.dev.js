@@ -13,7 +13,7 @@ module.exports = merge(common, {
     proxy: {
       "/api": {
         target: {
-          host: "candles.amaranta.house",
+          host: "candles-api.dport.me",
           port: 443,
           protocol: "https:"
         },

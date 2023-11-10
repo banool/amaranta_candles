@@ -1,10 +1,11 @@
+import { apiBase } from "../common/store";
 import { getWaxesSuccess, getWaxSuccess } from "./slice";
 import { Wax, StagingWax } from "./types";
 
 export function fetchWaxes() {
   return async dispatch => {
     try {
-      const response = await fetch("/api/wax?recursive=true");
+      const response = await fetch(`${apiBase}/wax?recursive=true`);
       const data = await response.json();
 
       const waxes: Wax[] = data;
@@ -20,7 +21,7 @@ export function fetchWaxes() {
 export function fetchWax(id: number) {
   return async dispatch => {
     try {
-      const response = await fetch(`/api/wax/${id}?recursive=true`);
+      const response = await fetch(`${apiBase}/wax/${id}?recursive=true`);
       const data = await response.json();
 
       const wax: Wax = data;
@@ -38,7 +39,7 @@ export function createWax(wax: StagingWax) {
     try {
       console.log("CreateWax request", wax);
 
-      const response = await fetch("/api/wax", {
+      const response = await fetch(`${apiBase}/wax`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=utf-8"

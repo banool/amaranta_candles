@@ -2,11 +2,12 @@ import { getScentCombosSuccess, getScentComboSuccess } from "./slice";
 import { ScentCombo, StagingScentCombo } from "./types";
 
 import { fetchScent } from "../scents/api";
+import { apiBase } from "../common/store";
 
 export function fetchScentCombos() {
   return async dispatch => {
     try {
-      const response = await fetch("/api/scent_combo?recursive=true");
+      const response = await fetch(`${apiBase}/scent_combo?recursive=true`);
       const data = await response.json();
 
       const scentCombos: ScentCombo[] = data;
@@ -22,7 +23,7 @@ export function fetchScentCombos() {
 export function fetchScentCombo(id: number) {
   return async dispatch => {
     try {
-      const response = await fetch(`/api/scent_combo/${id}?recursive=true`);
+      const response = await fetch(`${apiBase}/scent_combo/${id}?recursive=true`);
       const data = await response.json();
 
       const scentCombo: ScentCombo = data;
@@ -38,7 +39,7 @@ export function fetchScentCombo(id: number) {
 export function createScentCombo(scentCombo: StagingScentCombo) {
   return async dispatch => {
     try {
-      const response = await fetch("/api/scent_combo", {
+      const response = await fetch(`${apiBase}/scent_combo`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=utf-8"

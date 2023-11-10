@@ -1,6 +1,7 @@
 import json
 import logging
 
+from core.secrets import secrets
 from amaranta_candles.models import Batch, Candle, Dye, Scent, ScentCombo, Vessel, Wax, Wick
 from amaranta_candles.serializers import (
     BatchSerializer,
@@ -44,6 +45,11 @@ def get_view_set(klass, serializer_klass):
         def retrieve(self, request, pk=None):
             self.set_recursive_serializer_class_if_needed(request)
             return super().retrieve(request, pk=pk)
+
+        def create(self, request):
+            if not secrets["allow_writes_from_ui"]:
+                return Response({"error": "Writes from the UI are disabled"}, status=403)
+            super().create(request)
 
     return MVS
 

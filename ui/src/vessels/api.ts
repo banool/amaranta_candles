@@ -1,10 +1,11 @@
+import { apiBase } from "../common/store";
 import { getVesselsSuccess, getVesselSuccess } from "./slice";
 import { Vessel, StagingVessel } from "./types";
 
 export function fetchVessels() {
   return async dispatch => {
     try {
-      const response = await fetch("/api/vessel?recursive=true");
+      const response = await fetch(`${apiBase}/vessel?recursive=true`);
       const data = await response.json();
 
       const vessels: Vessel[] = data;
@@ -20,7 +21,7 @@ export function fetchVessels() {
 export function fetchVessel(id: number) {
   return async dispatch => {
     try {
-      const response = await fetch(`/api/vessel/${id}?recursive=true`);
+      const response = await fetch(`${apiBase}/vessel/${id}?recursive=true`);
       const data = await response.json();
 
       const vessel: Vessel = data;
@@ -36,7 +37,7 @@ export function fetchVessel(id: number) {
 export function createVessel(vessel: StagingVessel) {
   return async dispatch => {
     try {
-      const response = await fetch("/api/vessel", {
+      const response = await fetch("${apiBase}/vessel", {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=utf-8"

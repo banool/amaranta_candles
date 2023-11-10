@@ -1,5 +1,11 @@
 import os
 
+allow_writes_from_ui_env = os.environ.get("allow_writes_from_ui")
+if allow_writes_from_ui_env is None:
+    allow_writes_from_ui = False
+else:
+    allow_writes_from_ui = allow_writes_from_ui_env.lower() in ["true", "y", "yes", "1"]
+
 secrets = {
     # Base settings
     "allowed_hosts": os.environ.get("allowed_hosts"),
@@ -15,6 +21,8 @@ secrets = {
     "ui_username": os.environ.get("ui_username"),
     "ui_email": os.environ.get("ui_email"),
     "ui_password": os.environ.get("ui_password"),
+    # App configuration
+    "allow_writes_from_ui": allow_writes_from_ui,
 }
 
 invalid = []

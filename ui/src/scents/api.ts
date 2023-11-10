@@ -1,10 +1,11 @@
+import { apiBase } from "../common/store";
 import { getScentsSuccess, getScentSuccess } from "./slice";
 import { Scent, StagingScent } from "./types";
 
 export function fetchScents() {
   return async dispatch => {
     try {
-      const response = await fetch("/api/scent?recursive=true");
+      const response = await fetch(`${apiBase}/scent?recursive=true`);
       const data = await response.json();
 
       const scents: Scent[] = data;
@@ -20,7 +21,7 @@ export function fetchScents() {
 export function fetchScent(id: number) {
   return async dispatch => {
     try {
-      const response = await fetch(`/api/scent/${id}?recursive=true`);
+      const response = await fetch(`${apiBase}/scent/${id}?recursive=true`);
       const data = await response.json();
 
       const scent: Scent = data;
@@ -36,7 +37,7 @@ export function fetchScent(id: number) {
 export function createScent(scent: StagingScent) {
   return async dispatch => {
     try {
-      const response = await fetch("/api/scent", {
+      const response = await fetch(`${apiBase}/scent`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=utf-8"

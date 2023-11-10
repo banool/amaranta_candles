@@ -1,0 +1,6 @@
+*.env
+Dockerfile
+test.sh
+README.md
+external_static
+.venv
