@@ -4,29 +4,31 @@
 You need .env files like `.env.base`, `.env.dev`, and `.env.prod`. You can see what env vars you need by looking at core/secrets.py.
 
 ## Local development
+Install deps:
 ```
-# Source environment.
-pipenv shell
+poetry install
+```
 
-# Set up env vars.
+Setup env:
+```
 export `cat .env.base | xargs`
 export `cat .env.dev_sqlite | xargs`
+```
 
-# Make DB file.
+Make DB file:
+```
 touch local.db
+```
 
-# Run the server.
-./run.sh 6969
+Run the server:
+```
+poetry run ./run.sh 6969
 ```
 
 ## Local development (Docker)
-Write a requirements.txt file from the Pipfile:
-```
-pipenv lock --requirements > requirements.txt
-```
 Build the container
 ```
-docker image build -t amaranta_candles_server . -f Dockerfile_server
+docker image build -t amaranta_candles_server .
 ```
 
 Run the container

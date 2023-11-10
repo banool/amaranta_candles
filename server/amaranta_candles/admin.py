@@ -4,7 +4,6 @@ from django.core.exceptions import ValidationError
 from django import forms
 from django.db.models.base import ModelBase
 from django.shortcuts import render
-from django.utils.translation import ugettext as _
 
 
 for model_name in dir(models):
@@ -150,7 +149,7 @@ class EasyCandleForm(forms.ModelForm):
                 m.save()
             else:
                 e = ValidationError(
-                    _("%(name)s could not be found"),
+                    "%(name)s could not be found",
                     code="invalid",
                     params={"name": name},
                 )
@@ -158,7 +157,7 @@ class EasyCandleForm(forms.ModelForm):
                 return
         elif len(models) == 2:
             e = ValidationError(
-                _("%(name)s matched multiple %(modelname)ss: %(models)s"),
+                "%(name)s matched multiple %(modelname)ss: %(models)s",
                 code="invalid",
                 params={"name": name, "models": models},
             )
@@ -189,9 +188,7 @@ class EasyCandleForm(forms.ModelForm):
             and existing_based_on_name != existing_based_on_scents
         ):
             e = ValidationError(
-                _(
-                    "Found two different ScentCombos based on scents (%(existing_scents)s) and name (%(existing_name)s), please supply a different name for this ScentCombo"
-                ),
+                "Found two different ScentCombos based on scents (%(existing_scents)s) and name (%(existing_name)s), please supply a different name for this ScentCombo",
                 code="invalid",
                 params={
                     "existing_scents": existing_based_on_scents,
@@ -203,9 +200,7 @@ class EasyCandleForm(forms.ModelForm):
 
         if existing_based_on_scents is None and name is None:
             e = ValidationError(
-                _(
-                    "Could not find a ScentCombo with the given scents, please supply a name for this ScentCombo"
-                ),
+                "Could not find a ScentCombo with the given scents, please supply a name for this ScentCombo",
                 code="invalid",
                 params={"name": name},
             )
@@ -218,9 +213,7 @@ class EasyCandleForm(forms.ModelForm):
             pass
         if existing_based_on_scents and name and existing_based_on_scents.name != name:
             e = ValidationError(
-                _(
-                    "A ScentCombo for these scents already exists and it is called %(existing_name)s, not %(wrong_name)s"
-                ),
+                "A ScentCombo for these scents already exists and it is called %(existing_name)s, not %(wrong_name)s",
                 code="invalid",
                 params={
                     "existing_name": existing_based_on_scents.name,
