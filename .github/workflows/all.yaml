@@ -3,8 +3,6 @@ name: CI
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 env:
   REGISTRY: ghcr.io
@@ -48,17 +46,20 @@ jobs:
       run:
         working-directory: ./ui
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 14
 
     # Install deps and build.
-    - run: npm install
-    - run: CI= npm build
+    - run: npm ci --only=production
+    - run: npm run build
 
     # Upload the artifact.
     - uses: actions/upload-pages-artifact@v1
       with:
-        path: ui/build
-
+        path: ui/dist
 
   # Deploy web using the artifact from the previous job.
   deploy_web:
