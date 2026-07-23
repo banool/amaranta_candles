@@ -10,6 +10,9 @@ interface ScentsDict {
 
 interface ScentsSliceState {
   scents: ScentsDict;
+  // False until the full list has been fetched at least once, so the list
+  // page can tell "still loading" from "loaded and genuinely empty".
+  loaded: boolean;
 }
 
 interface GetScentsSuccessAction {
@@ -21,7 +24,8 @@ interface GetScentSuccessAction {
 }
 
 let initialState: ScentsSliceState = {
-  scents: {}
+  scents: {},
+  loaded: false
 };
 
 const scentsSlice = createSlice({
@@ -32,6 +36,7 @@ const scentsSlice = createSlice({
       const { scents } = action.payload;
       state.scents = {};
       scents.forEach(scent => (state.scents[scent.id] = scent));
+      state.loaded = true;
     },
     getScentSuccess: (state, action: PayloadAction<GetScentSuccessAction>) => {
       const { scent } = action.payload;
@@ -43,5 +48,7 @@ const scentsSlice = createSlice({
 export const { getScentsSuccess, getScentSuccess } = scentsSlice.actions;
 export const scentsSelector = (state: RootState): Scent[] => Object.values(state.scents.scents);
 export const scentSelector = (id: number) => (state: RootState): Scent => state.scents.scents[id];
+export const scentsLoadedSelector = (state: RootState): boolean =>
+  state.scents.loaded;
 
 export default scentsSlice.reducer;

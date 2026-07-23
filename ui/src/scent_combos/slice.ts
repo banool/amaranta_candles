@@ -10,6 +10,9 @@ interface ScentCombosDict {
 
 interface ScentCombosSliceState {
   scentCombos: ScentCombosDict;
+  // False until the full list has been fetched at least once, so the list
+  // page can tell "still loading" from "loaded and genuinely empty".
+  loaded: boolean;
 }
 
 interface GetScentCombosSuccessAction {
@@ -21,7 +24,8 @@ interface GetScentComboSuccessAction {
 }
 
 let initialState: ScentCombosSliceState = {
-  scentCombos: {}
+  scentCombos: {},
+  loaded: false
 };
 
 const scentCombosSlice = createSlice({
@@ -32,6 +36,7 @@ const scentCombosSlice = createSlice({
       const { scentCombos } = action.payload;
       state.scentCombos = {};
       scentCombos.forEach(scentCombo => (state.scentCombos[scentCombo.id] = scentCombo));
+      state.loaded = true;
     },
     getScentComboSuccess: (state, action: PayloadAction<GetScentComboSuccessAction>) => {
       const { scentCombo } = action.payload;
@@ -45,5 +50,7 @@ export const scentCombosSelector = (state: RootState): ScentCombo[] =>
   Object.values(state.scentCombos.scentCombos);
 export const scentComboSelector = (id: number) => (state: RootState): ScentCombo =>
   state.scentCombos.scentCombos[id];
+export const scentCombosLoadedSelector = (state: RootState): boolean =>
+  state.scentCombos.loaded;
 
 export default scentCombosSlice.reducer;

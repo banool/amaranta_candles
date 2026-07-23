@@ -10,6 +10,9 @@ interface WaxesDict {
 
 interface WaxesSliceState {
   waxes: WaxesDict;
+  // False until the full list has been fetched at least once, so the list
+  // page can tell "still loading" from "loaded and genuinely empty".
+  loaded: boolean;
 }
 
 interface GetWaxesSuccessAction {
@@ -21,7 +24,8 @@ interface GetWaxSuccessAction {
 }
 
 let initialState: WaxesSliceState = {
-  waxes: {}
+  waxes: {},
+  loaded: false
 };
 
 const waxesSlice = createSlice({
@@ -32,6 +36,7 @@ const waxesSlice = createSlice({
       const { waxes } = action.payload;
       state.waxes = {};
       waxes.forEach(wax => (state.waxes[wax.id] = wax));
+      state.loaded = true;
     },
     getWaxSuccess: (state, action: PayloadAction<GetWaxSuccessAction>) => {
       const { wax } = action.payload;
@@ -43,5 +48,7 @@ const waxesSlice = createSlice({
 export const { getWaxesSuccess, getWaxSuccess } = waxesSlice.actions;
 export const waxesSelector = (state: RootState): Wax[] => Object.values(state.waxes.waxes);
 export const waxSelector = (id: number) => (state: RootState): Wax => state.waxes.waxes[id];
+export const waxesLoadedSelector = (state: RootState): boolean =>
+  state.waxes.loaded;
 
 export default waxesSlice.reducer;

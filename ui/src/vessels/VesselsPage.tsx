@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { fetchVessels } from "./api";
-import { vesselsSelector } from "./slice";
+import { vesselsSelector, vesselsLoadedSelector } from "./slice";
+
+import Loading from "../components/Loading";
 import { Vessel } from "./types";
 
 import VesselForm from "./VesselForm";
@@ -62,6 +64,7 @@ type VesselsPageProps = {};
 const VesselsPage = ({}: VesselsPageProps) => {
   const dispatch = useDispatch();
   const vessels = useSelector(vesselsSelector);
+  const loaded = useSelector(vesselsLoadedSelector);
 
   // In a frozen archive there is nothing to create, so the server reports
   // read_only and we render no form at all. Hidden until the flag is known
@@ -73,6 +76,9 @@ const VesselsPage = ({}: VesselsPageProps) => {
   }, [dispatch]);
 
   const renderVessels = () => {
+    if (!loaded) {
+      return <Loading />;
+    }
     if (vessels.length === 0) {
       return "No vessels :(";
     }

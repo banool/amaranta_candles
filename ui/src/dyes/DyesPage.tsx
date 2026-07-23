@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { fetchDyes } from "./api";
-import { dyesSelector } from "./slice";
+import { dyesSelector, dyesLoadedSelector } from "./slice";
+
+import Loading from "../components/Loading";
 import { Dye } from "./types";
 
 import DyeForm from "./DyeForm";
@@ -62,6 +64,7 @@ type DyesPageProps = {};
 const DyesPage = ({}: DyesPageProps) => {
   const dispatch = useDispatch();
   const dyes = useSelector(dyesSelector);
+  const loaded = useSelector(dyesLoadedSelector);
 
   // In a frozen archive there is nothing to create, so the server reports
   // read_only and we render no form at all. Hidden until the flag is known
@@ -73,6 +76,9 @@ const DyesPage = ({}: DyesPageProps) => {
   }, [dispatch]);
 
   const renderDyes = () => {
+    if (!loaded) {
+      return <Loading />;
+    }
     if (dyes.length === 0) {
       return "No dyes :(";
     }

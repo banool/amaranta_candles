@@ -10,6 +10,9 @@ interface VesselsDict {
 
 interface VesselsSliceState {
   vessels: VesselsDict;
+  // False until the full list has been fetched at least once, so the list
+  // page can tell "still loading" from "loaded and genuinely empty".
+  loaded: boolean;
 }
 
 interface GetVesselsSuccessAction {
@@ -21,7 +24,8 @@ interface GetVesselSuccessAction {
 }
 
 let initialState: VesselsSliceState = {
-  vessels: {}
+  vessels: {},
+  loaded: false
 };
 
 const vesselsSlice = createSlice({
@@ -32,6 +36,7 @@ const vesselsSlice = createSlice({
       const { vessels } = action.payload;
       state.vessels = {};
       vessels.forEach(vessel => (state.vessels[vessel.id] = vessel));
+      state.loaded = true;
     },
     getVesselSuccess: (state, action: PayloadAction<GetVesselSuccessAction>) => {
       const { vessel } = action.payload;
@@ -44,5 +49,7 @@ export const { getVesselsSuccess, getVesselSuccess } = vesselsSlice.actions;
 export const vesselsSelector = (state: RootState): Vessel[] => Object.values(state.vessels.vessels);
 export const vesselSelector = (id: number) => (state: RootState): Vessel =>
   state.vessels.vessels[id];
+export const vesselsLoadedSelector = (state: RootState): boolean =>
+  state.vessels.loaded;
 
 export default vesselsSlice.reducer;
