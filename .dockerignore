@@ -1,0 +1,12 @@
+# Build context is the repo root (see server/Dockerfile).
+**/node_modules
+**/.venv
+**/__pycache__
+**/*.py[cod]
+ui/dist
+server/external_static
+server/local.db
+server/*.sqlite3
+server/.env*
+.git
+.github

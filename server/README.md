@@ -1,61 +1,63 @@
-# Amaranta Candles
+# Amaranta Candles — server
 
-## Secrets setup
-You need .env files like `.env.base`, `.env.dev`, and `.env.prod`. You can see what env vars you need by looking at core/secrets.py.
+Amaranta Candles is no longer updated, so this serves a **frozen archive** of
+the data rather than a live site: the candle records as they stood on the
+snapshot date in `core/archive.py`, and nothing writes to them again.
+
+It is deliberately, structurally read-only, because it is served on the public
+internet. `core/archive.py` documents the four independent layers that enforce
+that; the short version is that the write code was deleted, the ORM raises on
+writes, SQLite is opened `mode=ro&immutable=1`, and the container filesystem is
+read-only. `amaranta_candles/tests.py` asserts all of it.
+
+The whole thing — UI, API and data — is one container image, with no database
+server, no volume and no secrets to supply.
 
 ## Local development
-Install deps:
+
 ```
 poetry install
+
+# Build an archive to serve, from the committed dump.
+sqlite3 /tmp/candles.sqlite3 < data/candles-archive.sql
+
+deployment_mode=dev \
+  allowed_hosts=127.0.0.1,localhost \
+  sql_engine=django.db.backends.sqlite3 \
+  sql_database=/tmp/candles.sqlite3 \
+  poetry run ./run.sh 6969
 ```
 
-Setup env:
+Then http://localhost:6969/api/candle?recursive=true. To get the UI too, build
+it first (`cd ../ui && npm ci && npm run build`) and add `ui_root=../ui/dist`.
+
+## Tests
+
 ```
-export `cat .env.base | xargs`
-export `cat .env.dev_sqlite | xargs`
+poetry run ./test.sh
 ```
 
-Make DB file:
+They run against a real archive database rather than a generated test one — see
+the module docstring in `amaranta_candles/tests.py` for why that is the only
+honest way to test "this cannot be written to".
+
+## Container
+
 ```
-touch local.db
+# From the repo root: the build needs ui/ as well as server/.
+docker build -f server/Dockerfile -t amaranta_candles .
+docker run --rm -p 6969:6969 -e allowed_hosts=localhost amaranta_candles
 ```
 
-Run the server:
+## Rebuilding the archive
+
+Only needed if the source data ever has to be re-imported; the output is
+committed, so a normal build does not do this.
+
 ```
-poetry run ./run.sh 6969
+poetry run python scripts/build_archive.py /path/to/mysqldump.sql
 ```
 
-## Local development (Docker)
-Build the container
-```
-docker image build -t amaranta_candles_server .
-```
-
-Run the container
-```
-docker ps -a | grep amaranta_candles_server | c1 | xargs docker rm -f; docker run -it --publish 0.0.0.0:6969:6969 --name amaranta_candles_server --env-file .env.base --env-file .env.dev_mysql amaranta_candles_server:latest
-```
-
-You should now see a site at http://localhost:6969
-
-## Docker setup
-Real:
-```
-# Kill all running containers
-docker ps -a | c1 | xargs docker rm -f
-# Build image
-docker image build -t net_worth .
-# To get an interactive terminal
-docker run --env-file .env.base --env-file .env.dev -it --entrypoint /bin/bash net_worth -s
-# To run the container. Bind port 8000 inside the container to port 8010 on the host
-docker run -t --publish 0.0.0.0:8010:8000 --name net_worth --env-file .env.base --env-file .env.dev net_worth:latest -a stdout -a stderr
-# To ssh into the container
-docker exec -it net_worth /bin/bash
-```
-If you truly bonk it up, run this:
-```
-docker system prune --volumes -f
-```
-
-This repo is automatically tracked on quay.io, so when you push a commit there, a build will start.
-
+It builds the schema from Django's own migrations, copies across only the
+`amaranta_candles_*` tables, and drops the Django auth tables — password hashes
+and email addresses have no place in a public archive.

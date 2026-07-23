@@ -2,77 +2,65 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
+  pull_request:
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
 permissions:
-  contents: write
+  contents: read
   packages: write
 
 jobs:
-  build_server:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Log in to the Container registry
-      uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
-      with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Extract metadata (tags, labels) for Docker
-      id: meta
-      uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-      with:
-        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-    - name: Build and push Docker image
-      uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
-      with:
-        context: server
-        push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
-
-  # Build web and upload the artifact.
-  build_web:
+  # Proves the archive is still an archive: the suite asserts that writes are
+  # rejected at every layer and that no auth tables are present. See
+  # server/amaranta_candles/tests.py.
+  test_server:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./ui
+        working-directory: ./server
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 14
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
 
-    # Install deps and build.
-    - run: npm ci --only=production
-    - run: npm run build
+      - run: pipx install poetry==2.4.1
+      - run: poetry install --no-root
+      - run: poetry run ./test.sh
 
-    # Upload the artifact.
-    - uses: actions/upload-pages-artifact@v1
-      with:
-        path: ui/dist
-
-  # Deploy web using the artifact from the previous job.
-  deploy_web:
+  # One image containing the UI, the API and the frozen data. The UI is no
+  # longer deployed to GitHub Pages: it is served by the same container as the
+  # API, from the same origin, which is what let CORS be removed entirely.
+  build_server:
     runs-on: ubuntu-latest
-    needs: [build_web]
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    needs: [test_server]
     steps:
-    - uses: actions/configure-pages@v1
-    - id: deployment
-      uses: actions/deploy-pages@v1
+      - uses: actions/checkout@v4
 
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          # Repo root, not server/: the build also needs ui/.
+          context: .
+          file: server/Dockerfile
+          push: ${{ github.event_name == 'push' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
