@@ -8,6 +8,8 @@ import { Dye } from "./types";
 
 import DyeForm from "./DyeForm";
 
+import useArchiveInfo from "../common/hooks/useArchiveInfo";
+
 import { DyeRoute, pathFor } from "../common/routes";
 
 type DyeRowProps = { dye: Dye };
@@ -61,6 +63,11 @@ const DyesPage = ({}: DyesPageProps) => {
   const dispatch = useDispatch();
   const dyes = useSelector(dyesSelector);
 
+  // In a frozen archive there is nothing to create, so the server reports
+  // read_only and we render no form at all. Hidden until the flag is known
+  // (archive === null) so a form never flashes in first.
+  const archive = useArchiveInfo();
+
   useEffect(() => {
     dispatch(fetchDyes());
   }, [dispatch]);
@@ -77,8 +84,12 @@ const DyesPage = ({}: DyesPageProps) => {
     <div>
       <h2>Dyes</h2>
       {renderDyes()}
-      <h3>Create</h3>
-      <DyeForm />
+      {archive && !archive.readOnly && (
+        <>
+          <h3>Create</h3>
+          <DyeForm />
+        </>
+      )}
     </div>
   );
 };

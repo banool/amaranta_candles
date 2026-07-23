@@ -8,6 +8,8 @@ import { Batch } from "./types";
 
 import BatchForm from "./BatchForm";
 
+import useArchiveInfo from "../common/hooks/useArchiveInfo";
+
 import { BatchRoute, pathFor } from "../common/routes";
 
 type BatchRowProps = { batch: Batch };
@@ -59,6 +61,11 @@ const BatchesPage = ({}: BatchesPageProps) => {
   const dispatch = useDispatch();
   const batches = useSelector(batchesSelector);
 
+  // In a frozen archive there is nothing to create, so the server reports
+  // read_only and we render no form at all. Hidden until the flag is known
+  // (archive === null) so a form never flashes in first.
+  const archive = useArchiveInfo();
+
   useEffect(() => {
     dispatch(fetchBatches());
   }, [dispatch]);
@@ -75,8 +82,12 @@ const BatchesPage = ({}: BatchesPageProps) => {
     <div>
       <h2>Batches</h2>
       {renderBatches()}
-      <h3>Create</h3>
-      <BatchForm />
+      {archive && !archive.readOnly && (
+        <>
+          <h3>Create</h3>
+          <BatchForm />
+        </>
+      )}
     </div>
   );
 };

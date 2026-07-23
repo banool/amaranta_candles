@@ -8,6 +8,8 @@ import { scentCombosSelector } from "./slice";
 import { ScentCombo } from "./types";
 import ScentComboForm from "./ScentComboForm";
 
+import useArchiveInfo from "../common/hooks/useArchiveInfo";
+
 import { ScentRoute, ScentComboRoute, pathFor } from "../common/routes";
 
 type ScentComboRowProps = {
@@ -69,6 +71,11 @@ const ScentCombosPage = ({}: ScentCombosPageProps) => {
   const dispatch = useDispatch();
   const scentCombos = useSelector(scentCombosSelector);
 
+  // In a frozen archive there is nothing to create, so the server reports
+  // read_only and we render no form at all. Hidden until the flag is known
+  // (archive === null) so a form never flashes in first.
+  const archive = useArchiveInfo();
+
   useEffect(() => {
     dispatch(fetchScentCombos());
   }, [dispatch]);
@@ -85,8 +92,12 @@ const ScentCombosPage = ({}: ScentCombosPageProps) => {
     <div>
       <h2>ScentCombos</h2>
       {renderScentCombos()}
-      <h3>Create</h3>
-      <ScentComboForm />
+      {archive && !archive.readOnly && (
+        <>
+          <h3>Create</h3>
+          <ScentComboForm />
+        </>
+      )}
     </div>
   );
 };

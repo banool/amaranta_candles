@@ -8,6 +8,8 @@ import { Vessel } from "./types";
 
 import VesselForm from "./VesselForm";
 
+import useArchiveInfo from "../common/hooks/useArchiveInfo";
+
 import { VesselRoute, pathFor } from "../common/routes";
 
 type VesselRowProps = { vessel: Vessel };
@@ -61,6 +63,11 @@ const VesselsPage = ({}: VesselsPageProps) => {
   const dispatch = useDispatch();
   const vessels = useSelector(vesselsSelector);
 
+  // In a frozen archive there is nothing to create, so the server reports
+  // read_only and we render no form at all. Hidden until the flag is known
+  // (archive === null) so a form never flashes in first.
+  const archive = useArchiveInfo();
+
   useEffect(() => {
     dispatch(fetchVessels());
   }, [dispatch]);
@@ -77,8 +84,12 @@ const VesselsPage = ({}: VesselsPageProps) => {
     <div>
       <h2>Vessels</h2>
       {renderVessels()}
-      <h3>Create</h3>
-      <VesselForm />
+      {archive && !archive.readOnly && (
+        <>
+          <h3>Create</h3>
+          <VesselForm />
+        </>
+      )}
     </div>
   );
 };

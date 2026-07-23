@@ -1,6 +1,6 @@
 import React from "react";
 
-import { apiBase } from "../common/store";
+import useArchiveInfo from "../common/hooks/useArchiveInfo";
 
 const styles: { [key: string]: React.CSSProperties } = {
   root: {
@@ -19,34 +19,20 @@ const styles: { [key: string]: React.CSSProperties } = {
 };
 
 // Says plainly that this is a frozen copy, so an empty "latest batch" doesn't
-// read as a live site that's gone quiet. The date comes from the server rather
-// than being hardcoded here, so the two can't drift apart.
+// read as a live site that's gone quiet. The snapshot date comes from the
+// server (via the shared archive hook) rather than being hardcoded here, so the
+// two can't drift apart.
 export default props => {
-  const [snapshotDate, setSnapshotDate] = React.useState(null);
-
-  React.useEffect(() => {
-    let cancelled = false;
-    fetch(`${apiBase}/archive`)
-      .then(response => response.json())
-      .then(data => {
-        if (!cancelled) setSnapshotDate(data.snapshot_date);
-      })
-      .catch(() => {
-        // A missing banner beats a broken page.
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const archive = useArchiveInfo();
 
   return (
     <div>
       <div style={styles.root}>
         {"made with <3 in amaranta house by max and dan (c) 1987"}
       </div>
-      {snapshotDate && (
+      {archive && archive.readOnly && archive.snapshotDate && (
         <div style={styles.archive}>
-          {`read-only archive — data frozen ${snapshotDate}`}
+          {`read-only archive — data frozen ${archive.snapshotDate}`}
         </div>
       )}
     </div>

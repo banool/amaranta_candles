@@ -8,6 +8,8 @@ import { Scent } from "./types";
 
 import ScentForm from "./ScentForm";
 
+import useArchiveInfo from "../common/hooks/useArchiveInfo";
+
 import { ScentRoute, pathFor } from "../common/routes";
 
 type ScentRowProps = { scent: Scent };
@@ -61,6 +63,11 @@ const ScentsPage = ({}: ScentsPageProps) => {
   const dispatch = useDispatch();
   const scents = useSelector(scentsSelector);
 
+  // In a frozen archive there is nothing to create, so the server reports
+  // read_only and we render no form at all. Hidden until the flag is known
+  // (archive === null) so a form never flashes in first.
+  const archive = useArchiveInfo();
+
   useEffect(() => {
     dispatch(fetchScents());
   }, [dispatch]);
@@ -77,8 +84,12 @@ const ScentsPage = ({}: ScentsPageProps) => {
     <div>
       <h2>Scents</h2>
       {renderScents()}
-      <h3>Create</h3>
-      <ScentForm />
+      {archive && !archive.readOnly && (
+        <>
+          <h3>Create</h3>
+          <ScentForm />
+        </>
+      )}
     </div>
   );
 };

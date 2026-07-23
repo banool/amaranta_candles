@@ -8,6 +8,8 @@ import { Wax } from "./types";
 
 import WaxForm from "./WaxForm";
 
+import useArchiveInfo from "../common/hooks/useArchiveInfo";
+
 import { WaxRoute, pathFor } from "../common/routes";
 
 type WaxRowProps = { wax: Wax };
@@ -61,6 +63,11 @@ const WaxesPage = ({}: WaxesPageProps) => {
   const dispatch = useDispatch();
   const waxes = useSelector(waxesSelector);
 
+  // In a frozen archive there is nothing to create, so the server reports
+  // read_only and we render no form at all. Hidden until the flag is known
+  // (archive === null) so a form never flashes in first.
+  const archive = useArchiveInfo();
+
   useEffect(() => {
     dispatch(fetchWaxes());
   }, [dispatch]);
@@ -77,8 +84,12 @@ const WaxesPage = ({}: WaxesPageProps) => {
     <div>
       <h2>Waxes</h2>
       {renderWaxes()}
-      <h3>Create</h3>
-      <WaxForm />
+      {archive && !archive.readOnly && (
+        <>
+          <h3>Create</h3>
+          <WaxForm />
+        </>
+      )}
     </div>
   );
 };
