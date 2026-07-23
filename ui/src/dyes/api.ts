@@ -1,3 +1,4 @@
+import { apiBase } from "../common/store";
 import { getDyesSuccess, getDyeSuccess } from "./slice";
 import { Dye, StagingDye } from "./types";
 
