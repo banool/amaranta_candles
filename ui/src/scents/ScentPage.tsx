@@ -11,11 +11,17 @@ import useMarked from "../common/hooks/useMarked";
 
 type ScentPageProps = { scent: Scent };
 const ScentPage = ({ scent }: ScentPageProps) => {
-  const markedNotes = scent.notes === null ? null : useMarked(scent.notes);
+  // useMarked is a hook (it calls useMemo), so it must be called unconditionally
+  // and in the same order on every render. Calling it only when notes !== null
+  // changed the hook count between scents that have notes and scents that don't,
+  // which violates the Rules of Hooks and would crash this component the moment
+  // the same instance re-rendered for a different scent. The null case still
+  // renders nothing; "" and non-empty render the marked notes, exactly as before.
+  const markedNotes = useMarked(scent.notes || "");
   return (
     <>
       <h2>{scent.name}</h2>
-      <div>{markedNotes}</div>
+      {scent.notes === null ? null : <div>{markedNotes}</div>}
     </>
   );
 };
