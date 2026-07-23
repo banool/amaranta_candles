@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 
-from core.secrets import secrets
+from core.archive import SNAPSHOT_DATE
+from core.secrets import SQLITE_ENGINE, secrets
 
 DEPLOYMENT_MODE_OPTIONS = ["prod", "dev"]
 deployment_mode = os.environ.get("deployment_mode")
@@ -26,15 +27,19 @@ if deployment_mode not in DEPLOYMENT_MODE_OPTIONS:
 if deployment_mode == "prod":
     DEBUG = False
     SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_BROWSER_XSS_FILTER = True
     SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    SESSION_COOKIE_AGE = 60 * 60  # One hour.
-    CSRF_COOKIE_SECURE = True
     X_FRAME_OPTIONS = "DENY"
     SECURE_HSTS_SECONDS = 3600
     SECURE_HSTS_PRELOAD = True
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    # Envoy terminates TLS and proxies plain HTTP to the pod, so without this
+    # SECURE_SSL_REDIRECT would see http:// and 301 every request into a loop.
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    # The session and CSRF cookie settings that used to live here are gone
+    # along with the apps that set those cookies -- this deployment sets no
+    # cookies at all. SECURE_BROWSER_XSS_FILTER is gone too: it emitted
+    # X-XSS-Protection, which every current browser ignores and which Django
+    # itself no longer recommends.
 
 if deployment_mode == "dev":
     DEBUG = True
@@ -50,58 +55,75 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = secrets["secret_key"]
 ALLOWED_HOSTS = secrets["allowed_hosts"]
 
-CORS_ALLOW_ALL_ORIGINS = True
-
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
+# The UI and the API are served from the same origin now, so there is no
+# cross-origin request to permit and django-cors-headers is gone. (It used to
+# be CORS_ALLOW_ALL_ORIGINS = True, because the UI lived on GitHub Pages.)
+#
+# Everything auth-shaped is absent on purpose, not merely unused: no
+# `django.contrib.admin` (the admin is a full CRUD UI), no `auth` (no users, no
+# password hashes, no login), no `sessions` (no session table, no session
+# cookie), no `messages`. An archive has nobody to authenticate: every visitor
+# gets the same public, read-only data. Removing the apps removes their tables,
+# their middleware, their URLs and their write paths in one go.
 INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
     "django.contrib.staticfiles",
     "amaranta_candles",
-    "graphene_django",
     "rest_framework",
-    "corsheaders",
 ]
 
+# Correspondingly trimmed: no session, auth, message or CSRF middleware, since
+# there are no cookies, no logins and no forms to protect. WhiteNoise serves the
+# built UI bundle straight from gunicorn, so the image needs no nginx sidecar.
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+# Every write Django could attempt is routed into an exception. See
+# core/archive.py for the other three layers this backs onto.
+DATABASE_ROUTERS = ["core.archive.ReadOnlyRouter"]
+
+# The suite asserts properties of the real read-only archive, so it must not
+# run against a generated test database. See core/test_runner.py.
+TEST_RUNNER = "core.test_runner.ArchiveTestRunner"
+
+# Matches what the tables were actually built with in 2020. The modern default
+# is BigAutoField, which Django would warn about wanting to migrate to -- and
+# migrating is precisely what a frozen archive must not do.
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 REST_FRAMEWORK = {
     # This makes it not serve the browsable thing, just json.
     "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
     "DEFAULT_PARSER_CLASSES": ["rest_framework.parsers.JSONParser"],
-    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    # No authentication classes at all: with `auth` uninstalled there is no user
+    # model to authenticate against, and leaving DRF's defaults in place would
+    # have it try to import one.
+    "DEFAULT_AUTHENTICATION_CLASSES": [],
+    "DEFAULT_PERMISSION_CLASSES": [],
+    # DRF sets request.user to AnonymousUser for unauthenticated requests, and
+    # that class lives in django.contrib.auth -- which is uninstalled, so
+    # importing it raises and every request 500s. None is DRF's supported way to
+    # run without django.contrib.auth.
+    "UNAUTHENTICATED_USER": None,
+    "UNAUTHENTICATED_TOKEN": None,
+    # Unpaginated on purpose: the UI fetches whole collections and expects a
+    # plain JSON array, and the dataset is frozen at a couple of hundred rows,
+    # so there is no growth case that would make paging worth the UI change.
+    "DEFAULT_PAGINATION_CLASS": None,
 }
 
 ROOT_URLCONF = "core.urls"
 
-TEMPLATES = [
-    {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ["templates"],
-        "APP_DIRS": True,
-        "OPTIONS": {
-            "context_processors": [
-                "django.template.context_processors.debug",
-                "django.template.context_processors.request",
-                "django.contrib.auth.context_processors.auth",
-                "django.contrib.messages.context_processors.messages",
-            ]
-        },
-    }
-]
+# Nothing renders a template any more: the API returns JSON and WhiteNoise
+# serves the UI's prebuilt index.html as a static file. The previous config
+# listed the `auth` and `messages` context processors, which would now fail on
+# startup since neither app is installed.
+TEMPLATES = []
 
 WSGI_APPLICATION = "core.wsgi.application"
 
@@ -109,29 +131,48 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": secrets["sql_engine"],
-        "NAME": secrets["sql_database"],
-        "USER": secrets["sql_user"],
-        "PASSWORD": secrets["sql_password"],
-        "HOST": secrets["sql_host"],
-        "PORT": secrets["sql_port"],
+# In production the archive is a single SQLite file baked into the image, and
+# it is opened through a SQLite URI rather than a bare path:
+#
+#   mode=ro      the connection is read-only; INSERT/UPDATE/DELETE/DROP/ATTACH
+#                are rejected by the driver, whatever SQL reaches it. This is
+#                what bounds a SQL-injection blast radius to "can read candle
+#                rows", which is the same thing the public REST API already
+#                serves.
+#   immutable=1  promises the file never changes underneath us. SQLite then
+#                skips all locking and journalling, so it never tries to create
+#                -wal/-shm/-journal files next to the database -- which is what
+#                lets the whole container filesystem be mounted read-only. Safe
+#                precisely because the file is a read-only layer in an image.
+#
+# `uri: True` is what makes sqlite3 parse NAME as a URI instead of a filename.
+#
+# Note there is no env var, flag or deployment mode that turns this off. The one
+# thing that legitimately needs to write -- the snapshot builder -- uses its own
+# settings module (core/settings_build.py) rather than a switch here, so nothing
+# an attacker can set on a running container re-enables writes.
+if secrets["sql_engine"] == SQLITE_ENGINE:
+    path = secrets["sql_database"]
+    read_only = os.path.exists(path)
+    DATABASES = {
+        "default": {
+            "ENGINE": SQLITE_ENGINE,
+            "NAME": f"file:{path}?mode=ro&immutable=1" if read_only else path,
+            **({"OPTIONS": {"uri": True}} if read_only else {}),
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": secrets["sql_engine"],
+            "NAME": secrets["sql_database"],
+            "USER": secrets["sql_user"],
+            "PASSWORD": secrets["sql_password"],
+            "HOST": secrets["sql_host"],
+            "PORT": secrets["sql_port"],
+        }
+    }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
-    },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
-]
 
 LOGGING = {
     "version": 1,
@@ -165,9 +206,30 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_URL = "/external_static/"
-STATIC_ROOT = "external_static"
+# WhiteNoise serves the built UI bundle straight out of gunicorn, so the image
+# needs no nginx and no `collectstatic` step (which matters: collectstatic
+# writes, and the production filesystem is read-only).
+#
+# WHITENOISE_ROOT serves a directory at the *web root*, which is the layout
+# webpack already produces: ui/dist/index.html -> "/" and
+# ui/dist/static/app.js -> "/static/app.js" (index.html hardcodes that path).
+# Pointing STATIC_ROOT at it instead would nest it, serving the bundle at
+# "/static/static/app.js".
+#
+# There are no Django-side static files to collect: with admin, auth and the
+# DRF browsable API all gone, nothing but the UI bundle is ever served.
+UI_ROOT = os.environ.get("ui_root", os.path.join(BASE_DIR, "ui"))
+
+STATIC_URL = "/static/"
+WHITENOISE_INDEX_FILE = True
+# Only pointed at when it exists: the image always has it, but a checkout used
+# for tests or backend-only work has no built bundle, and WhiteNoise warns on
+# every startup about the missing directory.
+if os.path.isdir(UI_ROOT):
+    WHITENOISE_ROOT = UI_ROOT
 
 APPEND_SLASH = False
 
-GRAPHENE = {"SCHEMA": "core.schema.schema"}  # Where your Graphene schema lives
+# Surfaced by the /api/archive endpoint so the UI can say "frozen on <date>"
+# rather than silently looking like a live site.
+ARCHIVE_SNAPSHOT_DATE = SNAPSHOT_DATE

@@ -1,28 +1,23 @@
-"""core URL Configuration
+"""Root URL configuration.
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+Deliberately short. What is *absent* here is most of the point:
+
+  - No `admin/`. The Django admin is a complete CRUD interface over every
+    model; on a public archive it is the single largest write surface, so the
+    app is uninstalled entirely rather than merely unrouted.
+  - No `accounts/`. `django.contrib.auth`'s login, logout and password-reset
+    views have no meaning without users, and every one of them is an
+    unauthenticated POST endpoint.
+  - No `graphql`. The GraphQL schema shipped eleven mutations, none of which
+    checked anything at all, plus an interactive GraphiQL console. The whole
+    module is deleted; the REST API already serves everything the UI reads.
+
+The UI is served by WhiteNoise from the web root (see WHITENOISE_ROOT in
+core/settings.py), so "/" is handled before Django's URL resolver sees it.
 """
-from core.settings import deployment_mode
-from django.contrib import admin
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.urls import path, include
+
+from django.urls import include, path
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
     path("api/", include("amaranta_candles.urls")),
-    path("accounts/", include("django.contrib.auth.urls")),
 ]
-
-if deployment_mode == "dev":
-    urlpatterns += staticfiles_urlpatterns()

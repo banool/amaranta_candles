@@ -1,6 +1,21 @@
 #!/bin/bash
+# Run the archive test suite against a freshly-built copy of the snapshot.
+#
+# The tests deliberately run against a real archive database rather than a
+# generated test one (see amaranta_candles/tests.py), so build one first from
+# the committed dump.
 
-yes | deployment_mode=dev allowed_hosts=1 secret_key=1 sql_engine='django.db.backends.sqlite3' sql_database=fake.sqlite sql_host=1 sql_user=1 sql_password=1 sql_port=1 ui_username=1 ui_email=1 ui_password=1 pipenv run python manage.py makemigrations amaranta_candles
-deployment_mode=dev allowed_hosts=2 secret_key=1 sql_engine='django.db.backends.sqlite3' sql_database=fake.sqlite sql_host=1 sql_user=1 sql_password=1 sql_port=1 ui_username=1 ui_email=1 ui_password=1 pipenv run python manage.py migrate
-deployment_mode=dev allowed_hosts=1 secret_key=1 sql_engine='django.db.backends.sqlite3' sql_database=fake.sqlite sql_host=1 sql_user=1 sql_password=1 sql_port=1 ui_username=1 ui_email=1 ui_password=1 pipenv run python manage.py shell < add_candle.py
-rm fake.sqlite
+set -euo pipefail
+
+cd "$(dirname "$0")"
+
+WORKDIR=$(mktemp -d)
+trap 'rm -rf "$WORKDIR"' EXIT
+ARCHIVE="$WORKDIR/candles.sqlite3"
+sqlite3 "$ARCHIVE" < data/candles-archive.sql
+
+deployment_mode=dev \
+    allowed_hosts=testserver \
+    sql_engine=django.db.backends.sqlite3 \
+    sql_database="$ARCHIVE" \
+    python manage.py test "$@"

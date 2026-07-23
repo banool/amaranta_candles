@@ -1,5 +1,4 @@
 from django.urls import path
-from graphene_django.views import GraphQLView
 from rest_framework import routers
 
 from . import views
@@ -15,4 +14,4 @@ router.register(r"wax", views.WaxModelViewSet)
 router.register(r"wick", views.WickModelViewSet)
 urlpatterns = router.urls
 
-urlpatterns += [path("graphql", GraphQLView.as_view(graphiql=True))]
+urlpatterns += [path("archive", views.archive_info)]
