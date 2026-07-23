@@ -4,17 +4,20 @@ version = "0.1.0"
 description = ""
 authors = ["Daniel Porteous <daniel@dport.me>"]
 readme = "README.md"
+package-mode = false
 
+# The archive reads one SQLite file and serves JSON, so the dependency list is
+# only what that needs. Dropped along the way:
+#   mysqlclient / django-mysql  the data now lives in SQLite, in the image
+#   graphene-django             the GraphQL mutations are gone (see core/urls.py)
+#   django-cors-headers         UI and API share an origin now
+#   django-filter               nothing filtered; /api/<thing>/<id> covers by-id
 [tool.poetry.dependencies]
-python = "^3.11"
-django = "^4.2.7"
-django-mysql = "^4.12.0"
-djangorestframework = "^3.14.0"
-gunicorn = "^21.2.0"
-mysqlclient = "^2.2.0"
-django-filter = "^23.3"
-graphene-django = "^3.1.5"
-django-cors-headers = "^4.3.0"
+python = "^3.13"
+django = "^5.2"
+djangorestframework = "^3.16"
+gunicorn = "^23.0"
+whitenoise = "^6.8"
 
 
 [build-system]
