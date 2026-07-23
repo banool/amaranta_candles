@@ -76,11 +76,16 @@ INSTALLED_APPS = [
 # Correspondingly trimmed: no session, auth, message or CSRF middleware, since
 # there are no cookies, no logins and no forms to protect. WhiteNoise serves the
 # built UI bundle straight from gunicorn, so the image needs no nginx sidecar.
+# XFrameOptionsMiddleware sits ABOVE WhiteNoise deliberately. WhiteNoise
+# answers static requests from process_request, short-circuiting everything
+# listed after it -- so with the conventional ordering the API got
+# X-Frame-Options but index.html, the one page a clickjacking frame would
+# actually target, did not.
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
 # Every write Django could attempt is routed into an exception. See
