@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { fetchCandles } from "./api";
-import { candlesSelector } from "./slice";
+import { candlesSelector, candlesLoadedSelector } from "./slice";
 import { Candle } from "./types";
 
 //import CandleForm from "./CandleForm";
 
+import Loading from "../components/Loading";
 import { CandleRoute, pathFor } from "../common/routes";
 
 type CandleRowProps = { candle: Candle };
@@ -56,12 +57,16 @@ type CandlesPageProps = {};
 const CandlesPage = ({}: CandlesPageProps) => {
   const dispatch = useDispatch();
   const candles = useSelector(candlesSelector);
+  const loaded = useSelector(candlesLoadedSelector);
 
   useEffect(() => {
     dispatch(fetchCandles());
   }, [dispatch]);
 
   const renderCandles = () => {
+    if (!loaded) {
+      return <Loading />;
+    }
     if (candles.length === 0) {
       return "No candles :(";
     }
