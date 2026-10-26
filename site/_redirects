@@ -1,0 +1,17 @@
+/api/archive /data/archive.json 200
+/api/batch /data/batch.json 200
+/api/batch/:id /data/batch/:id.json 200
+/api/candle /data/candle.json 200
+/api/candle/:id /data/candle/:id.json 200
+/api/dye /data/dye.json 200
+/api/dye/:id /data/dye/:id.json 200
+/api/scent /data/scent.json 200
+/api/scent/:id /data/scent/:id.json 200
+/api/scent_combo /data/scent_combo.json 200
+/api/scent_combo/:id /data/scent_combo/:id.json 200
+/api/vessel /data/vessel.json 200
+/api/vessel/:id /data/vessel/:id.json 200
+/api/wax /data/wax.json 200
+/api/wax/:id /data/wax/:id.json 200
+/api/wick /data/wick.json 200
+/api/wick/:id /data/wick/:id.json 200

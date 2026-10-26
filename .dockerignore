@@ -10,3 +10,4 @@ server/*.sqlite3
 server/.env*
 .git
 .github
+site
