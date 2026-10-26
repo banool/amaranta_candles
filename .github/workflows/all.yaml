@@ -9,9 +9,8 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
-permissions:
-  contents: read
-  packages: write
+# Nothing by default; each job below asks for what it needs.
+permissions: {}
 
 jobs:
   # Proves the archive is still an archive: the suite asserts that writes are
@@ -19,13 +18,15 @@ jobs:
   # server/amaranta_candles/tests.py.
   test_server:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./server
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.13"
 
@@ -39,11 +40,14 @@ jobs:
   build_server:
     runs-on: ubuntu-latest
     needs: [test_server]
+    permissions:
+      contents: read
+      packages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Log in to the Container registry
-        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1 # untagged master commit, 2023-03-20 (v2.1.0 + 18 commits)
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -51,12 +55,12 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7 # untagged master commit, 2023-03-15 (v4.3.0 + 19 commits)
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4 # untagged master commit, 2023-03-13 (v4.0.0 + 39 commits)
         with:
           # Repo root, not server/: the build also needs ui/.
           context: .
